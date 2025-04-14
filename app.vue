@@ -1,5 +1,5 @@
 <template>
-  <div>
-    hello nuxt 3
+  <div class="min-h-screen bg-blue-700 text-white text-5xl flex items-center justify-center">
+    Tailwind is ALIVE 🚀
   </div>
 </template>
