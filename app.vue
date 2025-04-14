@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-blue-700 text-white text-5xl flex items-center justify-center">
-    Tailwind is ALIVE 🚀
-  </div>
-</template>
+    <div>
+      <NuxtPage /> <!-- Renders your pages (e.g., about.vue) -->
+    </div>
+  </template>

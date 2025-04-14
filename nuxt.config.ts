@@ -1,5 +1,8 @@
 export default defineNuxtConfig({
-  css: ['~/assets/css/tailwind.css'],
+  css: [
+    '~/assets/css/tailwind.css',
+    '~/assets/css/main.scss'
+  ],
 
   postcss: {
     plugins: {
@@ -8,5 +11,10 @@ export default defineNuxtConfig({
     },
   },
 
+  dir: {
+    pages: 'Pages',
+  },
+
   compatibilityDate: '2025-04-14',
+  modules: ['@nuxtjs/tailwindcss'],
 })
