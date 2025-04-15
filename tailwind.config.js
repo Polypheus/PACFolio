@@ -1,13 +1,19 @@
-export default {
+module.exports = {
   content: [
-    './components/**/*.{vue,js,ts}',
-    './layouts/**/*.{vue,js,ts}',
-    './pages/**/*.{vue,js,ts}',
-    './app.vue',
-    './nuxt.config.{js,ts}',
+    "./components/**/*.{js,vue,ts}",
+    "./layouts/**/*.vue",
+    "./pages/**/*.vue",
+    "./plugins/**/*.{js,ts}",
+    "./app.vue",
+    "./error.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sixCaps: ['"Six Caps"', 'sans-serif'], // Add Six Caps font here
+        Orbitron: ['"Poppins"', 'sans-serif'], // Add Orbitron font here
+      },
+    },
   },
   plugins: [],
-}
+};
