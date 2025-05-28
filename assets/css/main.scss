@@ -1,100 +1,93 @@
+// Base intro style
+%intro-style {
+  font-family: 'Six Caps', sans-serif;
+  font-size: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Sections with h1 intro styles
 .home {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-}
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 
-.tools {
-    margin: 20px;
-    position: absolute;
-    top: 150px;
-    left: 0;
-    font-family: Poppins, sans-serif;
-    font-size: 13px;
-    padding: 9px;
-}
-
-.logo {
-    font-family: 'Six Caps', sans-serif;
-    font-size: 30px;
-    position: absolute;
-    top: 20px;
-    left: 0;
-    margin: 20px;
-    padding: 9px;
-}
-
-#line {
-    position: absolute;
-    height: 2px;
-    width: 1000px;
-    background-color: #000;
-    top: 245px;
-    right: 300px;
-}
-#line1 {
-    position: absolute;
-    height: 2px;
-    width: 800px;
-    background-color: #000;
-    top: 450px;
-    right: 750px;
-}
-
-#line2 {
-    position: absolute;
-    height: 2px;
-    width: 1000px;
-    background-color: #000;
-    top: 680px;
-    right: 300px;
-}
-
-#line3 {
-    position: absolute;
-    height: 2px;
-    width: 600px;
-    background-color: #000;
-    top: 900px;
-    right: 540px;
-}
-.home2 .intro {
-    margin-left: -50%;
-    font-family: 'Six Caps', sans-serif;
-    font-size: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 150px;
-}
-
-.home .intro {
+  .intro {
+    @extend %intro-style;
     margin: 10px;
-    font-family: 'Six Caps', sans-serif;
-    font-size: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-left: 15%;
+  }
+}
+
+.home2 .intro {
+  @extend %intro-style;
+  margin-left: -50%;
+  margin-top: 150px;
 }
 
 .home3 .intro {
-    margin-right: -25%;
-    font-family: 'Six Caps', sans-serif;
-    font-size: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: -40px;
+  @extend %intro-style;
+  margin-right: -25%;
+  margin-top: -40px;
 }
 
 .home4 .intro {
-    margin-right: -25%;
-    font-family: 'Six Caps', sans-serif;
-    font-size: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: -50px;
+  @extend %intro-style;
+  margin-right: -25%;
+  margin-top: -50px;
+}
+
+// Tools panel
+.tools {
+  position: absolute;
+  top: 150px;
+  left: 0;
+  margin: 20px;
+  padding: 9px;
+  font-family: Poppins, sans-serif;
+  font-size: 13px;
+}
+
+// Logo style
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  margin: 20px;
+  padding: 9px;
+  font-family: 'Six Caps', sans-serif;
+  font-size: 30px;
+}
+
+// Decorative lines
+#line, #line1, #line2, #line3 {
+  position: absolute;
+  height: 2px;
+  background-color: #000;
+}
+
+#line {
+  width: 1000px;
+  top: 245px;
+  right: 300px;
+}
+
+#line1 {
+  width: 800px;
+  top: 450px;
+  right: 750px;
+}
+
+#line2 {
+  width: 1000px;
+  top: 680px;
+  right: 300px;
+}
+
+#line3 {
+  width: 600px;
+  top: 900px;
+  right: 540px;
 }
