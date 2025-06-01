@@ -1,6 +1,7 @@
 <template>
   <div class="container mx-auto flex flex-col items-center justify-center h-screen block">
     <div class="about-text" ref="aboutText">
+      <p class="text-[12px] font-serif text-gray-500">hover your mouse through the words</p>
       <h1>
         I’m <span class="hover-about">Paul Andrew Consunji</span>, a passionate and determined IT graduate from <span class="hover-about">Rizal Technological University</span>.
         <br /><br />
