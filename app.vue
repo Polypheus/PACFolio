@@ -3,4 +3,5 @@
       <NuxtPage /> <!-- Renders your pages (e.g., about.vue) -->
     </div>
       <About />
+      <Project />
   </template>

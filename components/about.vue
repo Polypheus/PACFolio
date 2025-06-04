@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto flex flex-col items-center justify-center h-screen block">
     <div class="about-text" ref="aboutText">
-      <p class="text-[12px] font-serif text-gray-500">hover your mouse through the words</p>
+      <p class="text-[12px] font-serif text-gray-500">hover your mouse cursor through the words</p>
       <h1>
         I’m <span class="hover-about">Paul Andrew Consunji</span>, a passionate and determined IT graduate from <span class="hover-about">Rizal Technological University</span>.
         <br /><br />
@@ -9,7 +9,7 @@
         <br /><br />
         My journey started with <span class="hover-about">curiosity—fixing computers</span>, <span class="hover-about">designing graphics</span>, and <span class="hover-about">building web apps</span> that solve real problems. Whether it's <span class="hover-about">managing data</span>, <span class="hover-about">enhancing workflows</span>, or <span class="hover-about">designing interactive effects</span>, I aim to create digital solutions that are <span class="hover-about">useful</span>, <span class="hover-about">fast</span>, and <span class="hover-about">simple</span>.
         <br /><br />
-        I’m based in <span class="hover-about">Metro Manila</span>,<span class="hover-about">Philippines</span>—and always open to new challenges and opportunities to grow as a developer.
+        I’m based in <span class="hover-about">Metro Manila</span>,<span class="hover-about">Philippines</span>—and always <span class="hover-about">open to new challenges</span> and <span class="hover-about">opportunities</span> to grow as a <span class="hover-about">developer</span>.
       </h1>
     </div>
   </div>
