@@ -12,7 +12,9 @@
         @mouseenter="hoveredProjectUrl = 'https://polynotes.netlify.app/'"
         @mouseleave="hoveredProjectUrl = null"
       >
-        <h1 class="project-title">first project made with <span class="text-white">Loveable</span> vibe coding</h1>
+        <h1 class="project-title" ref="title1">
+          first project made with <span class="text-white">Loveable</span> vibe coding
+        </h1>
       </a>
       <hr />
 
@@ -23,7 +25,9 @@
         @mouseenter="hoveredProjectUrl = 'https://rtu-pdsms.onrender.com/'"
         @mouseleave="hoveredProjectUrl = null"
       >
-        <h1 class="project-title">second project our <span class="text-white">Thesis</span> project during college</h1>
+        <h1 class="project-title" ref="title2">
+          second project our <span class="text-white">Thesis</span> project during college
+        </h1>
       </a>
       <hr />
 
@@ -34,7 +38,7 @@
         @mouseenter="hoveredProjectUrl = 'https://example.com/project3'"
         @mouseleave="hoveredProjectUrl = null"
       >
-        <h1 class="project-title">third</h1>
+        <h1 class="project-title" ref="title3">third</h1>
       </a>
       <hr />
 
@@ -45,7 +49,7 @@
         @mouseenter="hoveredProjectUrl = 'https://example.com/project4'"
         @mouseleave="hoveredProjectUrl = null"
       >
-        <h1 class="project-title">fourth</h1>
+        <h1 class="project-title" ref="title4">fourth</h1>
       </a>
       <hr />
 
@@ -56,7 +60,7 @@
         @mouseenter="hoveredProjectUrl = 'https://example.com/project5'"
         @mouseleave="hoveredProjectUrl = null"
       >
-        <h1 class="project-title">fifth</h1>
+        <h1 class="project-title" ref="title5">fifth</h1>
       </a>
       <hr />
 
@@ -67,7 +71,7 @@
         @mouseenter="hoveredProjectUrl = 'https://example.com/project6'"
         @mouseleave="hoveredProjectUrl = null"
       >
-        <h1 class="project-title">sixth</h1>
+        <h1 class="project-title" ref="title6">sixth</h1>
       </a>
       <hr />
     </section>
@@ -85,7 +89,6 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import { gsap } from 'gsap'
@@ -99,12 +102,20 @@ const hoveredProjectUrl = ref(null)
 const mouseX = ref(0)
 const mouseY = ref(0)
 
+const title1 = ref(null)
+const title2 = ref(null)
+const title3 = ref(null)
+const title4 = ref(null)
+const title5 = ref(null)
+const title6 = ref(null)
+
 const onMouseMove = (event) => {
   mouseX.value = event.clientX
   mouseY.value = event.clientY
 }
 
 onMounted(() => {
+  // Circle animation
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: projectSection.value,
@@ -117,12 +128,32 @@ onMounted(() => {
   tl.to(scrollCircle.value, {
     scale: 100,
     ease: 'power2.out',
-  })
-
-  tl.to(scrollCircle.value, {
+  }).to(scrollCircle.value, {
     opacity: 0,
     duration: 0,
     ease: 'power2.out',
+  })
+
+  // Title animation with reverse scroll
+  const titleRefs = [title1, title2, title3, title4, title5, title6]
+  titleRefs.forEach((el) => {
+    if (el.value) {
+      gsap.fromTo(
+        el.value,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el.value,
+            start: 'top 90%',
+            end: 'top 60%',
+            scrub: true,
+          },
+        }
+      )
+    }
   })
 })
 </script>
@@ -139,7 +170,7 @@ onMounted(() => {
 }
 
 .project-section {
-  height: 100vh;
+  min-height: 100vh;
   background: #ff0055;
   display: flex;
   flex-direction: column;
@@ -155,7 +186,9 @@ onMounted(() => {
   margin-bottom: 1px;
   font-family: 'Six Caps', sans-serif;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.5s ease;
+  opacity: 0;
+  transform: translateY(50px); /* prepare for GSAP entrance */
 }
 
 .project-title:hover {
@@ -205,5 +238,4 @@ onMounted(() => {
 .fade-leave-to {
   opacity: 0;
 }
-
 </style>
