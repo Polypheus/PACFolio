@@ -1,7 +1,5 @@
 <template>
-    <div class="container text-[150px]">
-        <h1></h1>
-    </div>
+
 </template>
 
 <script setup>

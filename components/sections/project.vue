@@ -13,7 +13,7 @@
         @mouseleave="hoveredProjectUrl = null"
       >
         <h1 class="project-title" ref="title1">
-          first project made with <span class="text-white">Loveable</span> vibe coding
+          first project made with <span class="project-text text-white">Loveable</span> <span class="text-[25px] absolute bottom-7 right-0">3 months ago</span>
         </h1>
       </a>
       <hr />
@@ -26,7 +26,7 @@
         @mouseleave="hoveredProjectUrl = null"
       >
         <h1 class="project-title" ref="title2">
-          second project our <span class="text-white">Thesis</span> project during college
+          second project our <span class="text-white">Thesis</span> project during college <span class="text-[25px] absolute bottom-7 right-0">a year ago</span>
         </h1>
       </a>
       <hr />
@@ -35,10 +35,12 @@
         href="https://example.com/project3"
         target="_blank"
         class="project-link"
-        @mouseenter="hoveredProjectUrl = 'https://example.com/project3'"
+        @mouseenter="hoveredProjectUrl = 'https://pacfolio.netlify.app/'"
         @mouseleave="hoveredProjectUrl = null"
       >
-        <h1 class="project-title" ref="title3">third</h1>
+        <h1 class="project-title" ref="title3">My Portfolio <span class="text-[25px] absolute bottom-7 right-0">current</span>
+
+        </h1> 
       </a>
       <hr />
 
@@ -179,6 +181,7 @@ onMounted(() => {
 
 .project-section {
   min-height: 100vh;
+  min-width: 100%;
   background: #ff0055;
   display: flex;
   flex-direction: column;
