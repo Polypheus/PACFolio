@@ -1,19 +1,21 @@
+// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./components/**/*.{js,vue,ts}",
-    "./layouts/**/*.vue",
-    "./pages/**/*.vue",
-    "./plugins/**/*.{js,ts}",
-    "./app.vue",
-    "./error.vue",
+    './components/**/*.{vue,js,ts}',
+    './layouts/**/*.{vue,js,ts}',
+    './pages/**/*.{vue,js,ts}',
+    './app.vue',
   ],
   theme: {
     extend: {
       fontFamily: {
-        sixCaps: ['"Six Caps"', 'sans-serif'], // Add Six Caps font here
-        Orbitron: ['"Poppins"', 'sans-serif'], // Add Orbitron font here
+        sans: ['Inter', 'sans-serif'],
+        serif: ['Merriweather', 'serif'],
+        mono: ['Fira Code', 'monospace'],
+        sixcaps: ['Six Caps', 'sans-serif'], // Example: custom font
       },
     },
   },
   plugins: [],
-};
+}

@@ -1,6 +1,17 @@
-html {
-  scroll-behavior: smooth;
+@use "tailwindcss/preflight";
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather:wght@400;700&family=Fira+Code:wght@400;700&family=Six+Caps&display=swap');
+
+:root {
+    font-family: 'Six Caps', 'Sans Serif';
 }
+
 .container {
-    min-height: 100vh;
+    min-height: 100dvh;
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
 }
