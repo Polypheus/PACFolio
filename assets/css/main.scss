@@ -5,6 +5,9 @@
 
 :root {
     font-family: 'Six Caps', 'Sans Serif';
+    ::-webkit-scrollbar {
+        display: none; /* Hides scrollbar */
+    }
 }
 
 .container {
