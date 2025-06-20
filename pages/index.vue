@@ -9,18 +9,18 @@
         :value="100"
         :startValue="0"
         :direction="'up'"
-        :delay="1"
+        :delay="0.5"
         :decimalPlaces="0"
         @done="onTickerDone"
       />
     </div>
-
+    
     <!-- Interchange Loader Animation (Shows after NumberTicker finishes) -->
     <Interchange v-if="tickerDone && loading" @done="onLoaderDone" />
 
     <!-- Main content (Shows after Loader finishes) -->
     <div>
-      <Hero @ready="markSectionReady('hero')" />
+      <Hero :loaderDone="loaderDone" @ready="markSectionReady('hero')" />
       <About @ready="markSectionReady('about')" />
       <Project @ready="markSectionReady('project')" />
       <Contact @ready="markSectionReady('contact')" />
