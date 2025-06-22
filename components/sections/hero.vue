@@ -73,7 +73,6 @@ function triggerAnimation() {
 }
 
 .intro, .intro1, .intro2 {
-  border: 1px solid black;
   opacity: 0;
 }
 
