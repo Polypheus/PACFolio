@@ -65,7 +65,10 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import GooeyBlob from '@/components/GooeyBlob.vue'
 
-gsap.registerPlugin(ScrollTrigger)
+// Register ScrollTrigger plugin
+if (process.client) {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 const props = defineProps({
   loaderDone: Boolean
@@ -99,6 +102,8 @@ watch(() => props.loaderDone, (newVal) => {
 })
 
 function setupAnimations() {
+  if (!process.client) return
+
   // Initial entrance animations
   const tl = gsap.timeline()
   
@@ -146,46 +151,46 @@ function setupAnimations() {
     ease: "power2.out"
   }, "-=0.2")
   
-  // Parallax effects
-  gsap.to(mainTitle.value, {
-    yPercent: -30,
-    ease: "none",
-    scrollTrigger: {
-      trigger: heroSection.value,
-      start: "top top",
-      end: "bottom top",
-      scrub: 1
-    }
+  // Parallax effects on scroll
+  ScrollTrigger.create({
+    trigger: heroSection.value,
+    start: "top top",
+    end: "bottom top",
+    scrub: 1,
+    animation: gsap.to(mainTitle.value, {
+      yPercent: -30,
+      ease: "none"
+    })
   })
   
-  gsap.to([subtitle.value, location.value], {
-    yPercent: -20,
-    opacity: 0,
-    ease: "none",
-    scrollTrigger: {
-      trigger: heroSection.value,
-      start: "top top",
-      end: "center top",
-      scrub: 1
-    }
+  ScrollTrigger.create({
+    trigger: heroSection.value,
+    start: "top top",
+    end: "center top",
+    scrub: 1,
+    animation: gsap.to([subtitle.value, location.value], {
+      yPercent: -20,
+      opacity: 0,
+      ease: "none"
+    })
   })
   
   // Stats animation on scroll
-  gsap.fromTo([stat1.value, stat2.value, stat3.value], 
-    { scale: 0.8, opacity: 0.5 },
-    { 
-      scale: 1, 
-      opacity: 1, 
-      duration: 1,
-      stagger: 0.2,
-      ease: "back.out(1.7)",
-      scrollTrigger: {
-        trigger: heroStats.value,
-        start: "top 80%",
-        toggleActions: "play none none reverse"
+  ScrollTrigger.create({
+    trigger: heroStats.value,
+    start: "top 80%",
+    animation: gsap.fromTo([stat1.value, stat2.value, stat3.value], 
+      { scale: 0.8, opacity: 0.5 },
+      { 
+        scale: 1, 
+        opacity: 1, 
+        duration: 1,
+        stagger: 0.2,
+        ease: "back.out(1.7)"
       }
-    }
-  )
+    ),
+    toggleActions: "play none none reverse"
+  })
   
   setTimeout(() => {
     emit('ready')
