@@ -7,7 +7,7 @@
     <ClientOnly>
       <div
         v-if="showNumberTicker"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-500"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-white transition-opacity duration-500"
       >
         <NumberTicker
           :value="100"

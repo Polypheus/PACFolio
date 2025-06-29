@@ -77,12 +77,27 @@ onUnmounted(() => {
   height: 100%;
   pointer-events: none;
   z-index: -1;
-  opacity: 0.1;
+  opacity: 0.05;
 }
 
 .gooey-filter {
   position: absolute;
   width: 0;
   height: 0;
+}
+
+.gooey-blob {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--black);
+  animation: blob-float 8s ease-in-out infinite;
+  filter: url(#gooey);
+}
+
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -30px) scale(1.1); }
+  50% { transform: translate(-20px, 20px) scale(0.9); }
+  75% { transform: translate(40px, -10px) scale(1.05); }
 }
 </style>
