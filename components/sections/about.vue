@@ -1,5 +1,5 @@
 <template>
-  <div class="about-section">
+  <div class="about-section" ref="aboutSection">
     <div class="container flex-col relative z-10">
       <!-- Section title -->
       <h2 class="section-title text-mega mb-20 text-center" ref="title">
@@ -7,30 +7,30 @@
       </h2>
       
       <!-- Content grid -->
-      <div class="content-grid">
+      <div class="content-grid" ref="contentGrid">
         <!-- Profile card -->
         <div class="profile-card interactive-hover" ref="profileCard">
           <div class="profile-content">
-            <div class="profile-image">
+            <div class="profile-image" ref="profileImage">
               <div class="image-placeholder">
                 <span class="text-huge">👨‍💻</span>
               </div>
             </div>
-            <h3 class="text-large font-semibold mt-6">Paul Andrew Consunji</h3>
-            <p class="text-normal mt-2 opacity-70">Frontend Developer</p>
-            <p class="text-small mt-2 opacity-50">3+ Years Experience</p>
+            <h3 class="text-large font-semibold mt-6" ref="profileName">Paul Andrew Consunji</h3>
+            <p class="text-normal mt-2 opacity-70" ref="profileRole">Frontend Developer</p>
+            <p class="text-small mt-2 opacity-50" ref="profileExp">3+ Years Experience</p>
           </div>
         </div>
 
         <!-- Skills showcase -->
         <div class="skills-showcase" ref="skillsShowcase">
-          <h3 class="text-large font-semibold mb-8">Skills</h3>
-          <div class="skills-grid">
-            <div class="skill-item interactive-hover" v-for="skill in skills" :key="skill.name">
+          <h3 class="text-large font-semibold mb-8" ref="skillsTitle">Skills</h3>
+          <div class="skills-grid" ref="skillsGrid">
+            <div class="skill-item interactive-hover" v-for="(skill, index) in skills" :key="skill.name" :ref="el => skillItems[index] = el">
               <span class="skill-name text-normal">{{ skill.name }}</span>
               <span class="skill-level text-small opacity-60">{{ skill.level }}%</span>
               <div class="skill-bar">
-                <div class="skill-progress" :style="{ width: skill.level + '%' }"></div>
+                <div class="skill-progress" :ref="el => skillBars[index] = el" :style="{ width: '0%' }"></div>
               </div>
             </div>
           </div>
@@ -38,10 +38,10 @@
 
         <!-- Experience timeline -->
         <div class="experience-timeline" ref="timeline">
-          <h3 class="text-large font-semibold mb-8">Experience</h3>
-          <div class="timeline">
-            <div class="timeline-item interactive-hover" v-for="(item, index) in timelineData" :key="index">
-              <div class="timeline-dot"></div>
+          <h3 class="text-large font-semibold mb-8" ref="timelineTitle">Experience</h3>
+          <div class="timeline" ref="timelineContainer">
+            <div class="timeline-item interactive-hover" v-for="(item, index) in timelineData" :key="index" :ref="el => timelineItems[index] = el">
+              <div class="timeline-dot" :ref="el => timelineDots[index] = el"></div>
               <div class="timeline-content">
                 <h4 class="text-normal font-medium">{{ item.title }}</h4>
                 <p class="text-small opacity-70 mt-1">{{ item.description }}</p>
@@ -68,10 +68,25 @@ gsap.registerPlugin(ScrollTrigger)
 
 const emit = defineEmits(['ready'])
 
+const aboutSection = ref(null)
 const title = ref(null)
+const contentGrid = ref(null)
 const profileCard = ref(null)
+const profileImage = ref(null)
+const profileName = ref(null)
+const profileRole = ref(null)
+const profileExp = ref(null)
 const skillsShowcase = ref(null)
+const skillsTitle = ref(null)
+const skillsGrid = ref(null)
 const timeline = ref(null)
+const timelineTitle = ref(null)
+const timelineContainer = ref(null)
+
+const skillItems = ref([])
+const skillBars = ref([])
+const timelineItems = ref([])
+const timelineDots = ref([])
 
 const skills = [
   { name: 'Vue.js', level: 95 },
@@ -90,26 +105,33 @@ const timelineData = [
 ]
 
 onMounted(() => {
-  // Animate elements on scroll
+  // Section title animation
   gsap.fromTo(title.value, 
-    { opacity: 0, y: 50 },
+    { opacity: 0, y: 100, scale: 0.8 },
     { 
       opacity: 1, 
       y: 0,
-      duration: 1,
+      scale: 1,
+      duration: 1.2,
+      ease: "power3.out",
       scrollTrigger: {
         trigger: title.value,
-        start: 'top 80%'
+        start: 'top 80%',
+        end: 'bottom 60%',
+        scrub: 1
       }
     }
   )
 
+  // Profile card animations
   gsap.fromTo(profileCard.value,
-    { opacity: 0, x: -50 },
+    { opacity: 0, x: -100, rotationY: -15 },
     {
       opacity: 1,
       x: 0,
-      duration: 1,
+      rotationY: 0,
+      duration: 1.2,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: profileCard.value,
         start: 'top 80%'
@@ -117,33 +139,152 @@ onMounted(() => {
     }
   )
 
-  gsap.fromTo('.skill-item',
-    { opacity: 0, y: 30 },
+  // Profile image bounce effect
+  gsap.fromTo(profileImage.value,
+    { scale: 0, rotation: -180 },
     {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      stagger: 0.1,
+      scale: 1,
+      rotation: 0,
+      duration: 1,
+      ease: "back.out(1.7)",
       scrollTrigger: {
-        trigger: skillsShowcase.value,
+        trigger: profileImage.value,
         start: 'top 80%'
       }
     }
   )
 
-  gsap.fromTo('.timeline-item',
-    { opacity: 0, x: 50 },
+  // Profile text stagger
+  gsap.fromTo([profileName.value, profileRole.value, profileExp.value],
+    { opacity: 0, y: 20 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: profileName.value,
+        start: 'top 85%'
+      }
+    }
+  )
+
+  // Skills title
+  gsap.fromTo(skillsTitle.value,
+    { opacity: 0, x: -50 },
     {
       opacity: 1,
       x: 0,
-      duration: 0.8,
-      stagger: 0.2,
+      duration: 1,
       scrollTrigger: {
-        trigger: timeline.value,
+        trigger: skillsTitle.value,
         start: 'top 80%'
       }
     }
   )
+
+  // Skills items animation
+  skillItems.value.forEach((item, index) => {
+    if (item) {
+      gsap.fromTo(item,
+        { opacity: 0, y: 50, scale: 0.8 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          delay: index * 0.1,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 85%'
+          }
+        }
+      )
+    }
+  })
+
+  // Skill bars animation
+  skillBars.value.forEach((bar, index) => {
+    if (bar) {
+      gsap.to(bar, {
+        width: skills[index].level + '%',
+        duration: 1.5,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: bar,
+          start: 'top 80%'
+        }
+      })
+    }
+  })
+
+  // Timeline title
+  gsap.fromTo(timelineTitle.value,
+    { opacity: 0, x: 50 },
+    {
+      opacity: 1,
+      x: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: timelineTitle.value,
+        start: 'top 80%'
+      }
+    }
+  )
+
+  // Timeline items
+  timelineItems.value.forEach((item, index) => {
+    if (item) {
+      gsap.fromTo(item,
+        { opacity: 0, x: 100, scale: 0.9 },
+        {
+          opacity: 1,
+          x: 0,
+          scale: 1,
+          duration: 1,
+          delay: index * 0.2,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 85%'
+          }
+        }
+      )
+    }
+  })
+
+  // Timeline dots pulse
+  timelineDots.value.forEach((dot, index) => {
+    if (dot) {
+      gsap.fromTo(dot,
+        { scale: 0 },
+        {
+          scale: 1,
+          duration: 0.6,
+          delay: index * 0.2,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: dot,
+            start: 'top 85%'
+          }
+        }
+      )
+    }
+  })
+
+  // Parallax effect for content grid
+  gsap.to(contentGrid.value, {
+    yPercent: -10,
+    ease: "none",
+    scrollTrigger: {
+      trigger: aboutSection.value,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true
+    }
+  })
 
   emit('ready')
 })

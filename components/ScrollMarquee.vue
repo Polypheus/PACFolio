@@ -33,6 +33,7 @@ const marquee = ref(null)
 const marqueeContent = ref(null)
 
 let scrollTriggerInstance
+let marqueeAnimation
 
 onMounted(() => {
   const content = marqueeContent.value
@@ -42,28 +43,42 @@ onMounted(() => {
   const clone = content.cloneNode(true)
   marquee.value.appendChild(clone)
   
-  // Set up scroll-based animation
+  // Base marquee animation
+  marqueeAnimation = gsap.to([content, clone], {
+    x: `-=${content.offsetWidth}`,
+    duration: 20,
+    ease: 'none',
+    repeat: -1
+  })
+  
+  // Scroll-based speed modification
   scrollTriggerInstance = ScrollTrigger.create({
     trigger: wrapper,
     start: 'top bottom',
     end: 'bottom top',
     onUpdate: (self) => {
       const velocity = self.getVelocity()
-      const speed = Math.abs(velocity) * 0.01 * props.speed
+      const speedMultiplier = 1 + Math.abs(velocity) * 0.0001 * props.speed
       
-      gsap.to([content, clone], {
-        x: `-=${speed}`,
-        duration: 0.1,
-        ease: 'none'
+      // Modify animation speed based on scroll velocity
+      gsap.to(marqueeAnimation, {
+        timeScale: speedMultiplier,
+        duration: 0.3,
+        ease: 'power2.out'
       })
-      
-      // Reset position when content moves out of view
-      if (gsap.getProperty(content, 'x') <= -content.offsetWidth) {
-        gsap.set(content, { x: content.offsetWidth })
-      }
-      if (gsap.getProperty(clone, 'x') <= -clone.offsetWidth) {
-        gsap.set(clone, { x: clone.offsetWidth })
-      }
+    },
+    onEnter: () => {
+      // Animate marquee items on enter
+      gsap.fromTo('.marquee-item', 
+        { opacity: 0.3, scale: 0.9 },
+        { 
+          opacity: 0.7, 
+          scale: 1, 
+          duration: 0.8, 
+          stagger: 0.1,
+          ease: 'power2.out'
+        }
+      )
     }
   })
 })
@@ -71,6 +86,9 @@ onMounted(() => {
 onUnmounted(() => {
   if (scrollTriggerInstance) {
     scrollTriggerInstance.kill()
+  }
+  if (marqueeAnimation) {
+    marqueeAnimation.kill()
   }
 })
 </script>
@@ -82,6 +100,7 @@ onUnmounted(() => {
   border-top: 1px solid var(--gray-200);
   border-bottom: 1px solid var(--gray-200);
   padding: 2rem 0;
+  background: var(--white);
 }
 
 .marquee {
@@ -101,10 +120,12 @@ onUnmounted(() => {
 
 .marquee-item {
   opacity: 0.7;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
+  cursor: default;
 }
 
 .marquee-item:hover {
   opacity: 1;
+  transform: scale(1.05);
 }
 </style>

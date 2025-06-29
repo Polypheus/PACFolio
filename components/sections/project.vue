@@ -1,12 +1,12 @@
 <template>
-  <div class="project-section">
+  <div class="project-section" ref="projectSection">
     <div class="container flex-col relative z-10">
       <!-- Section title -->
       <h2 class="section-title text-mega mb-20 text-center" ref="title">
         Projects
       </h2>
 
-      <div class="projects-container">
+      <div class="projects-container" ref="projectsContainer">
         <a
           href="https://polynotes.netlify.app/"
           target="_blank"
@@ -15,8 +15,8 @@
           @mouseleave="hoveredProject = null"
         >
           <div class="project-card interactive-hover" ref="project1">
-            <div class="project-number text-huge font-light opacity-20">01</div>
-            <div class="project-content">
+            <div class="project-number text-huge font-light opacity-20" ref="number1">01</div>
+            <div class="project-content" ref="content1">
               <h1 class="project-title text-large font-semibold mb-2">
                 Polynotes
               </h1>
@@ -29,7 +29,7 @@
                 <span class="tag text-tiny">Supabase</span>
               </div>
             </div>
-            <div class="project-arrow text-large">→</div>
+            <div class="project-arrow text-large" ref="arrow1">→</div>
           </div>
         </a>
 
@@ -41,8 +41,8 @@
           @mouseleave="hoveredProject = null"
         >
           <div class="project-card interactive-hover" ref="project2">
-            <div class="project-number text-huge font-light opacity-20">02</div>
-            <div class="project-content">
+            <div class="project-number text-huge font-light opacity-20" ref="number2">02</div>
+            <div class="project-content" ref="content2">
               <h1 class="project-title text-large font-semibold mb-2">
                 RTU-PDSMS
               </h1>
@@ -55,7 +55,7 @@
                 <span class="tag text-tiny">Bootstrap</span>
               </div>
             </div>
-            <div class="project-arrow text-large">→</div>
+            <div class="project-arrow text-large" ref="arrow2">→</div>
           </div>
         </a>
 
@@ -67,8 +67,8 @@
           @mouseleave="hoveredProject = null"
         >
           <div class="project-card interactive-hover" ref="project3">
-            <div class="project-number text-huge font-light opacity-20">03</div>
-            <div class="project-content">
+            <div class="project-number text-huge font-light opacity-20" ref="number3">03</div>
+            <div class="project-content" ref="content3">
               <h1 class="project-title text-large font-semibold mb-2">
                 Portfolio V2
               </h1>
@@ -81,7 +81,7 @@
                 <span class="tag text-tiny">GSAP</span>
               </div>
             </div>
-            <div class="project-arrow text-large">→</div>
+            <div class="project-arrow text-large" ref="arrow3">→</div>
           </div>
         </a>
       </div>
@@ -102,43 +102,168 @@ gsap.registerPlugin(ScrollTrigger)
 
 const emit = defineEmits(['ready'])
 
+const projectSection = ref(null)
 const title = ref(null)
+const projectsContainer = ref(null)
 const hoveredProject = ref(null)
+
 const project1 = ref(null)
 const project2 = ref(null)
 const project3 = ref(null)
+const number1 = ref(null)
+const number2 = ref(null)
+const number3 = ref(null)
+const content1 = ref(null)
+const content2 = ref(null)
+const content3 = ref(null)
+const arrow1 = ref(null)
+const arrow2 = ref(null)
+const arrow3 = ref(null)
 
 onMounted(() => {
-  // Animate title
+  // Section title animation with morphing effect
   gsap.fromTo(title.value,
-    { opacity: 0, y: 50 },
+    { opacity: 0, y: 100, scale: 0.5, rotation: -5 },
     {
       opacity: 1,
       y: 0,
-      duration: 1,
+      scale: 1,
+      rotation: 0,
+      duration: 1.5,
+      ease: "power3.out",
       scrollTrigger: {
         trigger: title.value,
-        start: 'top 80%'
+        start: 'top 80%',
+        end: 'bottom 60%',
+        scrub: 1
       }
     }
   )
 
-  // Animate project cards
-  const projectRefs = [project1, project2, project3]
-  projectRefs.forEach((el, index) => {
-    if (el.value) {
-      gsap.fromTo(
-        el.value,
-        { opacity: 0, y: 50 },
+  // Project cards entrance animations
+  const projects = [
+    { card: project1.value, number: number1.value, content: content1.value, arrow: arrow1.value },
+    { card: project2.value, number: number2.value, content: content2.value, arrow: arrow2.value },
+    { card: project3.value, number: number3.value, content: content3.value, arrow: arrow3.value }
+  ]
+
+  projects.forEach((project, index) => {
+    if (project.card) {
+      // Card slide in from different directions
+      const direction = index % 2 === 0 ? -100 : 100
+      
+      gsap.fromTo(project.card,
+        { 
+          opacity: 0, 
+          x: direction, 
+          y: 50,
+          scale: 0.8,
+          rotationY: direction > 0 ? 15 : -15
+        },
+        {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          scale: 1,
+          rotationY: 0,
+          duration: 1.2,
+          delay: index * 0.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: project.card,
+            start: 'top 85%'
+          }
+        }
+      )
+
+      // Number animation
+      gsap.fromTo(project.number,
+        { scale: 0, rotation: 180 },
+        {
+          scale: 1,
+          rotation: 0,
+          duration: 1,
+          delay: index * 0.2 + 0.3,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: project.number,
+            start: 'top 85%'
+          }
+        }
+      )
+
+      // Content stagger animation
+      gsap.fromTo(project.content.children,
+        { opacity: 0, y: 20 },
         {
           opacity: 1,
           y: 0,
-          duration: 1,
-          delay: index * 0.2,
+          duration: 0.8,
+          stagger: 0.1,
+          delay: index * 0.2 + 0.5,
+          ease: "power2.out",
           scrollTrigger: {
-            trigger: el.value,
+            trigger: project.content,
             start: 'top 85%'
           }
+        }
+      )
+
+      // Arrow bounce animation
+      gsap.fromTo(project.arrow,
+        { opacity: 0, x: -20, scale: 0.5 },
+        {
+          opacity: 1,
+          x: 0,
+          scale: 1,
+          duration: 0.8,
+          delay: index * 0.2 + 0.7,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: project.arrow,
+            start: 'top 85%'
+          }
+        }
+      )
+
+      // Hover animations
+      project.card.addEventListener('mouseenter', () => {
+        gsap.to(project.number, { scale: 1.1, opacity: 0.6, duration: 0.3 })
+        gsap.to(project.arrow, { x: 10, scale: 1.2, duration: 0.3 })
+        gsap.to(project.card, { y: -5, duration: 0.3 })
+      })
+
+      project.card.addEventListener('mouseleave', () => {
+        gsap.to(project.number, { scale: 1, opacity: 0.2, duration: 0.3 })
+        gsap.to(project.arrow, { x: 0, scale: 1, duration: 0.3 })
+        gsap.to(project.card, { y: 0, duration: 0.3 })
+      })
+    }
+  })
+
+  // Parallax effect for projects container
+  gsap.to(projectsContainer.value, {
+    yPercent: -5,
+    ease: "none",
+    scrollTrigger: {
+      trigger: projectSection.value,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true
+    }
+  })
+
+  // Tags animation on scroll
+  ScrollTrigger.batch('.tag', {
+    onEnter: (elements) => {
+      gsap.fromTo(elements, 
+        { scale: 0, opacity: 0 },
+        { 
+          scale: 1, 
+          opacity: 1, 
+          duration: 0.5, 
+          stagger: 0.1,
+          ease: "back.out(1.7)"
         }
       )
     }
@@ -183,19 +308,11 @@ onMounted(() => {
   &:hover {
     border-color: var(--gray-400);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    
-    .project-arrow {
-      transform: translateX(0.5rem);
-    }
-    
-    .project-number {
-      opacity: 0.4;
-    }
   }
 }
 
 .project-number {
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .project-content {
@@ -225,10 +342,16 @@ onMounted(() => {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: var(--gray-200);
+    transform: translateY(-1px);
+  }
 }
 
 .project-arrow {
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
   opacity: 0.6;
 }
 

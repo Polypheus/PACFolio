@@ -16,6 +16,7 @@
       <h2 
         class="intro1 text-large mb-6 font-light tracking-wide" 
         :class="{ 'animate-intro1': animate }"
+        ref="subtitle"
       >
         Frontend Developer
       </h2>
@@ -24,35 +25,36 @@
       <p 
         class="intro2 text-normal mb-12 opacity-60" 
         :class="{ 'animate-intro2': animate }"
+        ref="location"
       >
         Metro Manila, Philippines
       </p>
 
       <!-- CTA button -->
-      <div class="intro3 mb-16" :class="{ 'animate-intro3': animate }">
+      <div class="intro3 mb-16" :class="{ 'animate-intro3': animate }" ref="ctaButton">
         <button class="btn-minimal text-normal" @click="scrollToWork">
           View My Work
         </button>
       </div>
 
       <!-- Stats -->
-      <div class="hero-stats" :class="{ 'animate-stats': animate }">
-        <div class="stat-item">
+      <div class="hero-stats" :class="{ 'animate-stats': animate }" ref="heroStats">
+        <div class="stat-item" ref="stat1">
           <div class="stat-number text-huge font-light">50+</div>
           <div class="stat-label text-small">Projects</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item" ref="stat2">
           <div class="stat-number text-huge font-light">3+</div>
           <div class="stat-label text-small">Years</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item" ref="stat3">
           <div class="stat-number text-huge font-light">100%</div>
           <div class="stat-label text-small">Satisfaction</div>
         </div>
       </div>
 
       <!-- Scroll indicator -->
-      <div class="scroll-indicator" :class="{ 'animate-scroll': animate }">
+      <div class="scroll-indicator" :class="{ 'animate-scroll': animate }" ref="scrollIndicator">
         <div class="scroll-line"></div>
         <div class="scroll-text text-tiny">SCROLL</div>
       </div>
@@ -62,7 +64,11 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import GooeyBlob from '@/components/GooeyBlob.vue'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const props = defineProps({
   loaderDone: Boolean
@@ -71,11 +77,62 @@ const props = defineProps({
 const emit = defineEmits(['ready'])
 const animate = ref(false)
 const mainTitle = ref(null)
+const subtitle = ref(null)
+const location = ref(null)
+const ctaButton = ref(null)
+const heroStats = ref(null)
+const scrollIndicator = ref(null)
+const stat1 = ref(null)
+const stat2 = ref(null)
+const stat3 = ref(null)
 
 onMounted(() => {
   if (props.loaderDone) {
     triggerAnimation()
   }
+  
+  // Parallax effect on scroll
+  gsap.to(mainTitle.value, {
+    yPercent: -50,
+    ease: "none",
+    scrollTrigger: {
+      trigger: mainTitle.value,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true
+    }
+  })
+  
+  // Fade out hero content on scroll
+  gsap.to([subtitle.value, location.value, ctaButton.value], {
+    opacity: 0,
+    y: -30,
+    ease: "none",
+    scrollTrigger: {
+      trigger: heroStats.value,
+      start: "top bottom",
+      end: "center center",
+      scrub: true
+    }
+  })
+  
+  // Stats counter animation on scroll
+  ScrollTrigger.create({
+    trigger: heroStats.value,
+    start: "top 80%",
+    onEnter: () => {
+      gsap.fromTo([stat1.value, stat2.value, stat3.value], 
+        { scale: 0.8, opacity: 0 },
+        { 
+          scale: 1, 
+          opacity: 1, 
+          duration: 0.8, 
+          stagger: 0.2,
+          ease: "back.out(1.7)"
+        }
+      )
+    }
+  })
 })
 
 watch(() => props.loaderDone, (newVal) => {

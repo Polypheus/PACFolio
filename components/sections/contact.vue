@@ -1,5 +1,5 @@
 <template>
-  <div class="contact-section">
+  <div class="contact-section" ref="contactSection">
     <div class="container flex-col relative z-10">
       <!-- Section title -->
       <h2 class="section-title text-mega mb-20 text-center" ref="title">
@@ -7,24 +7,24 @@
       </h2>
 
       <!-- Contact content -->
-      <div class="contact-content">
+      <div class="contact-content" ref="contactContent">
         <!-- Main CTA -->
         <div class="main-cta mb-16" ref="mainCta">
-          <h3 class="text-large font-semibold mb-6">Let's work together</h3>
-          <p class="text-normal opacity-70 mb-8 max-w-2xl mx-auto">
+          <h3 class="text-large font-semibold mb-6" ref="ctaTitle">Let's work together</h3>
+          <p class="text-normal opacity-70 mb-8 max-w-2xl mx-auto" ref="ctaDescription">
             I'm always interested in new opportunities and collaborations. 
             Let's create something amazing together.
           </p>
-          <button class="btn-minimal text-normal">
+          <button class="btn-minimal text-normal" ref="ctaButton">
             Get In Touch
           </button>
         </div>
 
         <!-- Contact methods -->
         <div class="contact-methods" ref="contactMethods">
-          <div class="contact-grid">
+          <div class="contact-grid" ref="contactGrid">
             <!-- Email -->
-            <a href="mailto:paulandrew.consunji@example.com" class="contact-card interactive-hover">
+            <a href="mailto:paulandrew.consunji@example.com" class="contact-card interactive-hover" ref="emailCard">
               <div class="contact-info">
                 <h4 class="contact-title text-normal font-medium">Email</h4>
                 <p class="contact-detail text-small opacity-70">paulandrew.consunji@example.com</p>
@@ -32,7 +32,7 @@
             </a>
 
             <!-- LinkedIn -->
-            <a href="https://linkedin.com/in/paulandrewconsunji" target="_blank" class="contact-card interactive-hover">
+            <a href="https://linkedin.com/in/paulandrewconsunji" target="_blank" class="contact-card interactive-hover" ref="linkedinCard">
               <div class="contact-info">
                 <h4 class="contact-title text-normal font-medium">LinkedIn</h4>
                 <p class="contact-detail text-small opacity-70">Connect professionally</p>
@@ -40,7 +40,7 @@
             </a>
 
             <!-- GitHub -->
-            <a href="https://github.com/paulandrewconsunji" target="_blank" class="contact-card interactive-hover">
+            <a href="https://github.com/paulandrewconsunji" target="_blank" class="contact-card interactive-hover" ref="githubCard">
               <div class="contact-info">
                 <h4 class="contact-title text-normal font-medium">GitHub</h4>
                 <p class="contact-detail text-small opacity-70">View my repositories</p>
@@ -48,7 +48,7 @@
             </a>
 
             <!-- Phone -->
-            <a href="tel:+639123456789" class="contact-card interactive-hover">
+            <a href="tel:+639123456789" class="contact-card interactive-hover" ref="phoneCard">
               <div class="contact-info">
                 <h4 class="contact-title text-normal font-medium">Phone</h4>
                 <p class="contact-detail text-small opacity-70">+63 912 345 6789</p>
@@ -81,67 +81,182 @@ gsap.registerPlugin(ScrollTrigger)
 
 const emit = defineEmits(['ready'])
 
+const contactSection = ref(null)
 const title = ref(null)
+const contactContent = ref(null)
 const mainCta = ref(null)
+const ctaTitle = ref(null)
+const ctaDescription = ref(null)
+const ctaButton = ref(null)
 const contactMethods = ref(null)
+const contactGrid = ref(null)
 const footerMessage = ref(null)
 
+const emailCard = ref(null)
+const linkedinCard = ref(null)
+const githubCard = ref(null)
+const phoneCard = ref(null)
+
 onMounted(() => {
-  // Animate title
+  // Section title with dramatic entrance
   gsap.fromTo(title.value,
-    { opacity: 0, y: 50 },
+    { 
+      opacity: 0, 
+      y: 150, 
+      scale: 0.3,
+      rotation: 10
+    },
     {
       opacity: 1,
       y: 0,
-      duration: 1,
+      scale: 1,
+      rotation: 0,
+      duration: 1.8,
+      ease: "power3.out",
       scrollTrigger: {
         trigger: title.value,
+        start: 'top 80%',
+        end: 'bottom 60%',
+        scrub: 1
+      }
+    }
+  )
+
+  // CTA section animations
+  gsap.fromTo(ctaTitle.value,
+    { opacity: 0, y: 50, scale: 0.8 },
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ctaTitle.value,
         start: 'top 80%'
       }
     }
   )
 
-  // Animate main CTA
-  gsap.fromTo(mainCta.value,
+  gsap.fromTo(ctaDescription.value,
     { opacity: 0, y: 30 },
     {
       opacity: 1,
       y: 0,
       duration: 1,
+      delay: 0.2,
+      ease: "power2.out",
       scrollTrigger: {
-        trigger: mainCta.value,
+        trigger: ctaDescription.value,
         start: 'top 80%'
       }
     }
   )
 
-  // Animate contact cards
-  gsap.fromTo('.contact-card',
-    { opacity: 0, y: 30 },
+  gsap.fromTo(ctaButton.value,
+    { opacity: 0, scale: 0.5, y: 20 },
     {
       opacity: 1,
+      scale: 1,
       y: 0,
       duration: 0.8,
-      stagger: 0.1,
+      delay: 0.4,
+      ease: "back.out(1.7)",
       scrollTrigger: {
-        trigger: contactMethods.value,
+        trigger: ctaButton.value,
         start: 'top 80%'
       }
     }
   )
 
-  // Animate footer
+  // Contact cards with staggered entrance
+  const contactCards = [emailCard.value, linkedinCard.value, githubCard.value, phoneCard.value]
+  
+  contactCards.forEach((card, index) => {
+    if (card) {
+      gsap.fromTo(card,
+        { 
+          opacity: 0, 
+          y: 80, 
+          scale: 0.8,
+          rotationX: -15
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotationX: 0,
+          duration: 1,
+          delay: index * 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%'
+          }
+        }
+      )
+
+      // Individual card hover animations
+      card.addEventListener('mouseenter', () => {
+        gsap.to(card, { 
+          y: -8, 
+          scale: 1.02,
+          duration: 0.3,
+          ease: "power2.out"
+        })
+      })
+
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, { 
+          y: 0, 
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out"
+        })
+      })
+    }
+  })
+
+  // Footer message fade in
   gsap.fromTo(footerMessage.value,
-    { opacity: 0 },
+    { opacity: 0, y: 30 },
     {
       opacity: 1,
-      duration: 1,
+      y: 0,
+      duration: 1.2,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: footerMessage.value,
         start: 'top 90%'
       }
     }
   )
+
+  // Parallax effect for contact content
+  gsap.to(contactContent.value, {
+    yPercent: -8,
+    ease: "none",
+    scrollTrigger: {
+      trigger: contactSection.value,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true
+    }
+  })
+
+  // Contact cards floating animation
+  contactCards.forEach((card, index) => {
+    if (card) {
+      gsap.to(card, {
+        y: "random(-5, 5)",
+        duration: "random(2, 4)",
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: index * 0.5
+      })
+    }
+  })
 
   emit('ready')
 })
@@ -180,10 +295,27 @@ onMounted(() => {
   color: inherit;
   display: block;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
+    transition: left 0.5s ease;
+  }
   
   &:hover {
     border-color: var(--gray-400);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    
+    &::before {
+      left: 100%;
+    }
   }
 }
 
