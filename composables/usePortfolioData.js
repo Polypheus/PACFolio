@@ -1,5 +1,7 @@
+import { reactive } from 'vue'
+
 export const usePortfolioData = () => {
-  const personalInfo = {
+  const personalInfo = reactive({
     name: 'Paul Andrew Consunji',
     role: 'Frontend Developer',
     location: 'Metro Manila, Philippines',
@@ -7,9 +9,9 @@ export const usePortfolioData = () => {
     phone: '+63 912 345 6789',
     linkedin: 'linkedin.com/in/paulandrewconsunji/',
     github: 'https://github.com/paulandrewconsunji'
-  }
+  })
 
-  const education = {
+  const education = reactive({
     degree: 'Bachelor of Science in Information Technology',
     school: 'Rizal Technological University',
     period: '2020-2024',
@@ -31,9 +33,9 @@ export const usePortfolioData = () => {
         period: '2012-2016'
       }
     ]
-  }
+  })
 
-  const achievements = [
+  const achievements = reactive([
     {
       title: 'Academic Achiever',
       description: 'Since Freshmen Year',
@@ -54,9 +56,9 @@ export const usePortfolioData = () => {
       description: 'Academic Distinction',
       type: 'graduation'
     }
-  ]
+  ])
 
-  const skills = [
+  const skills = reactive([
     { name: 'HTML/CSS', level: 95, category: 'frontend' },
     { name: 'JavaScript', level: 90, category: 'frontend' },
     { name: 'Vue.js/Nuxt.js', level: 88, category: 'frontend' },
@@ -71,9 +73,9 @@ export const usePortfolioData = () => {
     { name: 'Microsoft Office', level: 90, category: 'tools' },
     { name: 'Computer System Servicing', level: 85, category: 'technical' },
     { name: 'Networking', level: 80, category: 'technical' }
-  ]
+  ])
 
-  const workExperience = [
+  const workExperience = reactive([
     {
       title: 'ATM Technician (Probationary)',
       company: 'One Point Contact Inc',
@@ -95,9 +97,9 @@ export const usePortfolioData = () => {
       period: '2023',
       type: 'internship'
     }
-  ]
+  ])
 
-  const certifications = [
+  const certifications = reactive([
     {
       name: 'CSS NC II',
       issuer: 'Capellan Institute of Technology, Inc.',
@@ -122,9 +124,9 @@ export const usePortfolioData = () => {
       year: '2024',
       type: 'assessment'
     }
-  ]
+  ])
 
-  const projects = [
+  const projects = reactive([
     {
       id: 1,
       title: 'Polynotes',
@@ -149,13 +151,13 @@ export const usePortfolioData = () => {
       tags: ['Vue.js', 'Nuxt', 'GSAP'],
       featured: true
     }
-  ]
+  ])
 
-  const stats = [
+  const stats = reactive([
     { label: 'Projects', value: '50+' },
     { label: 'Years', value: '3+' },
     { label: 'Satisfaction', value: '100%' }
-  ]
+  ])
 
   return {
     personalInfo,
