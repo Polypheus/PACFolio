@@ -37,7 +37,7 @@
             <!-- Achievements -->
             <div 
               v-for="(achievement, index) in achievements" 
-              :key="achievement.title"
+              :key="index"
               class="achievement-item interactive-hover" 
               :ref="el => setAchievementRef(el, index)"
             >
@@ -53,7 +53,7 @@
           <div class="skills-grid" ref="skillsGrid">
             <div 
               v-for="(skill, index) in skills" 
-              :key="skill.name"
+              :key="index"
               class="skill-item interactive-hover" 
               :ref="el => setSkillItem(el, index)"
             >
@@ -79,7 +79,7 @@
           <div class="timeline" ref="timelineContainer">
             <div 
               v-for="(item, index) in workExperience" 
-              :key="item.title"
+              :key="index"
               class="timeline-item interactive-hover" 
               :ref="el => setTimelineItem(el, index)"
             >
@@ -105,7 +105,7 @@
           <div class="certifications-grid" ref="certificationsGrid">
             <div 
               v-for="(cert, index) in certifications" 
-              :key="cert.name"
+              :key="index"
               class="certification-item interactive-hover"
               :ref="el => setCertificationRef(el, index)"
             >
