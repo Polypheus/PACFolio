@@ -3,7 +3,7 @@
     <!-- Single ClientOnly wrapper for all loader components -->
     <ClientOnly>
       <div
-        v-if="loading && !tickerDone"
+        v-if="showNumberTicker"
         class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-black transition-opacity duration-500"
       >
         <NumberTicker
@@ -17,31 +17,29 @@
       </div>
       
       <!-- Interchange Loader Animation (Shows after NumberTicker finishes) -->
-      <Interchange v-if="tickerDone && loading" @done="onLoaderDone" />
+      <Interchange v-if="showInterchange" @done="onLoaderDone" />
     </ClientOnly>
 
-    <!-- Main content (Shows after Loader finishes) - wrapped in ClientOnly to prevent hydration mismatches -->
-    <ClientOnly>
-      <div v-show="!loading">
-        <Hero :loaderDone="loaderDone" @ready="markSectionReady('hero')" />
-        <About @ready="markSectionReady('about')" />
-        <Project @ready="markSectionReady('project')" />
-        <Contact @ready="markSectionReady('contact')" />
-      </div>
-    </ClientOnly>
+    <!-- Main content (Shows after Loader finishes) -->
+    <div v-show="showMainContent">
+      <Hero :loaderDone="loaderDone" @ready="markSectionReady('hero')" />
+      <About @ready="markSectionReady('about')" />
+      <Project @ready="markSectionReady('project')" />
+      <Contact @ready="markSectionReady('contact')" />
+    </div>
   </div>
 </template>
+
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import NumberTicker from '@/components/NumberTicker.vue';
-import Interchange from '@/components/Interchange.vue'; // Add Loader
+import Interchange from '@/components/Interchange.vue';
 import Hero from '@/components/sections/hero.vue';
 import About from '@/components/sections/about.vue';
 import Project from '@/components/sections/project.vue';
 import Contact from '@/components/sections/contact.vue';
 
-// Wait for ticker + loader + all sections
-const loading = ref(true);
+// Loading states
 const tickerDone = ref(false);
 const loaderDone = ref(false);
 
@@ -52,32 +50,23 @@ const sections = reactive({
   contact: false
 });
 
+// Computed properties for cleaner template logic
+const showNumberTicker = computed(() => !tickerDone.value);
+const showInterchange = computed(() => tickerDone.value && !loaderDone.value);
+const showMainContent = computed(() => loaderDone.value);
+
 const markSectionReady = (sectionName) => {
-  console.log(`Received ready event from: ${sectionName}`);
+  console.log(`✅ Section ready: ${sectionName}`);
   sections[sectionName] = true;
-  checkIfAllReady();
 };
 
 const onTickerDone = () => {
-  console.log("NumberTicker done, starting Interchange animation.");
+  console.log("✅ NumberTicker animation complete");
   tickerDone.value = true;
 };
 
 const onLoaderDone = () => {
-  console.log("Interchange animation complete!");
+  console.log("✅ Interchange animation complete");
   loaderDone.value = true;
-  checkIfAllReady();
-};
-
-const checkIfAllReady = () => {
-  console.log("Sections ready:", sections);
-  console.log("Ticker done:", tickerDone.value);
-  console.log("Loader done:", loaderDone.value);
-
-  const allSectionsReady = Object.values(sections).every(Boolean);
-  if (tickerDone.value && loaderDone.value && allSectionsReady) {
-    console.log("All components loaded! Showing main content.");
-    loading.value = false;
-  }
 };
 </script>

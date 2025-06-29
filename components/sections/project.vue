@@ -98,6 +98,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const emit = defineEmits(['ready'])
+
 const scrollCircle = ref(null)
 const projectSection = ref(null)
 const hoveredProjectUrl = ref(null)
@@ -117,6 +119,8 @@ const onMouseMove = (event) => {
 }
 
 onMounted(() => {
+  console.log('Project section mounted: emitting ready')
+  
   // Circle animation
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -157,13 +161,8 @@ onMounted(() => {
       )
     }
   })
-})
 
-// 👇 This is critical!
-const emit = defineEmits(['ready'])
-
-onMounted(() => {
-  console.log('Section mounted: emitting ready') // ✅ Add log to confirm
+  // Emit ready after animations are set up
   emit('ready')
 })
 </script>
