@@ -16,10 +16,10 @@
                 <span class="text-huge">👨‍💻</span>
               </div>
             </div>
-            <h3 class="text-large font-semibold mt-6" ref="profileName">{{ personalInfo.name }}</h3>
-            <p class="text-normal mt-2 opacity-70" ref="profileRole">{{ personalInfo.role }}</p>
+            <h3 class="text-large font-semibold mt-6" ref="profileName">{{ portfolioData.personalInfo.name }}</h3>
+            <p class="text-normal mt-2 opacity-70" ref="profileRole">{{ portfolioData.personalInfo.role }}</p>
             <p class="text-small mt-2 opacity-50" ref="profileExp">3+ Years Experience</p>
-            <p class="text-small mt-2 opacity-50" ref="profileEducation">{{ education.degree }}</p>
+            <p class="text-small mt-2 opacity-50" ref="profileEducation">{{ portfolioData.education.degree }}</p>
           </div>
         </div>
 
@@ -29,14 +29,14 @@
           <div class="education-grid" ref="educationGrid">
             <!-- Education Item -->
             <div class="education-item interactive-hover" ref="education1">
-              <h4 class="text-normal font-medium">{{ education.degree }}</h4>
-              <p class="text-small opacity-70 mt-1">{{ education.school }}</p>
-              <p class="text-tiny opacity-50 mt-1">{{ education.period }} • {{ education.distinction }}</p>
+              <h4 class="text-normal font-medium">{{ portfolioData.education.degree }}</h4>
+              <p class="text-small opacity-70 mt-1">{{ portfolioData.education.school }}</p>
+              <p class="text-tiny opacity-50 mt-1">{{ portfolioData.education.period }} • {{ portfolioData.education.distinction }}</p>
             </div>
             
             <!-- Achievements -->
             <div 
-              v-for="(achievement, index) in achievements" 
+              v-for="(achievement, index) in portfolioData.achievements" 
               :key="index"
               class="achievement-item interactive-hover" 
               :ref="el => setAchievementRef(el, index)"
@@ -52,7 +52,7 @@
           <h3 class="text-large font-semibold mb-8" ref="skillsTitle">Technical Skills</h3>
           <div class="skills-grid" ref="skillsGrid">
             <div 
-              v-for="(skill, index) in skills" 
+              v-for="(skill, index) in portfolioData.skills" 
               :key="index"
               class="skill-item interactive-hover" 
               :ref="el => setSkillItem(el, index)"
@@ -78,7 +78,7 @@
           <h3 class="text-large font-semibold mb-8" ref="timelineTitle">Work Experience</h3>
           <div class="timeline" ref="timelineContainer">
             <div 
-              v-for="(item, index) in workExperience" 
+              v-for="(item, index) in portfolioData.workExperience" 
               :key="index"
               class="timeline-item interactive-hover" 
               :ref="el => setTimelineItem(el, index)"
@@ -104,7 +104,7 @@
           <h3 class="text-large font-semibold mb-8" ref="certificationsTitle">Certifications</h3>
           <div class="certifications-grid" ref="certificationsGrid">
             <div 
-              v-for="(cert, index) in certifications" 
+              v-for="(cert, index) in portfolioData.certifications" 
               :key="index"
               class="certification-item interactive-hover"
               :ref="el => setCertificationRef(el, index)"
@@ -131,7 +131,9 @@ import ScrollMarquee from '@/components/ScrollMarquee.vue'
 
 const emit = defineEmits(['ready'])
 
-const { personalInfo, education, achievements, skills, workExperience, certifications } = usePortfolioData()
+// Get all portfolio data as a reactive object
+const portfolioData = usePortfolioData()
+
 const { waitForGSAP, createScrollTrigger, animateIn, staggerIn, refreshScrollTrigger } = useAnimations()
 
 const aboutSection = ref(null)
@@ -303,7 +305,7 @@ function setupAnimations() {
         animation: useNuxtApp().$gsap.fromTo(bar, 
           { width: '0%' },
           {
-            width: skills[index].level + '%',
+            width: portfolioData.skills[index].level + '%',
             duration: 1.5,
             ease: "power2.out"
           }
