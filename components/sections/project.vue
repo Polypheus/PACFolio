@@ -1,6 +1,6 @@
 <template>
   <div class="project-section" ref="projectSection">
-    <div class="container flex-col relative z-10">
+    <div class="container">
       <!-- Section title -->
       <h2 class="section-title text-mega mb-20 text-center" ref="title">
         Projects
@@ -93,7 +93,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
@@ -120,8 +120,13 @@ const arrow1 = ref(null)
 const arrow2 = ref(null)
 const arrow3 = ref(null)
 
-onMounted(() => {
-  // Section title animation with morphing effect
+onMounted(async () => {
+  await nextTick()
+  setupAnimations()
+})
+
+function setupAnimations() {
+  // Section title animation
   gsap.fromTo(title.value,
     { opacity: 0, y: 100, scale: 0.5, rotation: -5 },
     {
@@ -134,8 +139,7 @@ onMounted(() => {
       scrollTrigger: {
         trigger: title.value,
         start: 'top 80%',
-        end: 'bottom 60%',
-        scrub: 1
+        toggleActions: "play none none reverse"
       }
     }
   )
@@ -171,7 +175,8 @@ onMounted(() => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: project.card,
-            start: 'top 85%'
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
         }
       )
@@ -187,27 +192,31 @@ onMounted(() => {
           ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: project.number,
-            start: 'top 85%'
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
         }
       )
 
       // Content stagger animation
-      gsap.fromTo(project.content.children,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          delay: index * 0.2 + 0.5,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: project.content,
-            start: 'top 85%'
+      if (project.content && project.content.children) {
+        gsap.fromTo(project.content.children,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            delay: index * 0.2 + 0.5,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: project.content,
+              start: 'top 85%',
+              toggleActions: "play none none reverse"
+            }
           }
-        }
-      )
+        )
+      }
 
       // Arrow bounce animation
       gsap.fromTo(project.arrow,
@@ -221,7 +230,8 @@ onMounted(() => {
           ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: project.arrow,
-            start: 'top 85%'
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
         }
       )
@@ -241,36 +251,8 @@ onMounted(() => {
     }
   })
 
-  // Parallax effect for projects container
-  gsap.to(projectsContainer.value, {
-    yPercent: -5,
-    ease: "none",
-    scrollTrigger: {
-      trigger: projectSection.value,
-      start: "top bottom",
-      end: "bottom top",
-      scrub: true
-    }
-  })
-
-  // Tags animation on scroll
-  ScrollTrigger.batch('.tag', {
-    onEnter: (elements) => {
-      gsap.fromTo(elements, 
-        { scale: 0, opacity: 0 },
-        { 
-          scale: 1, 
-          opacity: 1, 
-          duration: 0.5, 
-          stagger: 0.1,
-          ease: "back.out(1.7)"
-        }
-      )
-    }
-  })
-
   emit('ready')
-})
+}
 </script>
 
 <style scoped lang="scss">
@@ -278,11 +260,19 @@ onMounted(() => {
   min-height: 100vh;
   background: var(--white);
   padding: 6rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .projects-container {
-  max-width: 1200px;
-  margin: 0 auto 6rem;
+  margin-bottom: 6rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;

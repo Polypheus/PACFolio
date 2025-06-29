@@ -1,12 +1,11 @@
 <template>
-  <div class="hero-section">
+  <div class="hero-section" ref="heroSection">
     <GooeyBlob />
     
     <div class="container text-center flex-col relative z-10">
       <!-- Main title -->
       <h1 
         class="intro text-hero mb-8" 
-        :class="{ 'animate-intro': animate }"
         ref="mainTitle"
       >
         PAUL ANDREW<br>CONSUNJI
@@ -15,7 +14,6 @@
       <!-- Primary role -->
       <h2 
         class="intro1 text-large mb-6 font-light tracking-wide" 
-        :class="{ 'animate-intro1': animate }"
         ref="subtitle"
       >
         Frontend Developer
@@ -24,21 +22,20 @@
       <!-- Location -->
       <p 
         class="intro2 text-normal mb-12 opacity-60" 
-        :class="{ 'animate-intro2': animate }"
         ref="location"
       >
         Metro Manila, Philippines
       </p>
 
       <!-- CTA button -->
-      <div class="intro3 mb-16" :class="{ 'animate-intro3': animate }" ref="ctaButton">
+      <div class="intro3 mb-16" ref="ctaButton">
         <button class="btn-minimal text-normal" @click="scrollToWork">
           View My Work
         </button>
       </div>
 
       <!-- Stats -->
-      <div class="hero-stats" :class="{ 'animate-stats': animate }" ref="heroStats">
+      <div class="hero-stats mb-16" ref="heroStats">
         <div class="stat-item" ref="stat1">
           <div class="stat-number text-huge font-light">50+</div>
           <div class="stat-label text-small">Projects</div>
@@ -54,7 +51,7 @@
       </div>
 
       <!-- Scroll indicator -->
-      <div class="scroll-indicator" :class="{ 'animate-scroll': animate }" ref="scrollIndicator">
+      <div class="scroll-indicator" ref="scrollIndicator">
         <div class="scroll-line"></div>
         <div class="scroll-text text-tiny">SCROLL</div>
       </div>
@@ -63,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import GooeyBlob from '@/components/GooeyBlob.vue'
@@ -75,7 +72,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['ready'])
-const animate = ref(false)
+
+const heroSection = ref(null)
 const mainTitle = ref(null)
 const subtitle = ref(null)
 const location = ref(null)
@@ -86,72 +84,119 @@ const stat1 = ref(null)
 const stat2 = ref(null)
 const stat3 = ref(null)
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick()
+  
   if (props.loaderDone) {
-    triggerAnimation()
+    setupAnimations()
   }
-  
-  // Parallax effect on scroll
-  gsap.to(mainTitle.value, {
-    yPercent: -50,
-    ease: "none",
-    scrollTrigger: {
-      trigger: mainTitle.value,
-      start: "top bottom",
-      end: "bottom top",
-      scrub: true
-    }
-  })
-  
-  // Fade out hero content on scroll
-  gsap.to([subtitle.value, location.value, ctaButton.value], {
-    opacity: 0,
-    y: -30,
-    ease: "none",
-    scrollTrigger: {
-      trigger: heroStats.value,
-      start: "top bottom",
-      end: "center center",
-      scrub: true
-    }
-  })
-  
-  // Stats counter animation on scroll
-  ScrollTrigger.create({
-    trigger: heroStats.value,
-    start: "top 80%",
-    onEnter: () => {
-      gsap.fromTo([stat1.value, stat2.value, stat3.value], 
-        { scale: 0.8, opacity: 0 },
-        { 
-          scale: 1, 
-          opacity: 1, 
-          duration: 0.8, 
-          stagger: 0.2,
-          ease: "back.out(1.7)"
-        }
-      )
-    }
-  })
 })
 
 watch(() => props.loaderDone, (newVal) => {
   if (newVal) {
-    triggerAnimation()
+    setupAnimations()
   }
 })
 
-function triggerAnimation() {
-  animate.value = true
+function setupAnimations() {
+  // Initial entrance animations
+  const tl = gsap.timeline()
+  
+  // Set initial states
+  gsap.set([mainTitle.value, subtitle.value, location.value, ctaButton.value, heroStats.value, scrollIndicator.value], {
+    opacity: 0,
+    y: 50
+  })
+  
+  // Entrance sequence
+  tl.to(mainTitle.value, {
+    opacity: 1,
+    y: 0,
+    duration: 1.5,
+    ease: "power3.out"
+  })
+  .to(subtitle.value, {
+    opacity: 1,
+    y: 0,
+    duration: 1.2,
+    ease: "power2.out"
+  }, "-=1")
+  .to(location.value, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    ease: "power2.out"
+  }, "-=0.8")
+  .to(ctaButton.value, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    ease: "back.out(1.7)"
+  }, "-=0.6")
+  .to(heroStats.value, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    ease: "power2.out"
+  }, "-=0.4")
+  .to(scrollIndicator.value, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    ease: "power2.out"
+  }, "-=0.2")
+  
+  // Parallax effects
+  gsap.to(mainTitle.value, {
+    yPercent: -30,
+    ease: "none",
+    scrollTrigger: {
+      trigger: heroSection.value,
+      start: "top top",
+      end: "bottom top",
+      scrub: 1
+    }
+  })
+  
+  gsap.to([subtitle.value, location.value], {
+    yPercent: -20,
+    opacity: 0,
+    ease: "none",
+    scrollTrigger: {
+      trigger: heroSection.value,
+      start: "top top",
+      end: "center top",
+      scrub: 1
+    }
+  })
+  
+  // Stats animation on scroll
+  gsap.fromTo([stat1.value, stat2.value, stat3.value], 
+    { scale: 0.8, opacity: 0.5 },
+    { 
+      scale: 1, 
+      opacity: 1, 
+      duration: 1,
+      stagger: 0.2,
+      ease: "back.out(1.7)",
+      scrollTrigger: {
+        trigger: heroStats.value,
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      }
+    }
+  )
+  
   setTimeout(() => {
     emit('ready')
   }, 3000)
 }
 
 function scrollToWork() {
-  document.querySelector('.about-section')?.scrollIntoView({ 
-    behavior: 'smooth' 
-  })
+  const aboutSection = document.querySelector('.about-section')
+  if (aboutSection) {
+    aboutSection.scrollIntoView({ behavior: 'smooth' })
+  }
 }
 </script>
 
@@ -161,13 +206,22 @@ function scrollToWork() {
   background: var(--white);
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .hero-stats {
   display: flex;
   justify-content: center;
   gap: 4rem;
-  opacity: 0;
   margin-bottom: 4rem;
 }
 
@@ -190,7 +244,6 @@ function scrollToWork() {
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  opacity: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -214,57 +267,6 @@ function scrollToWork() {
 @keyframes scroll-bounce {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
-}
-
-/* Animations */
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(2rem);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-.intro, .intro1, .intro2, .intro3, .hero-stats, .scroll-indicator {
-  opacity: 0;
-}
-
-.animate-intro {
-  animation: fadeInUp 1.5s ease-out forwards;
-  animation-delay: 0.5s;
-}
-
-.animate-intro1 {
-  animation: fadeInUp 1.2s ease-out forwards;
-  animation-delay: 1s;
-}
-
-.animate-intro2 {
-  animation: fadeInUp 1s ease-out forwards;
-  animation-delay: 1.3s;
-}
-
-.animate-intro3 {
-  animation: fadeInUp 1s ease-out forwards;
-  animation-delay: 1.6s;
-}
-
-.animate-stats {
-  animation: fadeIn 1s ease-out forwards;
-  animation-delay: 2s;
-}
-
-.animate-scroll {
-  animation: fadeIn 1s ease-out forwards;
-  animation-delay: 2.5s;
 }
 
 @media (max-width: 768px) {

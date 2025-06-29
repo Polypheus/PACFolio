@@ -1,6 +1,6 @@
 <template>
   <div class="contact-section" ref="contactSection">
-    <div class="container flex-col relative z-10">
+    <div class="container">
       <!-- Section title -->
       <h2 class="section-title text-mega mb-20 text-center" ref="title">
         Contact
@@ -72,7 +72,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
@@ -97,7 +97,12 @@ const linkedinCard = ref(null)
 const githubCard = ref(null)
 const phoneCard = ref(null)
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick()
+  setupAnimations()
+})
+
+function setupAnimations() {
   // Section title with dramatic entrance
   gsap.fromTo(title.value,
     { 
@@ -116,8 +121,7 @@ onMounted(() => {
       scrollTrigger: {
         trigger: title.value,
         start: 'top 80%',
-        end: 'bottom 60%',
-        scrub: 1
+        toggleActions: "play none none reverse"
       }
     }
   )
@@ -133,7 +137,8 @@ onMounted(() => {
       ease: "power2.out",
       scrollTrigger: {
         trigger: ctaTitle.value,
-        start: 'top 80%'
+        start: 'top 80%',
+        toggleActions: "play none none reverse"
       }
     }
   )
@@ -148,7 +153,8 @@ onMounted(() => {
       ease: "power2.out",
       scrollTrigger: {
         trigger: ctaDescription.value,
-        start: 'top 80%'
+        start: 'top 80%',
+        toggleActions: "play none none reverse"
       }
     }
   )
@@ -164,7 +170,8 @@ onMounted(() => {
       ease: "back.out(1.7)",
       scrollTrigger: {
         trigger: ctaButton.value,
-        start: 'top 80%'
+        start: 'top 80%',
+        toggleActions: "play none none reverse"
       }
     }
   )
@@ -191,7 +198,8 @@ onMounted(() => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: card,
-            start: 'top 85%'
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
         }
       )
@@ -227,39 +235,14 @@ onMounted(() => {
       ease: "power2.out",
       scrollTrigger: {
         trigger: footerMessage.value,
-        start: 'top 90%'
+        start: 'top 90%',
+        toggleActions: "play none none reverse"
       }
     }
   )
 
-  // Parallax effect for contact content
-  gsap.to(contactContent.value, {
-    yPercent: -8,
-    ease: "none",
-    scrollTrigger: {
-      trigger: contactSection.value,
-      start: "top bottom",
-      end: "bottom top",
-      scrub: true
-    }
-  })
-
-  // Contact cards floating animation
-  contactCards.forEach((card, index) => {
-    if (card) {
-      gsap.to(card, {
-        y: "random(-5, 5)",
-        duration: "random(2, 4)",
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: index * 0.5
-      })
-    }
-  })
-
   emit('ready')
-})
+}
 </script>
 
 <style scoped lang="scss">
@@ -267,11 +250,18 @@ onMounted(() => {
   min-height: 100vh;
   background: var(--gray-50);
   padding: 6rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .contact-content {
-  max-width: 1200px;
-  margin: 0 auto;
   text-align: center;
 }
 

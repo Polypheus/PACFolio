@@ -1,6 +1,6 @@
 <template>
   <div class="about-section" ref="aboutSection">
-    <div class="container flex-col relative z-10">
+    <div class="container">
       <!-- Section title -->
       <h2 class="section-title text-mega mb-20 text-center" ref="title">
         About
@@ -26,11 +26,11 @@
         <div class="skills-showcase" ref="skillsShowcase">
           <h3 class="text-large font-semibold mb-8" ref="skillsTitle">Skills</h3>
           <div class="skills-grid" ref="skillsGrid">
-            <div class="skill-item interactive-hover" v-for="(skill, index) in skills" :key="skill.name" :ref="el => skillItems[index] = el">
+            <div class="skill-item interactive-hover" v-for="(skill, index) in skills" :key="skill.name" :ref="el => setSkillItem(el, index)">
               <span class="skill-name text-normal">{{ skill.name }}</span>
               <span class="skill-level text-small opacity-60">{{ skill.level }}%</span>
               <div class="skill-bar">
-                <div class="skill-progress" :ref="el => skillBars[index] = el" :style="{ width: '0%' }"></div>
+                <div class="skill-progress" :ref="el => setSkillBar(el, index)"></div>
               </div>
             </div>
           </div>
@@ -40,8 +40,8 @@
         <div class="experience-timeline" ref="timeline">
           <h3 class="text-large font-semibold mb-8" ref="timelineTitle">Experience</h3>
           <div class="timeline" ref="timelineContainer">
-            <div class="timeline-item interactive-hover" v-for="(item, index) in timelineData" :key="index" :ref="el => timelineItems[index] = el">
-              <div class="timeline-dot" :ref="el => timelineDots[index] = el"></div>
+            <div class="timeline-item interactive-hover" v-for="(item, index) in timelineData" :key="index" :ref="el => setTimelineItem(el, index)">
+              <div class="timeline-dot" :ref="el => setTimelineDot(el, index)"></div>
               <div class="timeline-content">
                 <h4 class="text-normal font-medium">{{ item.title }}</h4>
                 <p class="text-small opacity-70 mt-1">{{ item.description }}</p>
@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
@@ -88,6 +88,22 @@ const skillBars = ref([])
 const timelineItems = ref([])
 const timelineDots = ref([])
 
+const setSkillItem = (el, index) => {
+  if (el) skillItems.value[index] = el
+}
+
+const setSkillBar = (el, index) => {
+  if (el) skillBars.value[index] = el
+}
+
+const setTimelineItem = (el, index) => {
+  if (el) timelineItems.value[index] = el
+}
+
+const setTimelineDot = (el, index) => {
+  if (el) timelineDots.value[index] = el
+}
+
 const skills = [
   { name: 'Vue.js', level: 95 },
   { name: 'JavaScript', level: 90 },
@@ -104,7 +120,12 @@ const timelineData = [
   { title: 'Professional Developer', description: 'Working on modern applications', date: '2024' }
 ]
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick()
+  setupAnimations()
+})
+
+function setupAnimations() {
   // Section title animation
   gsap.fromTo(title.value, 
     { opacity: 0, y: 100, scale: 0.8 },
@@ -117,8 +138,7 @@ onMounted(() => {
       scrollTrigger: {
         trigger: title.value,
         start: 'top 80%',
-        end: 'bottom 60%',
-        scrub: 1
+        toggleActions: "play none none reverse"
       }
     }
   )
@@ -134,7 +154,8 @@ onMounted(() => {
       ease: "power2.out",
       scrollTrigger: {
         trigger: profileCard.value,
-        start: 'top 80%'
+        start: 'top 80%',
+        toggleActions: "play none none reverse"
       }
     }
   )
@@ -149,7 +170,8 @@ onMounted(() => {
       ease: "back.out(1.7)",
       scrollTrigger: {
         trigger: profileImage.value,
-        start: 'top 80%'
+        start: 'top 80%',
+        toggleActions: "play none none reverse"
       }
     }
   )
@@ -165,26 +187,13 @@ onMounted(() => {
       ease: "power2.out",
       scrollTrigger: {
         trigger: profileName.value,
-        start: 'top 85%'
+        start: 'top 85%',
+        toggleActions: "play none none reverse"
       }
     }
   )
 
-  // Skills title
-  gsap.fromTo(skillsTitle.value,
-    { opacity: 0, x: -50 },
-    {
-      opacity: 1,
-      x: 0,
-      duration: 1,
-      scrollTrigger: {
-        trigger: skillsTitle.value,
-        start: 'top 80%'
-      }
-    }
-  )
-
-  // Skills items animation
+  // Skills animations
   skillItems.value.forEach((item, index) => {
     if (item) {
       gsap.fromTo(item,
@@ -198,7 +207,8 @@ onMounted(() => {
           ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: item,
-            start: 'top 85%'
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
         }
       )
@@ -208,31 +218,21 @@ onMounted(() => {
   // Skill bars animation
   skillBars.value.forEach((bar, index) => {
     if (bar) {
-      gsap.to(bar, {
-        width: skills[index].level + '%',
-        duration: 1.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: bar,
-          start: 'top 80%'
+      gsap.fromTo(bar, 
+        { width: '0%' },
+        {
+          width: skills[index].level + '%',
+          duration: 1.5,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: bar,
+            start: 'top 80%',
+            toggleActions: "play none none reverse"
+          }
         }
-      })
+      )
     }
   })
-
-  // Timeline title
-  gsap.fromTo(timelineTitle.value,
-    { opacity: 0, x: 50 },
-    {
-      opacity: 1,
-      x: 0,
-      duration: 1,
-      scrollTrigger: {
-        trigger: timelineTitle.value,
-        start: 'top 80%'
-      }
-    }
-  )
 
   // Timeline items
   timelineItems.value.forEach((item, index) => {
@@ -248,7 +248,8 @@ onMounted(() => {
           ease: "power2.out",
           scrollTrigger: {
             trigger: item,
-            start: 'top 85%'
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
         }
       )
@@ -267,27 +268,16 @@ onMounted(() => {
           ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: dot,
-            start: 'top 85%'
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
         }
       )
     }
   })
 
-  // Parallax effect for content grid
-  gsap.to(contentGrid.value, {
-    yPercent: -10,
-    ease: "none",
-    scrollTrigger: {
-      trigger: aboutSection.value,
-      start: "top bottom",
-      end: "bottom top",
-      scrub: true
-    }
-  })
-
   emit('ready')
-})
+}
 </script>
 
 <style scoped lang="scss">
@@ -295,14 +285,22 @@ onMounted(() => {
   min-height: 100vh;
   background: var(--gray-50);
   padding: 6rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .content-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  max-width: 1200px;
-  margin: 0 auto 6rem;
+  margin-bottom: 6rem;
 }
 
 .profile-card {
@@ -357,7 +355,7 @@ onMounted(() => {
   height: 100%;
   background: var(--black);
   border-radius: 2px;
-  transition: width 2s ease;
+  width: 0%;
 }
 
 .experience-timeline {
