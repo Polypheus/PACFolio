@@ -104,105 +104,105 @@ onMounted(async () => {
 
 function setupAnimations() {
   // Section title with dramatic entrance
-  gsap.fromTo(title.value,
-    { 
-      opacity: 0, 
-      y: 150, 
-      scale: 0.3,
-      rotation: 10
-    },
-    {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotation: 0,
-      duration: 1.8,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: title.value,
-        start: 'top 80%',
-        toggleActions: "play none none reverse"
+  ScrollTrigger.create({
+    trigger: title.value,
+    start: 'top 80%',
+    toggleActions: "play none none reverse",
+    animation: gsap.fromTo(title.value,
+      { 
+        opacity: 0, 
+        y: 150, 
+        scale: 0.3,
+        rotation: 10
+      },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        rotation: 0,
+        duration: 1.8,
+        ease: "power3.out"
       }
-    }
-  )
+    )
+  })
 
   // CTA section animations
-  gsap.fromTo(ctaTitle.value,
-    { opacity: 0, y: 50, scale: 0.8 },
-    {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration: 1,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: ctaTitle.value,
-        start: 'top 80%',
-        toggleActions: "play none none reverse"
+  ScrollTrigger.create({
+    trigger: ctaTitle.value,
+    start: 'top 80%',
+    toggleActions: "play none none reverse",
+    animation: gsap.fromTo(ctaTitle.value,
+      { opacity: 0, y: 50, scale: 0.8 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1,
+        ease: "power2.out"
       }
-    }
-  )
+    )
+  })
 
-  gsap.fromTo(ctaDescription.value,
-    { opacity: 0, y: 30 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      delay: 0.2,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: ctaDescription.value,
-        start: 'top 80%',
-        toggleActions: "play none none reverse"
+  ScrollTrigger.create({
+    trigger: ctaDescription.value,
+    start: 'top 80%',
+    toggleActions: "play none none reverse",
+    animation: gsap.fromTo(ctaDescription.value,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.2,
+        ease: "power2.out"
       }
-    }
-  )
+    )
+  })
 
-  gsap.fromTo(ctaButton.value,
-    { opacity: 0, scale: 0.5, y: 20 },
-    {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      duration: 0.8,
-      delay: 0.4,
-      ease: "back.out(1.7)",
-      scrollTrigger: {
-        trigger: ctaButton.value,
-        start: 'top 80%',
-        toggleActions: "play none none reverse"
+  ScrollTrigger.create({
+    trigger: ctaButton.value,
+    start: 'top 80%',
+    toggleActions: "play none none reverse",
+    animation: gsap.fromTo(ctaButton.value,
+      { opacity: 0, scale: 0.5, y: 20 },
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.8,
+        delay: 0.4,
+        ease: "back.out(1.7)"
       }
-    }
-  )
+    )
+  })
 
   // Contact cards with staggered entrance
   const contactCards = [emailCard.value, linkedinCard.value, githubCard.value, phoneCard.value]
   
   contactCards.forEach((card, index) => {
     if (card) {
-      gsap.fromTo(card,
-        { 
-          opacity: 0, 
-          y: 80, 
-          scale: 0.8,
-          rotationX: -15
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          rotationX: 0,
-          duration: 1,
-          delay: index * 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            toggleActions: "play none none reverse"
+      ScrollTrigger.create({
+        trigger: card,
+        start: 'top 85%',
+        toggleActions: "play none none reverse",
+        animation: gsap.fromTo(card,
+          { 
+            opacity: 0, 
+            y: 80, 
+            scale: 0.8,
+            rotationX: -15
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            rotationX: 0,
+            duration: 1,
+            delay: index * 0.15,
+            ease: "power3.out"
           }
-        }
-      )
+        )
+      })
 
       // Individual card hover animations
       card.addEventListener('mouseenter', () => {
@@ -226,20 +226,20 @@ function setupAnimations() {
   })
 
   // Footer message fade in
-  gsap.fromTo(footerMessage.value,
-    { opacity: 0, y: 30 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 1.2,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: footerMessage.value,
-        start: 'top 90%',
-        toggleActions: "play none none reverse"
+  ScrollTrigger.create({
+    trigger: footerMessage.value,
+    start: 'top 90%',
+    toggleActions: "play none none reverse",
+    animation: gsap.fromTo(footerMessage.value,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: "power2.out"
       }
-    }
-  )
+    )
+  })
 
   emit('ready')
 }

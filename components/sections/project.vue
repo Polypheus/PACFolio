@@ -1,5 +1,5 @@
 <template>
-  <div class="project-section" ref="projectSection">
+  <div class="project-section" ref="projectSection" @mousemove="onMouseMove">
     <div class="container">
       <!-- Section title -->
       <h2 class="section-title text-mega mb-20 text-center" ref="title">
@@ -11,7 +11,7 @@
           href="https://polynotes.netlify.app/"
           target="_blank"
           class="project-link"
-          @mouseenter="hoveredProject = 'polynotes'"
+          @mouseenter="hoveredProject = { url: 'https://polynotes.netlify.app/', name: 'polynotes' }"
           @mouseleave="hoveredProject = null"
         >
           <div class="project-card interactive-hover" ref="project1">
@@ -37,7 +37,7 @@
           href="https://rtu-pdsms.onrender.com/"
           target="_blank"
           class="project-link"
-          @mouseenter="hoveredProject = 'rtu'"
+          @mouseenter="hoveredProject = { url: 'https://rtu-pdsms.onrender.com/', name: 'rtu' }"
           @mouseleave="hoveredProject = null"
         >
           <div class="project-card interactive-hover" ref="project2">
@@ -63,7 +63,7 @@
           href="https://pacfolio.netlify.app/"
           target="_blank"
           class="project-link"
-          @mouseenter="hoveredProject = 'portfolio'"
+          @mouseenter="hoveredProject = { url: 'https://pacfolio.netlify.app/', name: 'portfolio' }"
           @mouseleave="hoveredProject = null"
         >
           <div class="project-card interactive-hover" ref="project3">
@@ -89,6 +89,26 @@
     
     <!-- Marquee -->
     <ScrollMarquee :items="['FRONTEND', 'DEVELOPER', 'PORTFOLIO', 'PROJECTS', 'CREATIVE']" />
+
+    <!-- Enhanced Iframe Preview -->
+    <transition name="preview-fade">
+      <div
+        v-if="hoveredProject"
+        class="iframe-preview"
+        :style="{ left: `${mouseX + 30}px`, top: `${mouseY - 200}px` }"
+      >
+        <div class="preview-header">
+          <div class="preview-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="preview-url text-tiny">{{ hoveredProject.url }}</div>
+        </div>
+        <iframe :src="hoveredProject.url" frameborder="0" scrolling="no"></iframe>
+        <div class="preview-glow"></div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -106,6 +126,8 @@ const projectSection = ref(null)
 const title = ref(null)
 const projectsContainer = ref(null)
 const hoveredProject = ref(null)
+const mouseX = ref(0)
+const mouseY = ref(0)
 
 const project1 = ref(null)
 const project2 = ref(null)
@@ -120,6 +142,11 @@ const arrow1 = ref(null)
 const arrow2 = ref(null)
 const arrow3 = ref(null)
 
+const onMouseMove = (event) => {
+  mouseX.value = event.clientX
+  mouseY.value = event.clientY
+}
+
 onMounted(async () => {
   await nextTick()
   setupAnimations()
@@ -127,22 +154,22 @@ onMounted(async () => {
 
 function setupAnimations() {
   // Section title animation
-  gsap.fromTo(title.value,
-    { opacity: 0, y: 100, scale: 0.5, rotation: -5 },
-    {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotation: 0,
-      duration: 1.5,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: title.value,
-        start: 'top 80%',
-        toggleActions: "play none none reverse"
+  ScrollTrigger.create({
+    trigger: title.value,
+    start: 'top 80%',
+    toggleActions: "play none none reverse",
+    animation: gsap.fromTo(title.value,
+      { opacity: 0, y: 100, scale: 0.5, rotation: -5 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        rotation: 0,
+        duration: 1.5,
+        ease: "power3.out"
       }
-    }
-  )
+    )
+  })
 
   // Project cards entrance animations
   const projects = [
@@ -156,85 +183,85 @@ function setupAnimations() {
       // Card slide in from different directions
       const direction = index % 2 === 0 ? -100 : 100
       
-      gsap.fromTo(project.card,
-        { 
-          opacity: 0, 
-          x: direction, 
-          y: 50,
-          scale: 0.8,
-          rotationY: direction > 0 ? 15 : -15
-        },
-        {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          scale: 1,
-          rotationY: 0,
-          duration: 1.2,
-          delay: index * 0.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: project.card,
-            start: 'top 85%',
-            toggleActions: "play none none reverse"
+      ScrollTrigger.create({
+        trigger: project.card,
+        start: 'top 85%',
+        toggleActions: "play none none reverse",
+        animation: gsap.fromTo(project.card,
+          { 
+            opacity: 0, 
+            x: direction, 
+            y: 50,
+            scale: 0.8,
+            rotationY: direction > 0 ? 15 : -15
+          },
+          {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            scale: 1,
+            rotationY: 0,
+            duration: 1.2,
+            delay: index * 0.2,
+            ease: "power3.out"
           }
-        }
-      )
+        )
+      })
 
       // Number animation
-      gsap.fromTo(project.number,
-        { scale: 0, rotation: 180 },
-        {
-          scale: 1,
-          rotation: 0,
-          duration: 1,
-          delay: index * 0.2 + 0.3,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: project.number,
-            start: 'top 85%',
-            toggleActions: "play none none reverse"
+      ScrollTrigger.create({
+        trigger: project.number,
+        start: 'top 85%',
+        toggleActions: "play none none reverse",
+        animation: gsap.fromTo(project.number,
+          { scale: 0, rotation: 180 },
+          {
+            scale: 1,
+            rotation: 0,
+            duration: 1,
+            delay: index * 0.2 + 0.3,
+            ease: "back.out(1.7)"
           }
-        }
-      )
+        )
+      })
 
       // Content stagger animation
       if (project.content && project.content.children) {
-        gsap.fromTo(project.content.children,
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            delay: index * 0.2 + 0.5,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: project.content,
-              start: 'top 85%',
-              toggleActions: "play none none reverse"
+        ScrollTrigger.create({
+          trigger: project.content,
+          start: 'top 85%',
+          toggleActions: "play none none reverse",
+          animation: gsap.fromTo(project.content.children,
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.1,
+              delay: index * 0.2 + 0.5,
+              ease: "power2.out"
             }
-          }
-        )
+          )
+        })
       }
 
       // Arrow bounce animation
-      gsap.fromTo(project.arrow,
-        { opacity: 0, x: -20, scale: 0.5 },
-        {
-          opacity: 1,
-          x: 0,
-          scale: 1,
-          duration: 0.8,
-          delay: index * 0.2 + 0.7,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: project.arrow,
-            start: 'top 85%',
-            toggleActions: "play none none reverse"
+      ScrollTrigger.create({
+        trigger: project.arrow,
+        start: 'top 85%',
+        toggleActions: "play none none reverse",
+        animation: gsap.fromTo(project.arrow,
+          { opacity: 0, x: -20, scale: 0.5 },
+          {
+            opacity: 1,
+            x: 0,
+            scale: 1,
+            duration: 0.8,
+            delay: index * 0.2 + 0.7,
+            ease: "back.out(1.7)"
           }
-        }
-      )
+        )
+      })
 
       // Hover animations
       project.card.addEventListener('mouseenter', () => {
@@ -263,6 +290,7 @@ function setupAnimations() {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 }
 
 .container {
@@ -345,11 +373,107 @@ function setupAnimations() {
   opacity: 0.6;
 }
 
+.iframe-preview {
+  position: fixed;
+  width: 600px;
+  height: 400px;
+  background: var(--white);
+  z-index: 1000;
+  pointer-events: none;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.15),
+    0 0 0 1px var(--gray-200);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  .preview-header {
+    height: 40px;
+    background: var(--gray-100);
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 1rem;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  
+  .preview-dots {
+    display: flex;
+    gap: 6px;
+    
+    span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      
+      &:nth-child(1) { background: #ff5f57; }
+      &:nth-child(2) { background: #ffbd2e; }
+      &:nth-child(3) { background: #28ca42; }
+    }
+  }
+  
+  .preview-url {
+    background: var(--white);
+    color: var(--gray-600);
+    padding: 4px 8px;
+    border-radius: 4px;
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  iframe {
+    width: 100%;
+    height: calc(100% - 40px);
+    border: none;
+    background: var(--white);
+    transform: scale(0.5);
+    transform-origin: top left;
+    width: 200%;
+    height: calc(200% - 80px);
+  }
+  
+  .preview-glow {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--gray-300), var(--gray-400));
+    border-radius: 10px;
+    z-index: -1;
+    opacity: 0.5;
+    filter: blur(8px);
+  }
+}
+
+.preview-fade-enter-active,
+.preview-fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.preview-fade-enter-from {
+  opacity: 0;
+  transform: scale(0.8) translateY(20px);
+}
+
+.preview-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.9) translateY(-10px);
+}
+
 @media (max-width: 768px) {
   .project-card {
     grid-template-columns: 1fr;
     text-align: center;
     gap: 1.5rem;
+  }
+  
+  .iframe-preview {
+    width: 90vw;
+    height: 60vh;
+    left: 5vw !important;
+    top: 20vh !important;
   }
 }
 </style>
