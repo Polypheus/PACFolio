@@ -27,12 +27,14 @@
         <div class="education-achievements" ref="educationSection">
           <h3 class="text-large font-semibold mb-8" ref="educationTitle">Education & Achievements</h3>
           <div class="education-grid" ref="educationGrid">
+            <!-- Education Item -->
             <div class="education-item interactive-hover" ref="education1">
               <h4 class="text-normal font-medium">{{ education.degree }}</h4>
               <p class="text-small opacity-70 mt-1">{{ education.school }}</p>
               <p class="text-tiny opacity-50 mt-1">{{ education.period }} • {{ education.distinction }}</p>
             </div>
             
+            <!-- Achievements -->
             <div 
               v-for="(achievement, index) in achievements" 
               :key="achievement.title"
@@ -49,12 +51,25 @@
         <div class="skills-showcase" ref="skillsShowcase">
           <h3 class="text-large font-semibold mb-8" ref="skillsTitle">Technical Skills</h3>
           <div class="skills-grid" ref="skillsGrid">
-            <SkillBar 
+            <div 
               v-for="(skill, index) in skills" 
               :key="skill.name"
-              :skill="skill"
-              :index="index"
-            />
+              class="skill-item interactive-hover" 
+              :ref="el => setSkillItem(el, index)"
+            >
+              <div class="skill-header">
+                <span class="skill-name text-normal font-medium">{{ skill.name }}</span>
+                <span class="skill-level text-small opacity-60">{{ skill.level }}%</span>
+              </div>
+              <div class="skill-bar">
+                <div 
+                  class="skill-progress" 
+                  :ref="el => setSkillBar(el, index)"
+                  :style="{ backgroundColor: getCategoryColor(skill.category) }"
+                ></div>
+              </div>
+              <div class="skill-category text-tiny opacity-40 mt-1">{{ skill.category }}</div>
+            </div>
           </div>
         </div>
 
@@ -62,12 +77,25 @@
         <div class="experience-timeline" ref="timeline">
           <h3 class="text-large font-semibold mb-8" ref="timelineTitle">Work Experience</h3>
           <div class="timeline" ref="timelineContainer">
-            <TimelineItem 
+            <div 
               v-for="(item, index) in workExperience" 
               :key="item.title"
-              :item="item"
-              :index="index"
-            />
+              class="timeline-item interactive-hover" 
+              :ref="el => setTimelineItem(el, index)"
+            >
+              <div class="timeline-dot" :ref="el => setTimelineDot(el, index)"></div>
+              <div class="timeline-content">
+                <h4 class="text-normal font-medium">{{ item.title }}</h4>
+                <p class="text-small opacity-70 mt-1">{{ item.company }}</p>
+                <p class="text-small opacity-70 mt-1">{{ item.description }}</p>
+                <div class="timeline-meta">
+                  <span class="text-tiny opacity-50">{{ item.period }}</span>
+                  <span class="timeline-type text-tiny" :class="getTypeClass(item.type)">
+                    {{ item.type }}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -100,8 +128,6 @@ import { ref, onMounted, nextTick } from 'vue'
 import { usePortfolioData } from '@/composables/usePortfolioData'
 import { useAnimations } from '@/composables/useAnimations'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
-import SkillBar from '@/components/ui/SkillBar.vue'
-import TimelineItem from '@/components/ui/TimelineItem.vue'
 
 const emit = defineEmits(['ready'])
 
@@ -120,6 +146,10 @@ const education1 = ref(null)
 
 const achievementRefs = ref([])
 const certificationRefs = ref([])
+const skillItems = ref([])
+const skillBars = ref([])
+const timelineItems = ref([])
+const timelineDots = ref([])
 
 let animationsSetup = false
 
@@ -129,6 +159,43 @@ const setAchievementRef = (el, index) => {
 
 const setCertificationRef = (el, index) => {
   if (el) certificationRefs.value[index] = el
+}
+
+const setSkillItem = (el, index) => {
+  if (el) skillItems.value[index] = el
+}
+
+const setSkillBar = (el, index) => {
+  if (el) skillBars.value[index] = el
+}
+
+const setTimelineItem = (el, index) => {
+  if (el) timelineItems.value[index] = el
+}
+
+const setTimelineDot = (el, index) => {
+  if (el) timelineDots.value[index] = el
+}
+
+const getCategoryColor = (category) => {
+  const colors = {
+    frontend: 'var(--black)',
+    backend: 'var(--gray-600)',
+    design: 'var(--gray-500)',
+    specialized: 'var(--gray-700)',
+    tools: 'var(--gray-400)',
+    technical: 'var(--gray-800)'
+  }
+  return colors[category] || 'var(--black)'
+}
+
+const getTypeClass = (type) => {
+  const classes = {
+    'full-time': 'bg-green-100 text-green-800',
+    'internship': 'bg-blue-100 text-blue-800',
+    'part-time': 'bg-yellow-100 text-yellow-800'
+  }
+  return classes[type] || 'bg-gray-100 text-gray-800'
 }
 
 onMounted(async () => {
@@ -205,6 +272,86 @@ function setupAnimations() {
       }),
       toggleActions: "play none none reverse"
     })
+  })
+
+  // Skills animations
+  skillItems.value.forEach((item, index) => {
+    if (item) {
+      createScrollTrigger({
+        trigger: item,
+        start: 'top 85%',
+        animation: animateIn(item, {
+          from: { y: 50, scale: 0.8 },
+          to: { 
+            scale: 1, 
+            duration: 0.8, 
+            delay: index * 0.1, 
+            ease: "back.out(1.7)" 
+          }
+        }),
+        toggleActions: "play none none reverse"
+      })
+    }
+  })
+
+  // Skill bars animation
+  skillBars.value.forEach((bar, index) => {
+    if (bar) {
+      createScrollTrigger({
+        trigger: bar,
+        start: 'top 80%',
+        animation: useNuxtApp().$gsap.fromTo(bar, 
+          { width: '0%' },
+          {
+            width: skills[index].level + '%',
+            duration: 1.5,
+            ease: "power2.out"
+          }
+        ),
+        toggleActions: "play none none reverse"
+      })
+    }
+  })
+
+  // Timeline items
+  timelineItems.value.forEach((item, index) => {
+    if (item) {
+      createScrollTrigger({
+        trigger: item,
+        start: 'top 85%',
+        animation: animateIn(item, {
+          from: { x: 100, scale: 0.9 },
+          to: { 
+            x: 0, 
+            scale: 1, 
+            duration: 1, 
+            delay: index * 0.2, 
+            ease: "power2.out" 
+          }
+        }),
+        toggleActions: "play none none reverse"
+      })
+    }
+  })
+
+  // Timeline dots pulse
+  timelineDots.value.forEach((dot, index) => {
+    if (dot) {
+      createScrollTrigger({
+        trigger: dot,
+        start: 'top 85%',
+        animation: useNuxtApp().$gsap.fromTo(dot,
+          { scale: 0 },
+          {
+            scale: 1,
+            duration: 0.6,
+            delay: index * 0.2,
+            ease: "back.out(1.7)"
+          }
+        ),
+        toggleActions: "play none none reverse"
+      })
+    }
   })
 
   // Certifications animations
@@ -305,6 +452,46 @@ function setupAnimations() {
   gap: 2rem;
 }
 
+.skill-item {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.skill-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--gray-200);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.skill-progress {
+  height: 100%;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.skill-category {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .experience-timeline {
   grid-column: span 2;
 }
@@ -322,6 +509,46 @@ function setupAnimations() {
   bottom: 0;
   width: 1px;
   background: var(--gray-300);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  margin-left: 1rem;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -2.25rem;
+  top: 1.5rem;
+  width: 8px;
+  height: 8px;
+  background: var(--black);
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  z-index: 2;
+}
+
+.timeline-content {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.timeline-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.timeline-type {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .certifications-section {
