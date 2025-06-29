@@ -429,4 +429,3 @@ function triggerAnimation() {
   }
 }
 </style>
-</template>
