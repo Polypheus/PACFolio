@@ -9,55 +9,54 @@
       <!-- Content grid -->
       <div class="content-grid" ref="contentGrid">
         <!-- Profile card -->
-        <div class="profile-card interactive-hover" ref="profileCard">
+        <BaseCard variant="default" padding="large" interactive class="profile-card" ref="profileCard">
           <div class="profile-content">
             <div class="profile-image" ref="profileImage">
               <div class="image-placeholder">
                 <span class="text-huge">👨‍💻</span>
               </div>
             </div>
-            <h3 class="text-large font-semibold mt-6" ref="profileName">Paul Andrew Consunji</h3>
-            <p class="text-normal mt-2 opacity-70" ref="profileRole">Frontend Developer</p>
+            <h3 class="text-large font-semibold mt-6" ref="profileName">{{ personalInfo.name }}</h3>
+            <p class="text-normal mt-2 opacity-70" ref="profileRole">{{ personalInfo.role }}</p>
             <p class="text-small mt-2 opacity-50" ref="profileExp">3+ Years Experience</p>
-            <p class="text-small mt-2 opacity-50" ref="profileEducation">BS Information Technology</p>
+            <p class="text-small mt-2 opacity-50" ref="profileEducation">{{ education.degree }}</p>
           </div>
-        </div>
+        </BaseCard>
 
         <!-- Education & Achievements -->
-        <div class="education-achievements" ref="educationSection">
+        <BaseCard variant="default" padding="large" class="education-achievements" ref="educationSection">
           <h3 class="text-large font-semibold mb-8" ref="educationTitle">Education & Achievements</h3>
           <div class="education-grid" ref="educationGrid">
-            <div class="education-item interactive-hover" ref="education1">
-              <h4 class="text-normal font-medium">Bachelor of Science in Information Technology</h4>
-              <p class="text-small opacity-70 mt-1">Rizal Technological University</p>
-              <p class="text-tiny opacity-50 mt-1">2020-2024 • Cum Laude</p>
-            </div>
-            <div class="achievement-item interactive-hover" ref="achievement1">
-              <h4 class="text-normal font-medium">Academic Achiever</h4>
-              <p class="text-small opacity-70 mt-1">Since Freshmen Year</p>
-            </div>
-            <div class="achievement-item interactive-hover" ref="achievement2">
-              <h4 class="text-normal font-medium">Dean's Lister</h4>
-              <p class="text-small opacity-70 mt-1">Since Freshmen Year</p>
-            </div>
-            <div class="achievement-item interactive-hover" ref="achievement3">
-              <h4 class="text-normal font-medium">Pasig City Scholar</h4>
-              <p class="text-small opacity-70 mt-1">Since First Year College</p>
-            </div>
+            <BaseCard variant="elevated" padding="normal" interactive ref="education1">
+              <h4 class="text-normal font-medium">{{ education.degree }}</h4>
+              <p class="text-small opacity-70 mt-1">{{ education.school }}</p>
+              <p class="text-tiny opacity-50 mt-1">{{ education.period }} • {{ education.distinction }}</p>
+            </BaseCard>
+            
+            <BaseCard 
+              v-for="(achievement, index) in achievements" 
+              :key="achievement.title"
+              variant="elevated" 
+              padding="normal" 
+              interactive 
+              :ref="el => setAchievementRef(el, index)"
+            >
+              <h4 class="text-normal font-medium">{{ achievement.title }}</h4>
+              <p class="text-small opacity-70 mt-1">{{ achievement.description }}</p>
+            </BaseCard>
           </div>
-        </div>
+        </BaseCard>
 
         <!-- Skills showcase -->
         <div class="skills-showcase" ref="skillsShowcase">
           <h3 class="text-large font-semibold mb-8" ref="skillsTitle">Technical Skills</h3>
           <div class="skills-grid" ref="skillsGrid">
-            <div class="skill-item interactive-hover" v-for="(skill, index) in skills" :key="skill.name" :ref="el => setSkillItem(el, index)">
-              <span class="skill-name text-normal">{{ skill.name }}</span>
-              <span class="skill-level text-small opacity-60">{{ skill.level }}%</span>
-              <div class="skill-bar">
-                <div class="skill-progress" :ref="el => setSkillBar(el, index)"></div>
-              </div>
-            </div>
+            <SkillBar 
+              v-for="(skill, index) in skills" 
+              :key="skill.name"
+              :skill="skill"
+              :index="index"
+            />
           </div>
         </div>
 
@@ -65,15 +64,12 @@
         <div class="experience-timeline" ref="timeline">
           <h3 class="text-large font-semibold mb-8" ref="timelineTitle">Work Experience</h3>
           <div class="timeline" ref="timelineContainer">
-            <div class="timeline-item interactive-hover" v-for="(item, index) in timelineData" :key="index" :ref="el => setTimelineItem(el, index)">
-              <div class="timeline-dot" :ref="el => setTimelineDot(el, index)"></div>
-              <div class="timeline-content">
-                <h4 class="text-normal font-medium">{{ item.title }}</h4>
-                <p class="text-small opacity-70 mt-1">{{ item.company }}</p>
-                <p class="text-small opacity-70 mt-1">{{ item.description }}</p>
-                <span class="text-tiny opacity-50 mt-2 block">{{ item.date }}</span>
-              </div>
-            </div>
+            <TimelineItem 
+              v-for="(item, index) in workExperience" 
+              :key="item.title"
+              :item="item"
+              :index="index"
+            />
           </div>
         </div>
 
@@ -81,11 +77,18 @@
         <div class="certifications-section" ref="certificationsSection">
           <h3 class="text-large font-semibold mb-8" ref="certificationsTitle">Certifications</h3>
           <div class="certifications-grid" ref="certificationsGrid">
-            <div class="certification-item interactive-hover" v-for="(cert, index) in certifications" :key="index" :ref="el => setCertificationItem(el, index)">
+            <BaseCard 
+              v-for="(cert, index) in certifications" 
+              :key="cert.name"
+              variant="default" 
+              padding="normal" 
+              interactive
+              :ref="el => setCertificationRef(el, index)"
+            >
               <h4 class="text-normal font-medium">{{ cert.name }}</h4>
               <p class="text-small opacity-70 mt-1">{{ cert.issuer }}</p>
               <span class="text-tiny opacity-50 mt-1">{{ cert.year }}</span>
-            </div>
+            </BaseCard>
           </div>
         </div>
       </div>
@@ -98,338 +101,138 @@
 
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
+import { usePortfolioData } from '@/composables/usePortfolioData'
+import { useAnimations } from '@/composables/useAnimations'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
+import BaseCard from '@/components/ui/BaseCard.vue'
+import SkillBar from '@/components/ui/SkillBar.vue'
+import TimelineItem from '@/components/ui/TimelineItem.vue'
 
 const emit = defineEmits(['ready'])
 
+const { personalInfo, education, achievements, skills, workExperience, certifications } = usePortfolioData()
+const { waitForGSAP, createScrollTrigger, animateIn, staggerIn, refreshScrollTrigger } = useAnimations()
+
 const aboutSection = ref(null)
 const title = ref(null)
-const contentGrid = ref(null)
 const profileCard = ref(null)
 const profileImage = ref(null)
 const profileName = ref(null)
 const profileRole = ref(null)
 const profileExp = ref(null)
 const profileEducation = ref(null)
-const educationSection = ref(null)
-const educationTitle = ref(null)
-const educationGrid = ref(null)
 const education1 = ref(null)
-const achievement1 = ref(null)
-const achievement2 = ref(null)
-const achievement3 = ref(null)
-const skillsShowcase = ref(null)
-const skillsTitle = ref(null)
-const skillsGrid = ref(null)
-const timeline = ref(null)
-const timelineTitle = ref(null)
-const timelineContainer = ref(null)
-const certificationsSection = ref(null)
-const certificationsTitle = ref(null)
-const certificationsGrid = ref(null)
 
-const skillItems = ref([])
-const skillBars = ref([])
-const timelineItems = ref([])
-const timelineDots = ref([])
-const certificationItems = ref([])
-
-const { $gsap, $ScrollTrigger } = useNuxtApp()
+const achievementRefs = ref([])
+const certificationRefs = ref([])
 
 let animationsSetup = false
 
-const setSkillItem = (el, index) => {
-  if (el) skillItems.value[index] = el
+const setAchievementRef = (el, index) => {
+  if (el) achievementRefs.value[index] = el
 }
 
-const setSkillBar = (el, index) => {
-  if (el) skillBars.value[index] = el
+const setCertificationRef = (el, index) => {
+  if (el) certificationRefs.value[index] = el
 }
-
-const setTimelineItem = (el, index) => {
-  if (el) timelineItems.value[index] = el
-}
-
-const setTimelineDot = (el, index) => {
-  if (el) timelineDots.value[index] = el
-}
-
-const setCertificationItem = (el, index) => {
-  if (el) certificationItems.value[index] = el
-}
-
-const skills = [
-  { name: 'HTML/CSS', level: 95 },
-  { name: 'JavaScript', level: 90 },
-  { name: 'Vue.js/Nuxt.js', level: 88 },
-  { name: 'Node.js/Express', level: 85 },
-  { name: 'PHP/MySQL', level: 80 },
-  { name: 'MongoDB', level: 75 },
-  { name: 'Figma', level: 85 },
-  { name: 'Adobe Creative Cloud', level: 80 },
-  { name: 'Blender (3D)', level: 70 },
-  { name: 'Video Editing', level: 75 }
-]
-
-const timelineData = [
-  { 
-    title: 'ATM Technician (Probationary)', 
-    company: 'One Point Contact Inc',
-    description: 'Servicing and repairing ATM machines both offsite and at bank branches',
-    date: '2024-2025' 
-  },
-  { 
-    title: 'Assistant Computer Technician (OJT)', 
-    company: 'Rizal Technological University',
-    description: 'Managed and maintained computers in Computer Laboratory',
-    date: '2023' 
-  },
-  { 
-    title: 'Graphic Designer (OJT)', 
-    company: 'Teravision',
-    description: 'Managed social media and created graphics design including posters',
-    date: '2023' 
-  }
-]
-
-const certifications = [
-  { name: 'CSS NC II', issuer: 'Capellan Institute of Technology, Inc.', year: '2019' },
-  { name: 'CompTIA Network+', issuer: 'Capellan Institute of Technology, Inc.', year: '2019' },
-  { name: 'Google\'s Foundation of Cyber Security', issuer: 'Coursera', year: '2023' },
-  { name: 'TOPCIT Examination', issuer: 'Rizal Technological University', year: '2024' }
-]
 
 onMounted(async () => {
   await nextTick()
   
   if (process.client) {
-    const waitForGSAP = () => {
-      if ($gsap && $ScrollTrigger && !animationsSetup) {
+    waitForGSAP(() => {
+      if (!animationsSetup) {
         setupAnimations()
-      } else if (!animationsSetup) {
-        setTimeout(waitForGSAP, 50)
       }
-    }
-    
-    // Wait a bit for the page to settle
-    setTimeout(waitForGSAP, 200)
+    }, 200)
   }
 })
 
 function setupAnimations() {
-  if (animationsSetup || !process.client || !$gsap || !$ScrollTrigger) return
+  if (animationsSetup || !process.client) return
   animationsSetup = true
 
   // Section title animation
-  $ScrollTrigger.create({
+  createScrollTrigger({
     trigger: title.value,
     start: 'top 80%',
-    animation: $gsap.fromTo(title.value, 
-      { opacity: 0, y: 100, scale: 0.8 },
-      { 
-        opacity: 1, 
-        y: 0,
-        scale: 1,
-        duration: 1.2,
-        ease: "power3.out"
-      }
-    ),
-    toggleActions: "play none none reverse",
-    refreshPriority: -1
+    animation: animateIn(title.value, {
+      from: { y: 100, scale: 0.8 },
+      to: { duration: 1.2, ease: "power3.out" }
+    }),
+    toggleActions: "play none none reverse"
   })
 
   // Profile card animations
-  $ScrollTrigger.create({
+  createScrollTrigger({
     trigger: profileCard.value,
     start: 'top 80%',
-    animation: $gsap.fromTo(profileCard.value,
-      { opacity: 0, x: -100, rotationY: -15 },
-      {
-        opacity: 1,
-        x: 0,
-        rotationY: 0,
-        duration: 1.2,
-        ease: "power2.out"
-      }
-    ),
-    toggleActions: "play none none reverse",
-    refreshPriority: -1
+    animation: animateIn(profileCard.value, {
+      from: { x: -100, rotationY: -15 },
+      to: { x: 0, rotationY: 0, duration: 1.2, ease: "power2.out" }
+    }),
+    toggleActions: "play none none reverse"
   })
 
   // Profile image bounce effect
-  $ScrollTrigger.create({
+  createScrollTrigger({
     trigger: profileImage.value,
     start: 'top 80%',
-    animation: $gsap.fromTo(profileImage.value,
+    animation: useNuxtApp().$gsap.fromTo(profileImage.value,
       { scale: 0, rotation: -180 },
-      {
-        scale: 1,
-        rotation: 0,
-        duration: 1,
-        ease: "back.out(1.7)"
-      }
+      { scale: 1, rotation: 0, duration: 1, ease: "back.out(1.7)" }
     ),
-    toggleActions: "play none none reverse",
-    refreshPriority: -1
+    toggleActions: "play none none reverse"
   })
 
   // Profile text stagger
-  $ScrollTrigger.create({
+  createScrollTrigger({
     trigger: profileName.value,
     start: 'top 85%',
-    animation: $gsap.fromTo([profileName.value, profileRole.value, profileExp.value, profileEducation.value],
-      { opacity: 0, y: 20 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power2.out"
-      }
-    ),
-    toggleActions: "play none none reverse",
-    refreshPriority: -1
+    animation: staggerIn([profileName.value, profileRole.value, profileExp.value, profileEducation.value]),
+    toggleActions: "play none none reverse"
   })
 
-  // Education and achievements animations
-  const educationElements = [education1.value, achievement1.value, achievement2.value, achievement3.value]
+  // Education and achievements
+  const educationElements = [education1.value, ...achievementRefs.value].filter(Boolean)
   educationElements.forEach((item, index) => {
-    if (item) {
-      $ScrollTrigger.create({
-        trigger: item,
-        start: 'top 85%',
-        animation: $gsap.fromTo(item,
-          { opacity: 0, y: 50, scale: 0.8 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            delay: index * 0.1,
-            ease: "back.out(1.7)"
-          }
-        ),
-        toggleActions: "play none none reverse",
-        refreshPriority: -1
-      })
-    }
-  })
-
-  // Skills animations
-  skillItems.value.forEach((item, index) => {
-    if (item) {
-      $ScrollTrigger.create({
-        trigger: item,
-        start: 'top 85%',
-        animation: $gsap.fromTo(item,
-          { opacity: 0, y: 50, scale: 0.8 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            delay: index * 0.1,
-            ease: "back.out(1.7)"
-          }
-        ),
-        toggleActions: "play none none reverse",
-        refreshPriority: -1
-      })
-    }
-  })
-
-  // Skill bars animation
-  skillBars.value.forEach((bar, index) => {
-    if (bar) {
-      $ScrollTrigger.create({
-        trigger: bar,
-        start: 'top 80%',
-        animation: $gsap.fromTo(bar, 
-          { width: '0%' },
-          {
-            width: skills[index].level + '%',
-            duration: 1.5,
-            ease: "power2.out"
-          }
-        ),
-        toggleActions: "play none none reverse",
-        refreshPriority: -1
-      })
-    }
-  })
-
-  // Timeline items
-  timelineItems.value.forEach((item, index) => {
-    if (item) {
-      $ScrollTrigger.create({
-        trigger: item,
-        start: 'top 85%',
-        animation: $gsap.fromTo(item,
-          { opacity: 0, x: 100, scale: 0.9 },
-          {
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            duration: 1,
-            delay: index * 0.2,
-            ease: "power2.out"
-          }
-        ),
-        toggleActions: "play none none reverse",
-        refreshPriority: -1
-      })
-    }
-  })
-
-  // Timeline dots pulse
-  timelineDots.value.forEach((dot, index) => {
-    if (dot) {
-      $ScrollTrigger.create({
-        trigger: dot,
-        start: 'top 85%',
-        animation: $gsap.fromTo(dot,
-          { scale: 0 },
-          {
-            scale: 1,
-            duration: 0.6,
-            delay: index * 0.2,
-            ease: "back.out(1.7)"
-          }
-        ),
-        toggleActions: "play none none reverse",
-        refreshPriority: -1
-      })
-    }
+    createScrollTrigger({
+      trigger: item,
+      start: 'top 85%',
+      animation: animateIn(item, {
+        from: { y: 50, scale: 0.8 },
+        to: { 
+          scale: 1, 
+          duration: 0.8, 
+          delay: index * 0.1, 
+          ease: "back.out(1.7)" 
+        }
+      }),
+      toggleActions: "play none none reverse"
+    })
   })
 
   // Certifications animations
-  certificationItems.value.forEach((item, index) => {
+  certificationRefs.value.forEach((item, index) => {
     if (item) {
-      $ScrollTrigger.create({
+      createScrollTrigger({
         trigger: item,
         start: 'top 85%',
-        animation: $gsap.fromTo(item,
-          { opacity: 0, y: 30, scale: 0.9 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            delay: index * 0.1,
-            ease: "power2.out"
+        animation: animateIn(item, {
+          from: { y: 30, scale: 0.9 },
+          to: { 
+            scale: 1, 
+            duration: 0.8, 
+            delay: index * 0.1, 
+            ease: "power2.out" 
           }
-        ),
-        toggleActions: "play none none reverse",
-        refreshPriority: -1
+        }),
+        toggleActions: "play none none reverse"
       })
     }
   })
 
-  // Force refresh after all animations are set up
-  setTimeout(() => {
-    $ScrollTrigger.refresh()
-  }, 100)
-
+  refreshScrollTrigger()
   emit('ready')
 }
 </script>
@@ -458,10 +261,6 @@ function setupAnimations() {
 }
 
 .profile-card {
-  background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 0.5rem;
-  padding: 3rem;
   text-align: center;
 }
 
@@ -477,24 +276,9 @@ function setupAnimations() {
   border: 1px solid var(--gray-200);
 }
 
-.education-achievements {
-  background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 0.5rem;
-  padding: 3rem;
-}
-
 .education-grid {
   display: grid;
   gap: 1.5rem;
-}
-
-.education-item,
-.achievement-item {
-  background: var(--gray-50);
-  border: 1px solid var(--gray-200);
-  border-radius: 0.5rem;
-  padding: 1.5rem;
 }
 
 .skills-showcase {
@@ -505,31 +289,6 @@ function setupAnimations() {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-}
-
-.skill-item {
-  background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.skill-bar {
-  width: 100%;
-  height: 4px;
-  background: var(--gray-200);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.skill-progress {
-  height: 100%;
-  background: var(--black);
-  border-radius: 2px;
-  width: 0%;
 }
 
 .experience-timeline {
@@ -551,27 +310,6 @@ function setupAnimations() {
   background: var(--gray-300);
 }
 
-.timeline-item {
-  position: relative;
-  margin-bottom: 2rem;
-  background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  margin-left: 1rem;
-}
-
-.timeline-dot {
-  position: absolute;
-  left: -2.25rem;
-  top: 1.5rem;
-  width: 8px;
-  height: 8px;
-  background: var(--black);
-  border-radius: 50%;
-  border: 2px solid var(--white);
-}
-
 .certifications-section {
   grid-column: span 2;
 }
@@ -580,13 +318,6 @@ function setupAnimations() {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
-}
-
-.certification-item {
-  background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 0.5rem;
-  padding: 1.5rem;
 }
 
 @media (max-width: 768px) {

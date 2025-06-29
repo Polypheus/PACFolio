@@ -4,49 +4,38 @@
     
     <div class="container text-center flex-col relative z-10">
       <!-- Main title -->
-      <h1 
-        class="intro text-hero mb-8" 
-        ref="mainTitle"
-      >
-        PAUL ANDREW<br>CONSUNJI
+      <h1 class="intro text-hero mb-8" ref="mainTitle">
+        {{ personalInfo.name.split(' ').slice(0, 2).join(' ') }}<br>
+        {{ personalInfo.name.split(' ').slice(2).join(' ') }}
       </h1>
       
       <!-- Primary role -->
-      <h2 
-        class="intro1 text-large mb-6 font-light tracking-wide" 
-        ref="subtitle"
-      >
-        Frontend Developer
+      <h2 class="intro1 text-large mb-6 font-light tracking-wide" ref="subtitle">
+        {{ personalInfo.role }}
       </h2>
       
       <!-- Location -->
-      <p 
-        class="intro2 text-normal mb-12 opacity-60" 
-        ref="location"
-      >
-        Metro Manila, Philippines
+      <p class="intro2 text-normal mb-12 opacity-60" ref="location">
+        {{ personalInfo.location }}
       </p>
 
       <!-- CTA button -->
       <div class="intro3 mb-16" ref="ctaButton">
-        <button class="btn-minimal text-normal" @click="scrollToWork">
+        <BaseButton @click="scrollToWork">
           View My Work
-        </button>
+        </BaseButton>
       </div>
 
       <!-- Stats -->
       <div class="hero-stats mb-16" ref="heroStats">
-        <div class="stat-item" ref="stat1">
-          <div class="stat-number text-huge font-light">50+</div>
-          <div class="stat-label text-small">Projects</div>
-        </div>
-        <div class="stat-item" ref="stat2">
-          <div class="stat-number text-huge font-light">3+</div>
-          <div class="stat-label text-small">Years</div>
-        </div>
-        <div class="stat-item" ref="stat3">
-          <div class="stat-number text-huge font-light">100%</div>
-          <div class="stat-label text-small">Satisfaction</div>
+        <div 
+          v-for="(stat, index) in stats" 
+          :key="stat.label"
+          class="stat-item" 
+          :ref="el => setStatRef(el, index)"
+        >
+          <div class="stat-number text-huge font-light">{{ stat.value }}</div>
+          <div class="stat-label text-small">{{ stat.label }}</div>
         </div>
       </div>
 
@@ -61,13 +50,19 @@
 
 <script setup>
 import { ref, watch, onMounted, nextTick } from 'vue'
+import { usePortfolioData } from '@/composables/usePortfolioData'
+import { useAnimations } from '@/composables/useAnimations'
 import GooeyBlob from '@/components/GooeyBlob.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 
 const props = defineProps({
   loaderDone: Boolean
 })
 
 const emit = defineEmits(['ready'])
+
+const { personalInfo, stats } = usePortfolioData()
+const { createTimeline, setupParallax, waitForGSAP, refreshScrollTrigger } = useAnimations()
 
 const heroSection = ref(null)
 const mainTitle = ref(null)
@@ -76,45 +71,45 @@ const location = ref(null)
 const ctaButton = ref(null)
 const heroStats = ref(null)
 const scrollIndicator = ref(null)
-const stat1 = ref(null)
-const stat2 = ref(null)
-const stat3 = ref(null)
-
-const { $gsap, $ScrollTrigger } = useNuxtApp()
+const statRefs = ref([])
 
 let animationsSetup = false
+
+const setStatRef = (el, index) => {
+  if (el) statRefs.value[index] = el
+}
 
 onMounted(async () => {
   await nextTick()
   
-  // Wait for GSAP to be available
   if (process.client) {
-    const waitForGSAP = () => {
-      if ($gsap && $ScrollTrigger && props.loaderDone && !animationsSetup) {
+    waitForGSAP(() => {
+      if (props.loaderDone && !animationsSetup) {
         setupAnimations()
-      } else if (!animationsSetup) {
-        setTimeout(waitForGSAP, 50)
       }
-    }
-    waitForGSAP()
+    })
   }
 })
 
 watch(() => props.loaderDone, (newVal) => {
-  if (newVal && $gsap && $ScrollTrigger && !animationsSetup) {
-    setupAnimations()
+  if (newVal && !animationsSetup) {
+    waitForGSAP(setupAnimations)
   }
 })
 
 function setupAnimations() {
-  if (animationsSetup || !process.client || !$gsap || !$ScrollTrigger) return
+  if (animationsSetup || !process.client) return
   animationsSetup = true
 
-  // Initial entrance animations
-  const tl = $gsap.timeline()
+  const tl = createTimeline()
   
+  if (!tl) return
+
   // Set initial states
-  $gsap.set([mainTitle.value, subtitle.value, location.value, ctaButton.value, heroStats.value, scrollIndicator.value], {
+  const { $gsap } = useNuxtApp()
+  const elements = [mainTitle.value, subtitle.value, location.value, ctaButton.value, heroStats.value, scrollIndicator.value]
+  
+  $gsap.set(elements, {
     opacity: 0,
     y: 50
   })
@@ -157,11 +152,10 @@ function setupAnimations() {
     ease: "power2.out"
   }, "-=0.2")
   
-  // Wait for animations to complete before setting up scroll triggers
   tl.call(() => {
-    // Small delay to ensure DOM is stable
     setTimeout(() => {
-      setupScrollTriggers()
+      setupScrollEffects()
+      refreshScrollTrigger()
     }, 100)
   })
   
@@ -170,40 +164,17 @@ function setupAnimations() {
   }, 3000)
 }
 
-function setupScrollTriggers() {
-  if (!$gsap || !$ScrollTrigger) return
-
-  // Parallax effects on scroll
-  $ScrollTrigger.create({
-    trigger: heroSection.value,
-    start: "top top",
-    end: "bottom top",
-    scrub: 1,
-    animation: $gsap.to(mainTitle.value, {
-      yPercent: -30,
-      ease: "none"
-    }),
-    refreshPriority: -1
-  })
+function setupScrollEffects() {
+  // Parallax effects
+  setupParallax(mainTitle.value, { yPercent: -30 })
+  setupParallax([subtitle.value, location.value], { yPercent: -20, opacity: 0 })
   
-  $ScrollTrigger.create({
-    trigger: heroSection.value,
-    start: "top top",
-    end: "center top",
-    scrub: 1,
-    animation: $gsap.to([subtitle.value, location.value], {
-      yPercent: -20,
-      opacity: 0,
-      ease: "none"
-    }),
-    refreshPriority: -1
-  })
-  
-  // Stats animation on scroll
-  $ScrollTrigger.create({
+  // Stats animation
+  const { createScrollTrigger } = useAnimations()
+  createScrollTrigger({
     trigger: heroStats.value,
     start: "top 80%",
-    animation: $gsap.fromTo([stat1.value, stat2.value, stat3.value], 
+    animation: useNuxtApp().$gsap.fromTo(statRefs.value, 
       { scale: 0.8, opacity: 0.5 },
       { 
         scale: 1, 
@@ -213,12 +184,8 @@ function setupScrollTriggers() {
         ease: "back.out(1.7)"
       }
     ),
-    toggleActions: "play none none reverse",
-    refreshPriority: -1
+    toggleActions: "play none none reverse"
   })
-
-  // Force refresh after setup
-  $ScrollTrigger.refresh()
 }
 
 function scrollToWork() {
