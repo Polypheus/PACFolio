@@ -6,26 +6,29 @@
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
       </div>
     </div>
 
     <div class="container flex-col relative z-10">
-      <!-- Section title -->
-      <h2 class="section-title text-[120px] font-black mb-16 holographic" ref="title">
+      <!-- Section title - MASSIVE and attention-grabbing -->
+      <h2 class="section-title text-mega mb-24 holographic" ref="title">
         LET'S CONNECT
       </h2>
 
       <!-- Contact content -->
-      <div class="contact-content max-w-6xl mx-auto">
+      <div class="contact-content max-w-7xl mx-auto">
         <!-- Main CTA -->
-        <div class="main-cta mb-20" ref="mainCta">
-          <h3 class="text-6xl font-bold mb-8 neon-text">Ready to Build Something Amazing?</h3>
-          <p class="text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+        <div class="main-cta mb-32" ref="mainCta">
+          <!-- Big impactful headline -->
+          <h3 class="text-huge font-black mb-8 neon-text">Ready to Build Something Amazing?</h3>
+          <!-- Medium supporting text -->
+          <p class="text-medium text-gray-300 mb-16 max-w-4xl mx-auto leading-relaxed">
             I'm always excited to work on new projects and collaborate with creative minds. 
-            Let's turn your ideas into reality!
+            Let's turn your ideas into reality with cutting-edge web solutions!
           </p>
           <button class="primary-cta-button group">
-            <span class="relative z-10">Start a Conversation</span>
+            <span class="relative z-10 text-medium font-bold">START A CONVERSATION</span>
             <div class="button-bg"></div>
             <div class="button-glow"></div>
           </button>
@@ -33,6 +36,8 @@
 
         <!-- Contact methods -->
         <div class="contact-methods" ref="contactMethods">
+          <!-- Section heading -->
+          <h4 class="text-large font-bold mb-16 text-center gradient-text-primary">GET IN TOUCH</h4>
           <div class="contact-grid">
             <!-- Email -->
             <a href="mailto:paulandrew.consunji@example.com" class="contact-card email-card group">
@@ -42,9 +47,12 @@
                 </svg>
               </div>
               <div class="contact-info">
-                <h4 class="contact-title">Email</h4>
-                <p class="contact-detail">paulandrew.consunji@example.com</p>
-                <span class="contact-action">Send a message →</span>
+                <!-- Contact method - Medium prominence -->
+                <h4 class="contact-title text-medium font-bold">Email</h4>
+                <!-- Contact detail - Normal size -->
+                <p class="contact-detail text-normal">paulandrew.consunji@example.com</p>
+                <!-- Action text - Small -->
+                <span class="contact-action text-small">Send a message →</span>
               </div>
               <div class="card-glow"></div>
             </a>
@@ -57,9 +65,9 @@
                 </svg>
               </div>
               <div class="contact-info">
-                <h4 class="contact-title">LinkedIn</h4>
-                <p class="contact-detail">Connect professionally</p>
-                <span class="contact-action">View profile →</span>
+                <h4 class="contact-title text-medium font-bold">LinkedIn</h4>
+                <p class="contact-detail text-normal">Connect professionally</p>
+                <span class="contact-action text-small">View profile →</span>
               </div>
               <div class="card-glow"></div>
             </a>
@@ -72,9 +80,9 @@
                 </svg>
               </div>
               <div class="contact-info">
-                <h4 class="contact-title">GitHub</h4>
-                <p class="contact-detail">Check out my code</p>
-                <span class="contact-action">View repositories →</span>
+                <h4 class="contact-title text-medium font-bold">GitHub</h4>
+                <p class="contact-detail text-normal">Check out my code</p>
+                <span class="contact-action text-small">View repositories →</span>
               </div>
               <div class="card-glow"></div>
             </a>
@@ -87,9 +95,9 @@
                 </svg>
               </div>
               <div class="contact-info">
-                <h4 class="contact-title">Phone</h4>
-                <p class="contact-detail">+63 912 345 6789</p>
-                <span class="contact-action">Give me a call →</span>
+                <h4 class="contact-title text-medium font-bold">Phone</h4>
+                <p class="contact-detail text-normal">+63 912 345 6789</p>
+                <span class="contact-action text-small">Give me a call →</span>
               </div>
               <div class="card-glow"></div>
             </a>
@@ -97,30 +105,35 @@
         </div>
 
         <!-- Social links -->
-        <div class="social-section mt-20" ref="socialSection">
-          <h4 class="text-3xl font-bold mb-8 text-center">Follow My Journey</h4>
+        <div class="social-section mt-32" ref="socialSection">
+          <h4 class="text-large font-bold mb-12 text-center gradient-text-secondary">Follow My Journey</h4>
           <div class="social-links">
             <a href="#" class="social-link twitter">
-              <span class="social-icon">🐦</span>
-              <span class="social-name">Twitter</span>
+              <span class="social-icon text-large">🐦</span>
+              <span class="social-name text-normal font-medium">Twitter</span>
+              <span class="social-handle text-small">@paulandrew_dev</span>
             </a>
             <a href="#" class="social-link instagram">
-              <span class="social-icon">📸</span>
-              <span class="social-name">Instagram</span>
+              <span class="social-icon text-large">📸</span>
+              <span class="social-name text-normal font-medium">Instagram</span>
+              <span class="social-handle text-small">@pac.codes</span>
             </a>
             <a href="#" class="social-link dribbble">
-              <span class="social-icon">🏀</span>
-              <span class="social-name">Dribbble</span>
+              <span class="social-icon text-large">🏀</span>
+              <span class="social-name text-normal font-medium">Dribbble</span>
+              <span class="social-handle text-small">@paulandrew</span>
             </a>
           </div>
         </div>
 
         <!-- Footer message -->
-        <div class="footer-message mt-20 text-center" ref="footerMessage">
-          <p class="text-xl text-gray-400">
+        <div class="footer-message mt-40 text-center" ref="footerMessage">
+          <!-- Medium prominence for main message -->
+          <p class="text-medium text-gray-400 mb-6">
             Made with ❤️ and lots of ☕ in Metro Manila
           </p>
-          <p class="text-lg text-gray-500 mt-4">
+          <!-- Small supporting text -->
+          <p class="text-small text-gray-500">
             © 2024 Paul Andrew Consunji. All rights reserved.
           </p>
         </div>
@@ -149,11 +162,13 @@ onMounted(() => {
 
   // Animate title
   gsap.fromTo(title.value,
-    { opacity: 0, y: 100 },
+    { opacity: 0, y: 150, scale: 0.5 },
     {
       opacity: 1,
       y: 0,
-      duration: 1.5,
+      scale: 1,
+      duration: 2,
+      ease: "power3.out",
       scrollTrigger: {
         trigger: title.value,
         start: 'top 80%'
@@ -163,11 +178,13 @@ onMounted(() => {
 
   // Animate main CTA
   gsap.fromTo(mainCta.value,
-    { opacity: 0, scale: 0.8 },
+    { opacity: 0, scale: 0.6, y: 100 },
     {
       opacity: 1,
       scale: 1,
-      duration: 1.2,
+      y: 0,
+      duration: 1.5,
+      ease: "back.out(1.7)",
       scrollTrigger: {
         trigger: mainCta.value,
         start: 'top 80%'
@@ -177,13 +194,15 @@ onMounted(() => {
 
   // Animate contact cards
   gsap.fromTo('.contact-card',
-    { opacity: 0, y: 50, rotateX: -15 },
+    { opacity: 0, y: 80, rotateX: -25, scale: 0.8 },
     {
       opacity: 1,
       y: 0,
       rotateX: 0,
-      duration: 0.8,
+      scale: 1,
+      duration: 1,
       stagger: 0.2,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: contactMethods.value,
         start: 'top 80%'
@@ -193,12 +212,14 @@ onMounted(() => {
 
   // Animate social links
   gsap.fromTo('.social-link',
-    { opacity: 0, scale: 0 },
+    { opacity: 0, scale: 0, rotation: -180 },
     {
       opacity: 1,
       scale: 1,
-      duration: 0.6,
-      stagger: 0.1,
+      rotation: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "back.out(1.7)",
       scrollTrigger: {
         trigger: socialSection.value,
         start: 'top 80%'
@@ -208,11 +229,12 @@ onMounted(() => {
 
   // Animate footer
   gsap.fromTo(footerMessage.value,
-    { opacity: 0, y: 30 },
+    { opacity: 0, y: 50 },
     {
       opacity: 1,
       y: 0,
-      duration: 1,
+      duration: 1.2,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: footerMessage.value,
         start: 'top 90%'
@@ -227,9 +249,9 @@ onMounted(() => {
 <style scoped lang="scss">
 .contact-section {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0a0a0a 100%);
   position: relative;
-  padding: 100px 20px;
+  padding: 120px 20px;
 }
 
 .contact-bg {
@@ -251,56 +273,66 @@ onMounted(() => {
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(40px);
-  animation: float-orb 8s ease-in-out infinite;
+  filter: blur(60px);
+  animation: float-orb 10s ease-in-out infinite;
 }
 
 .orb-1 {
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(0, 212, 255, 0.3), transparent);
-  top: 20%;
-  left: 10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.4), transparent);
+  top: 15%;
+  left: 5%;
   animation-delay: 0s;
 }
 
 .orb-2 {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(255, 0, 128, 0.2), transparent);
-  bottom: 20%;
-  right: 10%;
-  animation-delay: 3s;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 0, 128, 0.3), transparent);
+  bottom: 15%;
+  right: 5%;
+  animation-delay: 4s;
 }
 
 .orb-3 {
-  width: 250px;
-  height: 250px;
-  background: radial-gradient(circle, rgba(191, 0, 255, 0.25), transparent);
-  top: 60%;
-  left: 60%;
-  animation-delay: 6s;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(191, 0, 255, 0.35), transparent);
+  top: 50%;
+  left: 50%;
+  animation-delay: 8s;
+}
+
+.orb-4 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(57, 255, 20, 0.25), transparent);
+  top: 70%;
+  left: 20%;
+  animation-delay: 2s;
 }
 
 @keyframes float-orb {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -30px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
+  25% { transform: translate(40px, -40px) scale(1.1); }
+  50% { transform: translate(-30px, 30px) scale(0.9); }
+  75% { transform: translate(50px, -20px) scale(1.05); }
 }
 
 .primary-cta-button {
   position: relative;
-  padding: 20px 60px;
+  padding: 25px 80px;
   background: transparent;
-  border: 2px solid #00d4ff;
+  border: 3px solid #00d4ff;
   color: white;
-  font-size: 20px;
-  font-weight: bold;
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  border-radius: 12px;
+  font-family: var(--font-primary);
   
   .button-bg {
     position: absolute;
@@ -309,82 +341,85 @@ onMounted(() => {
     width: 100%;
     height: 100%;
     background: linear-gradient(45deg, #00d4ff, #ff0080);
-    transition: left 0.5s ease;
+    transition: left 0.6s ease;
     z-index: -1;
   }
   
   .button-glow {
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
     background: linear-gradient(45deg, #00d4ff, #ff0080, #39ff14, #bf00ff);
-    border-radius: inherit;
+    border-radius: 16px;
     z-index: -2;
     opacity: 0;
-    filter: blur(10px);
-    transition: opacity 0.3s ease;
+    filter: blur(20px);
+    transition: opacity 0.6s ease;
   }
   
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 212, 255, 0.3);
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 
+      0 25px 50px rgba(0, 212, 255, 0.4),
+      0 0 100px rgba(255, 0, 128, 0.3);
     
     .button-bg {
       left: 0;
     }
     
     .button-glow {
-      opacity: 0.7;
+      opacity: 0.8;
     }
   }
 }
 
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+  margin-bottom: 60px;
 }
 
 .contact-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 30px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 25px;
+  padding: 40px;
   text-decoration: none;
   color: inherit;
   display: flex;
   align-items: center;
-  gap: 20px;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  gap: 25px;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   overflow: hidden;
   
   .card-glow {
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border-radius: 22px;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 28px;
     z-index: -1;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
   }
   
   &:hover {
-    transform: translateY(-10px) scale(1.02);
-    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-15px) scale(1.03);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
     
     .card-glow {
-      opacity: 0.5;
+      opacity: 0.6;
     }
     
     .contact-action {
-      transform: translateX(10px);
+      transform: translateX(15px);
     }
   }
   
@@ -406,18 +441,19 @@ onMounted(() => {
 }
 
 .contact-icon {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   background: linear-gradient(45deg, #00d4ff, #ff0080);
-  border-radius: 15px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   
   svg {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     color: white;
   }
 }
@@ -427,27 +463,27 @@ onMounted(() => {
 }
 
 .contact-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  font-family: var(--font-secondary);
 }
 
 .contact-detail {
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 12px;
+  font-family: var(--font-body);
 }
 
 .contact-action {
   color: #00d4ff;
-  font-size: 14px;
-  font-weight: 500;
-  transition: transform 0.3s ease;
+  font-weight: 600;
+  transition: transform 0.4s ease;
+  font-family: var(--font-body);
 }
 
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 50px;
   flex-wrap: wrap;
 }
 
@@ -455,46 +491,66 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  gap: 12px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
   text-decoration: none;
   color: inherit;
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  min-width: 160px;
   
   &:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   }
   
   .social-icon {
-    font-size: 30px;
+    font-size: 2.5rem;
   }
   
   .social-name {
-    font-size: 14px;
-    font-weight: 500;
+    font-family: var(--font-secondary);
+  }
+  
+  .social-handle {
+    opacity: 0.7;
+    font-family: var(--font-mono);
   }
 }
 
 @media (max-width: 768px) {
-  .section-title {
-    font-size: 80px !important;
-  }
-  
-  .main-cta h3 {
-    font-size: 40px !important;
-  }
-  
   .contact-grid {
     grid-template-columns: 1fr;
+    gap: 30px;
   }
   
   .social-links {
-    gap: 20px;
+    gap: 30px;
+  }
+  
+  .primary-cta-button {
+    padding: 20px 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-section {
+    padding: 80px 15px;
+  }
+  
+  .contact-card {
+    padding: 30px 25px;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .social-links {
+    flex-direction: column;
+    align-items: center;
   }
 }
 </style>

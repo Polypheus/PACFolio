@@ -6,11 +6,13 @@
     <!-- Animated background -->
     <div class="project-bg">
       <div class="bg-pattern"></div>
+      <div class="bg-overlay"></div>
     </div>
 
     <!-- Project Section -->
     <section class="project-section" ref="projectSection">
-      <h2 class="section-title text-[120px] font-black mb-20 holographic text-center">
+      <!-- Section title - MASSIVE and eye-catching -->
+      <h2 class="section-title text-mega mb-32 holographic text-center">
         MY PROJECTS
       </h2>
 
@@ -23,23 +25,31 @@
           @mouseleave="hoveredProjectUrl = null"
         >
           <div class="project-card" ref="project1">
-            <div class="project-number">01</div>
+            <!-- Project number - Large and prominent -->
+            <div class="project-number text-huge font-black">01</div>
             <div class="project-content">
-              <h1 class="project-title">
+              <!-- Project name - Very large -->
+              <h1 class="project-title text-large font-black mb-3">
                 POLYNOTES
-                <span class="project-tech">Built with Loveable</span>
+                <!-- Tech badge - Small supporting info -->
+                <span class="project-tech text-tiny">Built with Loveable</span>
               </h1>
-              <p class="project-description">
-                A modern note-taking application with real-time collaboration features
+              <!-- Description - Medium size -->
+              <p class="project-description text-normal mb-4">
+                A modern note-taking application with real-time collaboration features and advanced text editing capabilities
               </p>
+              <!-- Tags - Small -->
               <div class="project-tags">
-                <span class="tag">React</span>
-                <span class="tag">TypeScript</span>
-                <span class="tag">Supabase</span>
+                <span class="tag text-tiny">React</span>
+                <span class="tag text-tiny">TypeScript</span>
+                <span class="tag text-tiny">Supabase</span>
+                <span class="tag text-tiny">Real-time</span>
               </div>
             </div>
-            <div class="project-date">3 months ago</div>
-            <div class="project-arrow">→</div>
+            <!-- Date - Small supporting info -->
+            <div class="project-date text-small">3 months ago</div>
+            <!-- Arrow - Visual element -->
+            <div class="project-arrow text-large">→</div>
           </div>
         </a>
 
@@ -51,23 +61,24 @@
           @mouseleave="hoveredProjectUrl = null"
         >
           <div class="project-card" ref="project2">
-            <div class="project-number">02</div>
+            <div class="project-number text-huge font-black">02</div>
             <div class="project-content">
-              <h1 class="project-title">
+              <h1 class="project-title text-large font-black mb-3">
                 RTU-PDSMS
-                <span class="project-tech">Thesis Project</span>
+                <span class="project-tech text-tiny">Thesis Project</span>
               </h1>
-              <p class="project-description">
-                Personnel Data and Scheduling Management System for university administration
+              <p class="project-description text-normal mb-4">
+                Personnel Data and Scheduling Management System for university administration with comprehensive reporting
               </p>
               <div class="project-tags">
-                <span class="tag">PHP</span>
-                <span class="tag">MySQL</span>
-                <span class="tag">Bootstrap</span>
+                <span class="tag text-tiny">PHP</span>
+                <span class="tag text-tiny">MySQL</span>
+                <span class="tag text-tiny">Bootstrap</span>
+                <span class="tag text-tiny">Admin Panel</span>
               </div>
             </div>
-            <div class="project-date">1 year ago</div>
-            <div class="project-arrow">→</div>
+            <div class="project-date text-small">1 year ago</div>
+            <div class="project-arrow text-large">→</div>
           </div>
         </a>
 
@@ -79,36 +90,42 @@
           @mouseleave="hoveredProjectUrl = null"
         >
           <div class="project-card" ref="project3">
-            <div class="project-number">03</div>
+            <div class="project-number text-huge font-black">03</div>
             <div class="project-content">
-              <h1 class="project-title">
+              <h1 class="project-title text-large font-black mb-3">
                 PORTFOLIO V2
-                <span class="project-tech">Personal Project</span>
+                <span class="project-tech text-tiny">Personal Project</span>
               </h1>
-              <p class="project-description">
-                Interactive portfolio showcasing modern web development skills
+              <p class="project-description text-normal mb-4">
+                Interactive portfolio showcasing modern web development skills with advanced animations and effects
               </p>
               <div class="project-tags">
-                <span class="tag">Vue.js</span>
-                <span class="tag">Nuxt</span>
-                <span class="tag">GSAP</span>
+                <span class="tag text-tiny">Vue.js</span>
+                <span class="tag text-tiny">Nuxt</span>
+                <span class="tag text-tiny">GSAP</span>
+                <span class="tag text-tiny">Interactive</span>
               </div>
             </div>
-            <div class="project-date">Current</div>
-            <div class="project-arrow">→</div>
+            <div class="project-date text-small">Current</div>
+            <div class="project-arrow text-large">→</div>
           </div>
         </a>
 
+        <!-- Coming soon section -->
         <div class="coming-soon-projects">
           <div class="coming-soon-card">
             <div class="coming-soon-content">
-              <h3 class="text-4xl font-bold holographic mb-4">MORE PROJECTS</h3>
-              <p class="text-xl text-gray-300">Coming Soon...</p>
+              <!-- Large attention-grabbing text -->
+              <h3 class="text-huge font-black holographic mb-6">MORE PROJECTS</h3>
+              <!-- Medium supporting text -->
+              <p class="text-medium gradient-text-primary mb-8">Coming Soon...</p>
               <div class="loading-dots">
                 <span></span>
                 <span></span>
                 <span></span>
               </div>
+              <!-- Small additional info -->
+              <p class="text-small mt-6 opacity-60">Currently working on exciting new projects</p>
             </div>
           </div>
         </div>
@@ -120,7 +137,7 @@
       <div
         v-if="hoveredProjectUrl"
         class="iframe-preview"
-        :style="{ left: `${mouseX + 20}px`, top: `${mouseY - 300}px` }"
+        :style="{ left: `${mouseX + 30}px`, top: `${mouseY - 350}px` }"
       >
         <div class="preview-header">
           <div class="preview-dots">
@@ -128,7 +145,7 @@
             <span></span>
             <span></span>
           </div>
-          <div class="preview-url">{{ hoveredProjectUrl }}</div>
+          <div class="preview-url text-tiny">{{ hoveredProjectUrl }}</div>
         </div>
         <iframe :src="hoveredProjectUrl" frameborder="0" scrolling="no"></iframe>
         <div class="preview-glow"></div>
@@ -170,12 +187,12 @@ onMounted(() => {
       trigger: projectSection.value,
       start: 'top bottom',
       end: 'top top',
-      scrub: true,
+      scrub: 1,
     },
   })
 
   tl.to(scrollCircle.value, {
-    scale: 100,
+    scale: 120,
     ease: 'power2.out',
   }).to(scrollCircle.value, {
     opacity: 0,
@@ -189,12 +206,13 @@ onMounted(() => {
     if (el.value) {
       gsap.fromTo(
         el.value,
-        { opacity: 0, y: 100, rotateX: -15 },
+        { opacity: 0, y: 150, rotateX: -25, scale: 0.8 },
         {
           opacity: 1,
           y: 0,
           rotateX: 0,
-          duration: 1.2,
+          scale: 1,
+          duration: 1.5,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: el.value,
@@ -223,7 +241,7 @@ onMounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #ff0055 0%, #ff6600 50%, #ff0055 100%);
+  background: linear-gradient(135deg, #ff0055 0%, #ff6600 25%, #ff0055 50%, #bf00ff 75%, #ff0055 100%);
   z-index: 0;
 }
 
@@ -234,30 +252,40 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background-image: 
-    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
-    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 2px, transparent 2px);
-  background-size: 60px 60px;
-  animation: pattern-move 15s linear infinite;
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.15) 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.15) 2px, transparent 2px);
+  background-size: 80px 80px;
+  animation: pattern-move 20s linear infinite;
+}
+
+.bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(1px);
 }
 
 @keyframes pattern-move {
   0% { transform: translate(0, 0); }
-  100% { transform: translate(60px, 60px); }
+  100% { transform: translate(80px, 80px); }
 }
 
 .project-section {
   min-height: 100vh;
   position: relative;
   z-index: 1;
-  padding: 100px 40px;
+  padding: 120px 40px;
 }
 
 .projects-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 50px;
 }
 
 .project-link {
@@ -267,16 +295,16 @@ onMounted(() => {
 }
 
 .project-card {
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 40px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 25px;
+  padding: 50px;
   display: grid;
-  grid-template-columns: 80px 1fr auto auto;
+  grid-template-columns: 120px 1fr auto auto;
   align-items: center;
-  gap: 30px;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  gap: 40px;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   overflow: hidden;
   
@@ -287,35 +315,56 @@ onMounted(() => {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.6s ease;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00d4ff, #ff0080, #39ff14, #bf00ff);
+    border-radius: 27px;
+    z-index: -1;
+    opacity: 0;
+    filter: blur(20px);
+    transition: opacity 0.6s ease;
   }
   
   &:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 
+      0 40px 80px rgba(0, 0, 0, 0.4),
+      0 0 100px rgba(255, 0, 128, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
     
     &::before {
       left: 100%;
     }
     
+    &::after {
+      opacity: 0.6;
+    }
+    
     .project-arrow {
-      transform: translateX(10px);
+      transform: translateX(15px) scale(1.2);
     }
     
     .project-number {
       color: #00d4ff;
-      text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+      text-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+      transform: scale(1.1);
     }
   }
 }
 
 .project-number {
-  font-size: 48px;
-  font-weight: 900;
   color: rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
+  font-family: var(--font-primary);
 }
 
 .project-content {
@@ -323,83 +372,97 @@ onMounted(() => {
 }
 
 .project-title {
-  font-size: 36px;
-  font-weight: 900;
-  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 20px;
+  flex-wrap: wrap;
+  font-family: var(--font-primary);
   
   .project-tech {
-    font-size: 16px;
-    font-weight: 500;
+    background: rgba(0, 212, 255, 0.15);
     color: #00d4ff;
-    background: rgba(0, 212, 255, 0.1);
-    padding: 5px 15px;
-    border-radius: 20px;
-    border: 1px solid rgba(0, 212, 255, 0.3);
+    padding: 8px 16px;
+    border-radius: 25px;
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    font-family: var(--font-body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 }
 
 .project-description {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 15px;
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.6;
+  font-family: var(--font-body);
 }
 
 .project-tags {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .tag {
   background: rgba(255, 0, 128, 0.2);
   color: #ff0080;
-  padding: 5px 12px;
-  border-radius: 15px;
-  font-size: 14px;
-  font-weight: 500;
-  border: 1px solid rgba(255, 0, 128, 0.3);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 0, 128, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(255, 0, 128, 0.3);
+    transform: translateY(-2px);
+  }
 }
 
 .project-date {
-  font-size: 16px;
   color: rgba(255, 255, 255, 0.6);
-  font-weight: 500;
+  font-weight: 600;
+  font-family: var(--font-mono);
 }
 
 .project-arrow {
-  font-size: 24px;
   color: #ffffff;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  font-weight: bold;
 }
 
 .coming-soon-projects {
-  margin-top: 60px;
+  margin-top: 80px;
 }
 
 .coming-soon-card {
-  background: rgba(0, 0, 0, 0.2);
-  border: 2px dashed rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-  padding: 60px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 3px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 25px;
+  padding: 80px;
   text-align: center;
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-5px);
+  }
 }
 
 .loading-dots {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 15px;
   
   span {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     background: #00d4ff;
     border-radius: 50%;
-    animation: loading-bounce 1.4s ease-in-out infinite both;
+    animation: loading-bounce 1.6s ease-in-out infinite both;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
     
     &:nth-child(1) { animation-delay: -0.32s; }
     &:nth-child(2) { animation-delay: -0.16s; }
@@ -409,53 +472,56 @@ onMounted(() => {
 
 @keyframes loading-bounce {
   0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
+  40% { transform: scale(1.2); }
 }
 
 .scroll-circle {
   position: fixed;
-  bottom: 30px;
-  left: 30px;
-  width: 50px;
-  height: 50px;
+  bottom: 40px;
+  left: 40px;
+  width: 60px;
+  height: 60px;
   background: linear-gradient(45deg, #ff0055, #ff6600);
   border-radius: 50%;
   z-index: 5;
   pointer-events: none;
   transform: scale(0);
-  box-shadow: 0 0 30px rgba(255, 0, 85, 0.5);
+  box-shadow: 
+    0 0 40px rgba(255, 0, 85, 0.6),
+    0 0 80px rgba(255, 102, 0, 0.4);
 }
 
 .iframe-preview {
   position: fixed;
-  width: 900px;
-  height: 700px;
+  width: 1000px;
+  height: 750px;
   background: #1a1a1a;
   z-index: 1000;
   pointer-events: none;
-  border-radius: 15px;
+  border-radius: 20px;
   overflow: hidden;
   box-shadow: 
-    0 25px 50px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.1);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    0 30px 60px rgba(0, 0, 0, 0.6),
+    0 0 0 2px rgba(255, 255, 255, 0.15);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   
   .preview-header {
-    height: 40px;
+    height: 50px;
     background: #2a2a2a;
     display: flex;
     align-items: center;
-    padding: 0 15px;
-    gap: 15px;
+    padding: 0 20px;
+    gap: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .preview-dots {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     
     span {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       
       &:nth-child(1) { background: #ff5f57; }
@@ -467,70 +533,80 @@ onMounted(() => {
   .preview-url {
     background: #1a1a1a;
     color: #888;
-    padding: 5px 12px;
-    border-radius: 5px;
-    font-size: 12px;
+    padding: 8px 16px;
+    border-radius: 8px;
     flex: 1;
+    font-family: var(--font-mono);
   }
 
   iframe {
     width: 100%;
-    height: calc(100% - 40px);
+    height: calc(100% - 50px);
     border: none;
     background: white;
   }
   
   .preview-glow {
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
     background: linear-gradient(45deg, #00d4ff, #ff0080, #39ff14, #bf00ff);
-    border-radius: 17px;
+    border-radius: 23px;
     z-index: -1;
-    opacity: 0.5;
-    filter: blur(8px);
+    opacity: 0.7;
+    filter: blur(15px);
   }
 }
 
 .preview-fade-enter-active,
 .preview-fade-leave-active {
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .preview-fade-enter-from {
   opacity: 0;
-  transform: scale(0.8) translateY(20px);
+  transform: scale(0.7) translateY(30px);
 }
 
 .preview-fade-leave-to {
   opacity: 0;
-  transform: scale(0.9) translateY(-10px);
+  transform: scale(0.8) translateY(-20px);
 }
 
 @media (max-width: 768px) {
   .project-card {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 20px;
+    gap: 25px;
+    padding: 40px 30px;
   }
   
   .project-title {
-    font-size: 28px;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
   }
   
   .iframe-preview {
-    width: 90vw;
-    height: 60vh;
-    left: 5vw !important;
-    top: 20vh !important;
+    width: 95vw;
+    height: 70vh;
+    left: 2.5vw !important;
+    top: 15vh !important;
   }
   
-  .section-title {
-    font-size: 80px !important;
+  .projects-container {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-section {
+    padding: 80px 20px;
+  }
+  
+  .coming-soon-card {
+    padding: 50px 30px;
   }
 }
 </style>

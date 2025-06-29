@@ -4,8 +4,8 @@
     <div class="grid-background"></div>
     
     <div class="container flex-col relative z-10">
-      <!-- Section title -->
-      <h2 class="section-title text-[120px] font-black mb-16 holographic" ref="title">
+      <!-- Section title - HUGE and attention-grabbing -->
+      <h2 class="section-title text-mega mb-20 holographic" ref="title">
         ABOUT ME
       </h2>
       
@@ -20,17 +20,21 @@
                   <span class="text-6xl">👨‍💻</span>
                 </div>
               </div>
-              <h3 class="text-3xl font-bold mt-6 neon-text">Paul Andrew Consunji</h3>
-              <p class="text-xl text-gray-300 mt-2">Frontend Developer</p>
+              <!-- Name - Large and prominent -->
+              <h3 class="text-large font-bold mt-6 neon-text">Paul Andrew Consunji</h3>
+              <!-- Role - Medium size -->
+              <p class="text-medium gradient-text-primary mt-2">Frontend Developer</p>
+              <!-- Experience - Small supporting text -->
+              <p class="text-small mt-2">3+ Years Experience</p>
             </div>
             <div class="card-back">
-              <h4 class="text-2xl font-bold mb-4 text-pink-400">Quick Facts</h4>
-              <ul class="space-y-2 text-left">
-                <li>🎓 Computer Science Graduate</li>
-                <li>💻 3+ Years Experience</li>
-                <li>🌟 Vue.js Specialist</li>
-                <li>🚀 Performance Enthusiast</li>
-                <li>🎨 UI/UX Passionate</li>
+              <h4 class="text-large font-bold mb-6 gradient-text-secondary">Quick Facts</h4>
+              <ul class="space-y-3 text-left">
+                <li class="text-normal">🎓 Computer Science Graduate</li>
+                <li class="text-normal">💻 3+ Years Experience</li>
+                <li class="text-normal">🌟 Vue.js Specialist</li>
+                <li class="text-normal">🚀 Performance Enthusiast</li>
+                <li class="text-normal">🎨 UI/UX Passionate</li>
               </ul>
             </div>
           </div>
@@ -38,13 +42,17 @@
 
         <!-- Skills showcase -->
         <div class="skills-showcase" ref="skillsShowcase">
-          <h3 class="text-4xl font-bold mb-8 text-center holographic">TECH STACK</h3>
+          <!-- Section heading - Large -->
+          <h3 class="text-huge font-bold mb-12 text-center holographic">TECH STACK</h3>
           <div class="skills-grid">
             <div class="skill-item" v-for="skill in skills" :key="skill.name">
               <div class="skill-icon" :style="{ background: skill.color }">
                 {{ skill.icon }}
               </div>
-              <span class="skill-name">{{ skill.name }}</span>
+              <!-- Skill name - Medium prominence -->
+              <span class="skill-name text-medium font-bold">{{ skill.name }}</span>
+              <!-- Skill level - Small supporting info -->
+              <span class="skill-percentage text-small">{{ skill.level }}%</span>
               <div class="skill-level">
                 <div class="skill-bar" :style="{ width: skill.level + '%', background: skill.color }"></div>
               </div>
@@ -54,26 +62,33 @@
 
         <!-- Experience timeline -->
         <div class="experience-timeline" ref="timeline">
-          <h3 class="text-4xl font-bold mb-8 text-center holographic">JOURNEY</h3>
+          <!-- Section heading - Large -->
+          <h3 class="text-huge font-bold mb-12 text-center holographic">MY JOURNEY</h3>
           <div class="timeline">
-            <div class="timeline-item" v-for="(item, index) in timeline" :key="index">
+            <div class="timeline-item" v-for="(item, index) in timelineData" :key="index">
               <div class="timeline-dot"></div>
               <div class="timeline-content">
-                <h4 class="text-xl font-bold text-blue-400">{{ item.title }}</h4>
-                <p class="text-gray-300">{{ item.description }}</p>
-                <span class="text-sm text-pink-400">{{ item.date }}</span>
+                <!-- Timeline title - Medium prominence -->
+                <h4 class="text-medium font-bold gradient-text-primary">{{ item.title }}</h4>
+                <!-- Description - Normal size -->
+                <p class="text-normal text-gray-300 mt-2">{{ item.description }}</p>
+                <!-- Date - Small supporting info -->
+                <span class="text-small gradient-text-accent mt-2 block">{{ item.date }}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Interactive stats -->
-      <div class="stats-section mt-20" ref="stats">
+      <!-- Interactive stats - Eye-catching numbers -->
+      <div class="stats-section mt-32" ref="stats">
+        <h3 class="text-large font-bold mb-16 text-center gradient-text-secondary">BY THE NUMBERS</h3>
         <div class="stats-grid">
-          <div class="stat-item" v-for="stat in stats" :key="stat.label">
-            <div class="stat-number neon-text text-5xl font-black">{{ stat.value }}</div>
-            <div class="stat-label text-xl text-gray-300">{{ stat.label }}</div>
+          <div class="stat-item" v-for="stat in statsData" :key="stat.label">
+            <!-- Big numbers for impact -->
+            <div class="stat-number text-mega neon-text font-black">{{ stat.value }}</div>
+            <!-- Small labels -->
+            <div class="stat-label text-small text-gray-300 uppercase tracking-wider">{{ stat.label }}</div>
           </div>
         </div>
       </div>
@@ -122,27 +137,31 @@ const statsData = [
 onMounted(() => {
   // Animate title
   gsap.fromTo(title.value, 
-    { opacity: 0, y: 100 },
+    { opacity: 0, y: 150, scale: 0.5 },
     { 
       opacity: 1, 
       y: 0, 
-      duration: 1.5,
+      scale: 1,
+      duration: 2,
+      ease: "power3.out",
       scrollTrigger: {
         trigger: title.value,
         start: 'top 80%',
         end: 'bottom 20%',
-        scrub: true
+        scrub: 1
       }
     }
   )
 
   // Animate profile card
   gsap.fromTo(profileCard.value,
-    { opacity: 0, rotateY: -90 },
+    { opacity: 0, rotateY: -90, scale: 0.8 },
     {
       opacity: 1,
       rotateY: 0,
-      duration: 1.2,
+      scale: 1,
+      duration: 1.5,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: profileCard.value,
         start: 'top 80%'
@@ -152,12 +171,14 @@ onMounted(() => {
 
   // Animate skills
   gsap.fromTo('.skill-item',
-    { opacity: 0, x: -50 },
+    { opacity: 0, x: -100, rotateX: -45 },
     {
       opacity: 1,
       x: 0,
-      duration: 0.8,
-      stagger: 0.1,
+      rotateX: 0,
+      duration: 1,
+      stagger: 0.15,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: skillsShowcase.value,
         start: 'top 80%'
@@ -167,12 +188,14 @@ onMounted(() => {
 
   // Animate timeline
   gsap.fromTo('.timeline-item',
-    { opacity: 0, x: 100 },
+    { opacity: 0, x: 150, scale: 0.8 },
     {
       opacity: 1,
       x: 0,
-      duration: 0.8,
-      stagger: 0.2,
+      scale: 1,
+      duration: 1,
+      stagger: 0.25,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: timeline.value,
         start: 'top 80%'
@@ -182,12 +205,14 @@ onMounted(() => {
 
   // Animate stats
   gsap.fromTo('.stat-item',
-    { opacity: 0, scale: 0.5 },
+    { opacity: 0, scale: 0.3, y: 100 },
     {
       opacity: 1,
       scale: 1,
-      duration: 0.8,
-      stagger: 0.1,
+      y: 0,
+      duration: 1.2,
+      stagger: 0.2,
+      ease: "back.out(1.7)",
       scrollTrigger: {
         trigger: stats.value,
         start: 'top 80%'
@@ -204,7 +229,7 @@ onMounted(() => {
   min-height: 100vh;
   background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
   position: relative;
-  padding: 100px 20px;
+  padding: 120px 20px;
 }
 
 .grid-background {
@@ -214,28 +239,28 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background-image: 
-    linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px);
-  background-size: 50px 50px;
-  animation: grid-move 20s linear infinite;
+    linear-gradient(rgba(0, 212, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.15) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: grid-move 25s linear infinite;
   z-index: 0;
 }
 
 @keyframes grid-move {
   0% { transform: translate(0, 0); }
-  100% { transform: translate(50px, 50px); }
+  100% { transform: translate(60px, 60px); }
 }
 
 .content-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  margin-bottom: 60px;
+  gap: 80px;
+  margin-bottom: 80px;
 }
 
 .profile-card {
-  perspective: 1000px;
-  height: 400px;
+  perspective: 1200px;
+  height: 500px;
 }
 
 .card-inner {
@@ -243,7 +268,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.8s;
+  transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-style: preserve-3d;
   cursor: pointer;
 }
@@ -258,13 +283,14 @@ onMounted(() => {
   height: 100%;
   backface-visibility: hidden;
   background: linear-gradient(135deg, rgba(255, 0, 128, 0.1), rgba(0, 212, 255, 0.1));
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 25px;
+  padding: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(15px);
 }
 
 .card-back {
@@ -273,19 +299,20 @@ onMounted(() => {
 }
 
 .profile-image {
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   background: linear-gradient(45deg, #ff0080, #00d4ff);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+  box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
 }
 
 .image-placeholder {
-  width: 110px;
-  height: 110px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   background: #0a0a0a;
   display: flex;
@@ -299,54 +326,78 @@ onMounted(() => {
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
 }
 
 .skill-item {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 25px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 35px;
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+  }
   
   &:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 25px 50px rgba(0, 212, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+    
+    &::before {
+      left: 100%;
+    }
   }
 }
 
 .skill-icon {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  margin: 0 auto 15px;
+  font-size: 32px;
+  margin: 0 auto 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
 }
 
 .skill-name {
   display: block;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+}
+
+.skill-percentage {
+  display: block;
+  margin-bottom: 20px;
+  opacity: 0.8;
 }
 
 .skill-level {
   width: 100%;
-  height: 6px;
+  height: 8px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
 .skill-bar {
   height: 100%;
-  border-radius: 3px;
-  transition: width 1s ease;
+  border-radius: 4px;
+  transition: width 2s ease;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .experience-timeline {
@@ -355,41 +406,57 @@ onMounted(() => {
 
 .timeline {
   position: relative;
-  padding-left: 30px;
+  padding-left: 40px;
 }
 
 .timeline::before {
   content: '';
   position: absolute;
-  left: 15px;
+  left: 20px;
   top: 0;
   bottom: 0;
-  width: 2px;
-  background: linear-gradient(to bottom, #00d4ff, #ff0080);
+  width: 3px;
+  background: linear-gradient(to bottom, #00d4ff, #ff0080, #39ff14);
+  border-radius: 2px;
 }
 
 .timeline-item {
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 .timeline-dot {
   position: absolute;
-  left: -23px;
-  top: 5px;
-  width: 16px;
-  height: 16px;
+  left: -28px;
+  top: 8px;
+  width: 20px;
+  height: 20px;
   background: #00d4ff;
   border-radius: 50%;
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  box-shadow: 
+    0 0 0 4px rgba(0, 212, 255, 0.3),
+    0 0 30px rgba(0, 212, 255, 0.6);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
 }
 
 .timeline-content {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 20px;
-  margin-left: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  padding: 30px;
+  margin-left: 30px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateX(10px);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
 }
 
 .stats-section {
@@ -399,23 +466,35 @@ onMounted(() => {
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 40px;
-  max-width: 800px;
+  gap: 60px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 .stat-item {
   text-align: center;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-10px);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
   
   .stat-number {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-family: var(--font-primary);
   }
 }
 
 @media (max-width: 768px) {
   .content-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 50px;
   }
   
   .skills-showcase,
@@ -423,8 +502,19 @@ onMounted(() => {
     grid-column: span 1;
   }
   
-  .section-title {
-    font-size: 80px !important;
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
