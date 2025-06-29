@@ -5,6 +5,7 @@
     <div class="glow" ref="glow" />
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted, defineEmits } from 'vue'
 import { gsap } from 'gsap'
@@ -38,15 +39,15 @@ onMounted(() => {
 
   // Orbit / interchange motion
   tl.to(circle1.value, {
-    x: -80,
-    y: -80,
+    x: -60,
+    y: -60,
     rotate: 360,
     duration: 1.2
   }, 0.4)
 
   tl.to(circle2.value, {
-    x: 80,
-    y: 80,
+    x: 60,
+    y: 60,
     rotate: -360,
     duration: 1.2
   }, 0.4)
@@ -55,32 +56,33 @@ onMounted(() => {
   tl.to([circle1.value, circle2.value], {
     x: 0,
     y: 0,
-    scale: 1.3,
+    scale: 1.2,
     duration: 0.8
   })
 
-  // Glow pulse and full-screen flash
+  // Glow pulse and fade
   tl.to(glow.value, {
-    scale: 40,
+    scale: 20,
     opacity: 1,
-    duration: 1.2,
+    duration: 1,
     ease: 'expo.inOut'
   }, '+=0.2')
 
   // Fade out everything
   tl.to(loaderWrapper.value, {
     opacity: 0,
-    duration: 0.8,
+    duration: 0.6,
     pointerEvents: 'none'
-  }, '-=0.6')
+  }, '-=0.4')
 })
 </script>
+
 <style scoped>
 .circle-loader {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #0a0a0a;
+  background: var(--white);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,27 +91,24 @@ onMounted(() => {
 
 .circle {
   position: absolute;
-  width: 90px;
-  height: 90px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ff0055, #ff6600);
-  box-shadow: 0 0 40px rgba(255, 0, 85, 0.7);
+  background: var(--black);
 }
 
 .circle:nth-child(2) {
-  background: radial-gradient(circle at 70% 70%, #00ccff, #0066ff);
-  box-shadow: 0 0 40px rgba(0, 204, 255, 0.7);
+  background: var(--gray-600);
 }
 
 .glow {
   position: absolute;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, #ffffff 0%, transparent 80%);
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, var(--gray-400) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
-  mix-blend-mode: screen;
   z-index: 10;
 }
 </style>
