@@ -20,13 +20,15 @@
       <Interchange v-if="tickerDone && loading" @done="onLoaderDone" />
     </ClientOnly>
 
-    <!-- Main content (Shows after Loader finishes) - use v-show instead of v-if -->
-    <div v-show="!loading">
-      <Hero :loaderDone="loaderDone" @ready="markSectionReady('hero')" />
-      <About @ready="markSectionReady('about')" />
-      <Project @ready="markSectionReady('project')" />
-      <Contact @ready="markSectionReady('contact')" />
-    </div>
+    <!-- Main content (Shows after Loader finishes) - wrapped in ClientOnly to prevent hydration mismatches -->
+    <ClientOnly>
+      <div v-show="!loading">
+        <Hero :loaderDone="loaderDone" @ready="markSectionReady('hero')" />
+        <About @ready="markSectionReady('about')" />
+        <Project @ready="markSectionReady('project')" />
+        <Contact @ready="markSectionReady('contact')" />
+      </div>
+    </ClientOnly>
   </div>
 </template>
 <script setup>
