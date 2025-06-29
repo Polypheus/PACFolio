@@ -15,20 +15,49 @@
             I'm always interested in new opportunities and collaborations. 
             Let's create something amazing together.
           </p>
-          <BaseButton ref="ctaButton">
+          <button class="btn-minimal text-normal" ref="ctaButton">
             Get In Touch
-          </BaseButton>
+          </button>
         </div>
 
         <!-- Contact methods -->
         <div class="contact-methods" ref="contactMethods">
           <div class="contact-grid" ref="contactGrid">
-            <ContactCard
-              v-for="(contact, index) in contactMethods"
-              :key="contact.type"
-              :contact="contact"
-              :index="index"
-            />
+            <!-- Email -->
+            <a :href="`mailto:${personalInfo.email}`" class="contact-card interactive-hover" ref="emailCard">
+              <div class="contact-info">
+                <div class="contact-icon text-large mb-2">📧</div>
+                <h4 class="contact-title text-normal font-medium">Email</h4>
+                <p class="contact-detail text-small opacity-70">{{ personalInfo.email }}</p>
+              </div>
+            </a>
+
+            <!-- LinkedIn -->
+            <a :href="`https://${personalInfo.linkedin}`" target="_blank" class="contact-card interactive-hover" ref="linkedinCard">
+              <div class="contact-info">
+                <div class="contact-icon text-large mb-2">💼</div>
+                <h4 class="contact-title text-normal font-medium">LinkedIn</h4>
+                <p class="contact-detail text-small opacity-70">{{ personalInfo.linkedin }}</p>
+              </div>
+            </a>
+
+            <!-- GitHub -->
+            <a :href="personalInfo.github" target="_blank" class="contact-card interactive-hover" ref="githubCard">
+              <div class="contact-info">
+                <div class="contact-icon text-large mb-2">💻</div>
+                <h4 class="contact-title text-normal font-medium">GitHub</h4>
+                <p class="contact-detail text-small opacity-70">View my repositories</p>
+              </div>
+            </a>
+
+            <!-- Phone -->
+            <a :href="`tel:${personalInfo.phone}`" class="contact-card interactive-hover" ref="phoneCard">
+              <div class="contact-info">
+                <div class="contact-icon text-large mb-2">📱</div>
+                <h4 class="contact-title text-normal font-medium">Phone</h4>
+                <p class="contact-detail text-small opacity-70">{{ personalInfo.phone }}</p>
+              </div>
+            </a>
           </div>
         </div>
 
@@ -47,12 +76,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick, computed } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { usePortfolioData } from '@/composables/usePortfolioData'
 import { useAnimations } from '@/composables/useAnimations'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
-import BaseButton from '@/components/ui/BaseButton.vue'
-import ContactCard from '../ui/ContactCard.vue'
 
 const emit = defineEmits(['ready'])
 
@@ -66,34 +93,12 @@ const ctaDescription = ref(null)
 const ctaButton = ref(null)
 const footerMessage = ref(null)
 
-let animationsSetup = false
+const emailCard = ref(null)
+const linkedinCard = ref(null)
+const githubCard = ref(null)
+const phoneCard = ref(null)
 
-const contactMethods = computed(() => [
-  {
-    type: 'Email',
-    value: personalInfo.email,
-    href: `mailto:${personalInfo.email}`,
-    icon: '📧'
-  },
-  {
-    type: 'LinkedIn',
-    value: personalInfo.linkedin,
-    href: `https://${personalInfo.linkedin}`,
-    icon: '💼'
-  },
-  {
-    type: 'GitHub',
-    value: 'View my repositories',
-    href: personalInfo.github,
-    icon: '💻'
-  },
-  {
-    type: 'Phone',
-    value: personalInfo.phone,
-    href: `tel:${personalInfo.phone}`,
-    icon: '📱'
-  }
-])
+let animationsSetup = false
 
 onMounted(async () => {
   await nextTick()
@@ -153,9 +158,9 @@ function setupAnimations() {
   })
 
   createScrollTrigger({
-    trigger: ctaButton.value.$el,
+    trigger: ctaButton.value,
     start: 'top 80%',
-    animation: useNuxtApp().$gsap.fromTo(ctaButton.value.$el,
+    animation: useNuxtApp().$gsap.fromTo(ctaButton.value,
       { opacity: 0, scale: 0.5, y: 20 },
       {
         opacity: 1,
@@ -167,6 +172,55 @@ function setupAnimations() {
       }
     ),
     toggleActions: "play none none reverse"
+  })
+
+  // Contact cards with staggered entrance
+  const contactCards = [emailCard.value, linkedinCard.value, githubCard.value, phoneCard.value]
+  
+  contactCards.forEach((card, index) => {
+    if (card) {
+      createScrollTrigger({
+        trigger: card,
+        start: 'top 85%',
+        animation: useNuxtApp().$gsap.fromTo(card,
+          { 
+            opacity: 0, 
+            y: 80, 
+            scale: 0.8,
+            rotationX: -15
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            rotationX: 0,
+            duration: 1,
+            delay: index * 0.15,
+            ease: "power3.out"
+          }
+        ),
+        toggleActions: "play none none reverse"
+      })
+
+      // Individual card hover animations
+      card.addEventListener('mouseenter', () => {
+        useNuxtApp().$gsap.to(card, { 
+          y: -8, 
+          scale: 1.02,
+          duration: 0.3,
+          ease: "power2.out"
+        })
+      })
+
+      card.addEventListener('mouseleave', () => {
+        useNuxtApp().$gsap.to(card, { 
+          y: 0, 
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out"
+        })
+      })
+    }
   })
 
   // Footer message fade in
@@ -214,6 +268,55 @@ function setupAnimations() {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   margin-bottom: 4rem;
+}
+
+.contact-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  &:hover {
+    border-color: var(--gray-400);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    
+    &::before {
+      left: 100%;
+    }
+  }
+}
+
+.contact-info {
+  text-align: center;
+}
+
+.contact-icon {
+  margin-bottom: 0.5rem;
+}
+
+.contact-title {
+  margin-bottom: 0.5rem;
+}
+
+.contact-detail {
+  word-break: break-all;
 }
 
 @media (max-width: 768px) {

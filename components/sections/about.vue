@@ -9,7 +9,7 @@
       <!-- Content grid -->
       <div class="content-grid" ref="contentGrid">
         <!-- Profile card -->
-        <BaseCard variant="default" padding="large" interactive class="profile-card" ref="profileCard">
+        <div class="profile-card interactive-hover" ref="profileCard">
           <div class="profile-content">
             <div class="profile-image" ref="profileImage">
               <div class="image-placeholder">
@@ -21,31 +21,29 @@
             <p class="text-small mt-2 opacity-50" ref="profileExp">3+ Years Experience</p>
             <p class="text-small mt-2 opacity-50" ref="profileEducation">{{ education.degree }}</p>
           </div>
-        </BaseCard>
+        </div>
 
         <!-- Education & Achievements -->
-        <BaseCard variant="default" padding="large" class="education-achievements" ref="educationSection">
+        <div class="education-achievements" ref="educationSection">
           <h3 class="text-large font-semibold mb-8" ref="educationTitle">Education & Achievements</h3>
           <div class="education-grid" ref="educationGrid">
-            <BaseCard variant="elevated" padding="normal" interactive ref="education1">
+            <div class="education-item interactive-hover" ref="education1">
               <h4 class="text-normal font-medium">{{ education.degree }}</h4>
               <p class="text-small opacity-70 mt-1">{{ education.school }}</p>
               <p class="text-tiny opacity-50 mt-1">{{ education.period }} • {{ education.distinction }}</p>
-            </BaseCard>
+            </div>
             
-            <BaseCard 
+            <div 
               v-for="(achievement, index) in achievements" 
               :key="achievement.title"
-              variant="elevated" 
-              padding="normal" 
-              interactive 
+              class="achievement-item interactive-hover" 
               :ref="el => setAchievementRef(el, index)"
             >
               <h4 class="text-normal font-medium">{{ achievement.title }}</h4>
               <p class="text-small opacity-70 mt-1">{{ achievement.description }}</p>
-            </BaseCard>
+            </div>
           </div>
-        </BaseCard>
+        </div>
 
         <!-- Skills showcase -->
         <div class="skills-showcase" ref="skillsShowcase">
@@ -77,18 +75,16 @@
         <div class="certifications-section" ref="certificationsSection">
           <h3 class="text-large font-semibold mb-8" ref="certificationsTitle">Certifications</h3>
           <div class="certifications-grid" ref="certificationsGrid">
-            <BaseCard 
+            <div 
               v-for="(cert, index) in certifications" 
               :key="cert.name"
-              variant="default" 
-              padding="normal" 
-              interactive
+              class="certification-item interactive-hover"
               :ref="el => setCertificationRef(el, index)"
             >
               <h4 class="text-normal font-medium">{{ cert.name }}</h4>
               <p class="text-small opacity-70 mt-1">{{ cert.issuer }}</p>
               <span class="text-tiny opacity-50 mt-1">{{ cert.year }}</span>
-            </BaseCard>
+            </div>
           </div>
         </div>
       </div>
@@ -104,7 +100,6 @@ import { ref, onMounted, nextTick } from 'vue'
 import { usePortfolioData } from '@/composables/usePortfolioData'
 import { useAnimations } from '@/composables/useAnimations'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
-import BaseCard from '@/components/ui/BaseCard.vue'
 import SkillBar from '@/components/ui/SkillBar.vue'
 import TimelineItem from '@/components/ui/TimelineItem.vue'
 
@@ -165,9 +160,9 @@ function setupAnimations() {
 
   // Profile card animations
   createScrollTrigger({
-    trigger: profileCard.value.$el,
+    trigger: profileCard.value,
     start: 'top 80%',
-    animation: animateIn(profileCard.value.$el, {
+    animation: animateIn(profileCard.value, {
       from: { x: -100, rotationY: -15 },
       to: { x: 0, rotationY: 0, duration: 1.2, ease: "power2.out" }
     }),
@@ -194,7 +189,7 @@ function setupAnimations() {
   })
 
   // Education and achievements
-  const educationElements = [education1.value?.$el, ...achievementRefs.value.map(ref => ref?.$el)].filter(Boolean)
+  const educationElements = [education1.value, ...achievementRefs.value].filter(Boolean)
   educationElements.forEach((item, index) => {
     createScrollTrigger({
       trigger: item,
@@ -214,11 +209,11 @@ function setupAnimations() {
 
   // Certifications animations
   certificationRefs.value.forEach((item, index) => {
-    if (item?.$el) {
+    if (item) {
       createScrollTrigger({
-        trigger: item.$el,
+        trigger: item,
         start: 'top 85%',
-        animation: animateIn(item.$el, {
+        animation: animateIn(item, {
           from: { y: 30, scale: 0.9 },
           to: { 
             scale: 1, 
@@ -261,6 +256,10 @@ function setupAnimations() {
 }
 
 .profile-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 3rem;
   text-align: center;
 }
 
@@ -276,9 +275,24 @@ function setupAnimations() {
   border: 1px solid var(--gray-200);
 }
 
+.education-achievements {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 3rem;
+}
+
 .education-grid {
   display: grid;
   gap: 1.5rem;
+}
+
+.education-item,
+.achievement-item {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
 }
 
 .skills-showcase {
@@ -318,6 +332,13 @@ function setupAnimations() {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
+}
+
+.certification-item {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
 }
 
 @media (max-width: 768px) {
