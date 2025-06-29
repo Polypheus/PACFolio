@@ -73,14 +73,7 @@
 
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
-
-// Register ScrollTrigger plugin
-if (process.client) {
-  gsap.registerPlugin(ScrollTrigger)
-}
 
 const emit = defineEmits(['ready'])
 
@@ -100,19 +93,21 @@ const linkedinCard = ref(null)
 const githubCard = ref(null)
 const phoneCard = ref(null)
 
+const { $gsap, $ScrollTrigger } = useNuxtApp()
+
 onMounted(async () => {
   await nextTick()
-  if (process.client) {
+  if (process.client && $gsap && $ScrollTrigger) {
     setupAnimations()
   }
 })
 
 function setupAnimations() {
   // Section title with dramatic entrance
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: title.value,
     start: 'top 80%',
-    animation: gsap.fromTo(title.value,
+    animation: $gsap.fromTo(title.value,
       { 
         opacity: 0, 
         y: 150, 
@@ -132,10 +127,10 @@ function setupAnimations() {
   })
 
   // CTA section animations
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: ctaTitle.value,
     start: 'top 80%',
-    animation: gsap.fromTo(ctaTitle.value,
+    animation: $gsap.fromTo(ctaTitle.value,
       { opacity: 0, y: 50, scale: 0.8 },
       {
         opacity: 1,
@@ -148,10 +143,10 @@ function setupAnimations() {
     toggleActions: "play none none reverse"
   })
 
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: ctaDescription.value,
     start: 'top 80%',
-    animation: gsap.fromTo(ctaDescription.value,
+    animation: $gsap.fromTo(ctaDescription.value,
       { opacity: 0, y: 30 },
       {
         opacity: 1,
@@ -164,10 +159,10 @@ function setupAnimations() {
     toggleActions: "play none none reverse"
   })
 
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: ctaButton.value,
     start: 'top 80%',
-    animation: gsap.fromTo(ctaButton.value,
+    animation: $gsap.fromTo(ctaButton.value,
       { opacity: 0, scale: 0.5, y: 20 },
       {
         opacity: 1,
@@ -186,10 +181,10 @@ function setupAnimations() {
   
   contactCards.forEach((card, index) => {
     if (card) {
-      ScrollTrigger.create({
+      $ScrollTrigger.create({
         trigger: card,
         start: 'top 85%',
-        animation: gsap.fromTo(card,
+        animation: $gsap.fromTo(card,
           { 
             opacity: 0, 
             y: 80, 
@@ -211,7 +206,7 @@ function setupAnimations() {
 
       // Individual card hover animations
       card.addEventListener('mouseenter', () => {
-        gsap.to(card, { 
+        $gsap.to(card, { 
           y: -8, 
           scale: 1.02,
           duration: 0.3,
@@ -220,7 +215,7 @@ function setupAnimations() {
       })
 
       card.addEventListener('mouseleave', () => {
-        gsap.to(card, { 
+        $gsap.to(card, { 
           y: 0, 
           scale: 1,
           duration: 0.3,
@@ -231,10 +226,10 @@ function setupAnimations() {
   })
 
   // Footer message fade in
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: footerMessage.value,
     start: 'top 90%',
-    animation: gsap.fromTo(footerMessage.value,
+    animation: $gsap.fromTo(footerMessage.value,
       { opacity: 0, y: 30 },
       {
         opacity: 1,

@@ -60,14 +60,7 @@
 
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
-
-// Register ScrollTrigger plugin
-if (process.client) {
-  gsap.registerPlugin(ScrollTrigger)
-}
 
 const emit = defineEmits(['ready'])
 
@@ -90,6 +83,8 @@ const skillItems = ref([])
 const skillBars = ref([])
 const timelineItems = ref([])
 const timelineDots = ref([])
+
+const { $gsap, $ScrollTrigger } = useNuxtApp()
 
 const setSkillItem = (el, index) => {
   if (el) skillItems.value[index] = el
@@ -125,17 +120,17 @@ const timelineData = [
 
 onMounted(async () => {
   await nextTick()
-  if (process.client) {
+  if (process.client && $gsap && $ScrollTrigger) {
     setupAnimations()
   }
 })
 
 function setupAnimations() {
   // Section title animation
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: title.value,
     start: 'top 80%',
-    animation: gsap.fromTo(title.value, 
+    animation: $gsap.fromTo(title.value, 
       { opacity: 0, y: 100, scale: 0.8 },
       { 
         opacity: 1, 
@@ -149,10 +144,10 @@ function setupAnimations() {
   })
 
   // Profile card animations
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: profileCard.value,
     start: 'top 80%',
-    animation: gsap.fromTo(profileCard.value,
+    animation: $gsap.fromTo(profileCard.value,
       { opacity: 0, x: -100, rotationY: -15 },
       {
         opacity: 1,
@@ -166,10 +161,10 @@ function setupAnimations() {
   })
 
   // Profile image bounce effect
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: profileImage.value,
     start: 'top 80%',
-    animation: gsap.fromTo(profileImage.value,
+    animation: $gsap.fromTo(profileImage.value,
       { scale: 0, rotation: -180 },
       {
         scale: 1,
@@ -182,10 +177,10 @@ function setupAnimations() {
   })
 
   // Profile text stagger
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: profileName.value,
     start: 'top 85%',
-    animation: gsap.fromTo([profileName.value, profileRole.value, profileExp.value],
+    animation: $gsap.fromTo([profileName.value, profileRole.value, profileExp.value],
       { opacity: 0, y: 20 },
       {
         opacity: 1,
@@ -201,10 +196,10 @@ function setupAnimations() {
   // Skills animations
   skillItems.value.forEach((item, index) => {
     if (item) {
-      ScrollTrigger.create({
+      $ScrollTrigger.create({
         trigger: item,
         start: 'top 85%',
-        animation: gsap.fromTo(item,
+        animation: $gsap.fromTo(item,
           { opacity: 0, y: 50, scale: 0.8 },
           {
             opacity: 1,
@@ -223,10 +218,10 @@ function setupAnimations() {
   // Skill bars animation
   skillBars.value.forEach((bar, index) => {
     if (bar) {
-      ScrollTrigger.create({
+      $ScrollTrigger.create({
         trigger: bar,
         start: 'top 80%',
-        animation: gsap.fromTo(bar, 
+        animation: $gsap.fromTo(bar, 
           { width: '0%' },
           {
             width: skills[index].level + '%',
@@ -242,10 +237,10 @@ function setupAnimations() {
   // Timeline items
   timelineItems.value.forEach((item, index) => {
     if (item) {
-      ScrollTrigger.create({
+      $ScrollTrigger.create({
         trigger: item,
         start: 'top 85%',
-        animation: gsap.fromTo(item,
+        animation: $gsap.fromTo(item,
           { opacity: 0, x: 100, scale: 0.9 },
           {
             opacity: 1,
@@ -264,10 +259,10 @@ function setupAnimations() {
   // Timeline dots pulse
   timelineDots.value.forEach((dot, index) => {
     if (dot) {
-      ScrollTrigger.create({
+      $ScrollTrigger.create({
         trigger: dot,
         start: 'top 85%',
-        animation: gsap.fromTo(dot,
+        animation: $gsap.fromTo(dot,
           { scale: 0 },
           {
             scale: 1,

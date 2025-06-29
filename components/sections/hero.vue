@@ -61,14 +61,7 @@
 
 <script setup>
 import { ref, watch, onMounted, nextTick } from 'vue'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import GooeyBlob from '@/components/GooeyBlob.vue'
-
-// Register ScrollTrigger plugin
-if (process.client) {
-  gsap.registerPlugin(ScrollTrigger)
-}
 
 const props = defineProps({
   loaderDone: Boolean
@@ -87,6 +80,8 @@ const stat1 = ref(null)
 const stat2 = ref(null)
 const stat3 = ref(null)
 
+const { $gsap, $ScrollTrigger } = useNuxtApp()
+
 onMounted(async () => {
   await nextTick()
   
@@ -102,13 +97,13 @@ watch(() => props.loaderDone, (newVal) => {
 })
 
 function setupAnimations() {
-  if (!process.client) return
+  if (!process.client || !$gsap || !$ScrollTrigger) return
 
   // Initial entrance animations
-  const tl = gsap.timeline()
+  const tl = $gsap.timeline()
   
   // Set initial states
-  gsap.set([mainTitle.value, subtitle.value, location.value, ctaButton.value, heroStats.value, scrollIndicator.value], {
+  $gsap.set([mainTitle.value, subtitle.value, location.value, ctaButton.value, heroStats.value, scrollIndicator.value], {
     opacity: 0,
     y: 50
   })
@@ -152,23 +147,23 @@ function setupAnimations() {
   }, "-=0.2")
   
   // Parallax effects on scroll
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: heroSection.value,
     start: "top top",
     end: "bottom top",
     scrub: 1,
-    animation: gsap.to(mainTitle.value, {
+    animation: $gsap.to(mainTitle.value, {
       yPercent: -30,
       ease: "none"
     })
   })
   
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: heroSection.value,
     start: "top top",
     end: "center top",
     scrub: 1,
-    animation: gsap.to([subtitle.value, location.value], {
+    animation: $gsap.to([subtitle.value, location.value], {
       yPercent: -20,
       opacity: 0,
       ease: "none"
@@ -176,10 +171,10 @@ function setupAnimations() {
   })
   
   // Stats animation on scroll
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: heroStats.value,
     start: "top 80%",
-    animation: gsap.fromTo([stat1.value, stat2.value, stat3.value], 
+    animation: $gsap.fromTo([stat1.value, stat2.value, stat3.value], 
       { scale: 0.8, opacity: 0.5 },
       { 
         scale: 1, 

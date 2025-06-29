@@ -114,14 +114,7 @@
 
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
-
-// Register ScrollTrigger plugin
-if (process.client) {
-  gsap.registerPlugin(ScrollTrigger)
-}
 
 const emit = defineEmits(['ready'])
 
@@ -145,6 +138,8 @@ const arrow1 = ref(null)
 const arrow2 = ref(null)
 const arrow3 = ref(null)
 
+const { $gsap, $ScrollTrigger } = useNuxtApp()
+
 const onMouseMove = (event) => {
   mouseX.value = event.clientX
   mouseY.value = event.clientY
@@ -152,17 +147,17 @@ const onMouseMove = (event) => {
 
 onMounted(async () => {
   await nextTick()
-  if (process.client) {
+  if (process.client && $gsap && $ScrollTrigger) {
     setupAnimations()
   }
 })
 
 function setupAnimations() {
   // Section title animation
-  ScrollTrigger.create({
+  $ScrollTrigger.create({
     trigger: title.value,
     start: 'top 80%',
-    animation: gsap.fromTo(title.value,
+    animation: $gsap.fromTo(title.value,
       { opacity: 0, y: 100, scale: 0.5, rotation: -5 },
       {
         opacity: 1,
@@ -188,10 +183,10 @@ function setupAnimations() {
       // Card slide in from different directions
       const direction = index % 2 === 0 ? -100 : 100
       
-      ScrollTrigger.create({
+      $ScrollTrigger.create({
         trigger: project.card,
         start: 'top 85%',
-        animation: gsap.fromTo(project.card,
+        animation: $gsap.fromTo(project.card,
           { 
             opacity: 0, 
             x: direction, 
@@ -214,10 +209,10 @@ function setupAnimations() {
       })
 
       // Number animation
-      ScrollTrigger.create({
+      $ScrollTrigger.create({
         trigger: project.number,
         start: 'top 85%',
-        animation: gsap.fromTo(project.number,
+        animation: $gsap.fromTo(project.number,
           { scale: 0, rotation: 180 },
           {
             scale: 1,
@@ -232,10 +227,10 @@ function setupAnimations() {
 
       // Content stagger animation
       if (project.content && project.content.children) {
-        ScrollTrigger.create({
+        $ScrollTrigger.create({
           trigger: project.content,
           start: 'top 85%',
-          animation: gsap.fromTo(project.content.children,
+          animation: $gsap.fromTo(project.content.children,
             { opacity: 0, y: 20 },
             {
               opacity: 1,
@@ -251,10 +246,10 @@ function setupAnimations() {
       }
 
       // Arrow bounce animation
-      ScrollTrigger.create({
+      $ScrollTrigger.create({
         trigger: project.arrow,
         start: 'top 85%',
-        animation: gsap.fromTo(project.arrow,
+        animation: $gsap.fromTo(project.arrow,
           { opacity: 0, x: -20, scale: 0.5 },
           {
             opacity: 1,
@@ -270,15 +265,15 @@ function setupAnimations() {
 
       // Hover animations
       project.card.addEventListener('mouseenter', () => {
-        gsap.to(project.number, { scale: 1.1, opacity: 0.6, duration: 0.3 })
-        gsap.to(project.arrow, { x: 10, scale: 1.2, duration: 0.3 })
-        gsap.to(project.card, { y: -5, duration: 0.3 })
+        $gsap.to(project.number, { scale: 1.1, opacity: 0.6, duration: 0.3 })
+        $gsap.to(project.arrow, { x: 10, scale: 1.2, duration: 0.3 })
+        $gsap.to(project.card, { y: -5, duration: 0.3 })
       })
 
       project.card.addEventListener('mouseleave', () => {
-        gsap.to(project.number, { scale: 1, opacity: 0.2, duration: 0.3 })
-        gsap.to(project.arrow, { x: 0, scale: 1, duration: 0.3 })
-        gsap.to(project.card, { y: 0, duration: 0.3 })
+        $gsap.to(project.number, { scale: 1, opacity: 0.2, duration: 0.3 })
+        $gsap.to(project.arrow, { x: 0, scale: 1, duration: 0.3 })
+        $gsap.to(project.card, { y: 0, duration: 0.3 })
       })
     }
   })
