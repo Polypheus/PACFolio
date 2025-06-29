@@ -8,7 +8,7 @@
 
       <div class="projects-container" ref="projectsContainer">
         <ProjectCard
-          v-for="(project, index) in projects"
+          v-for="(project, index) in data.projects"
           :key="project.id"
           :project="project"
           :index="index"
@@ -41,7 +41,7 @@ import ProjectPreview from '../ui/ProjectPreview.vue'
 
 const emit = defineEmits(['ready'])
 
-const { projects } = usePortfolioData()
+const data = usePortfolioData()
 const { waitForGSAP, createScrollTrigger, animateIn, refreshScrollTrigger } = useAnimations()
 
 const projectSection = ref(null)

@@ -24,25 +24,25 @@
         <div class="contact-methods" ref="contactMethods">
           <div class="contact-grid" ref="contactGrid">
             <!-- Email -->
-            <a :href="`mailto:${portfolioData.personalInfo.email}`" class="contact-card interactive-hover" ref="emailCard">
+            <a :href="`mailto:${data.personalInfo.email}`" class="contact-card interactive-hover" ref="emailCard">
               <div class="contact-info">
                 <div class="contact-icon text-large mb-2">📧</div>
                 <h4 class="contact-title text-normal font-medium">Email</h4>
-                <p class="contact-detail text-small opacity-70">{{ portfolioData.personalInfo.email }}</p>
+                <p class="contact-detail text-small opacity-70">{{ data.personalInfo.email }}</p>
               </div>
             </a>
 
             <!-- LinkedIn -->
-            <a :href="`https://${portfolioData.personalInfo.linkedin}`" target="_blank" class="contact-card interactive-hover" ref="linkedinCard">
+            <a :href="`https://${data.personalInfo.linkedin}`" target="_blank" class="contact-card interactive-hover" ref="linkedinCard">
               <div class="contact-info">
                 <div class="contact-icon text-large mb-2">💼</div>
                 <h4 class="contact-title text-normal font-medium">LinkedIn</h4>
-                <p class="contact-detail text-small opacity-70">{{ portfolioData.personalInfo.linkedin }}</p>
+                <p class="contact-detail text-small opacity-70">{{ data.personalInfo.linkedin }}</p>
               </div>
             </a>
 
             <!-- GitHub -->
-            <a :href="portfolioData.personalInfo.github" target="_blank" class="contact-card interactive-hover" ref="githubCard">
+            <a :href="data.personalInfo.github" target="_blank" class="contact-card interactive-hover" ref="githubCard">
               <div class="contact-info">
                 <div class="contact-icon text-large mb-2">💻</div>
                 <h4 class="contact-title text-normal font-medium">GitHub</h4>
@@ -51,11 +51,11 @@
             </a>
 
             <!-- Phone -->
-            <a :href="`tel:${portfolioData.personalInfo.phone}`" class="contact-card interactive-hover" ref="phoneCard">
+            <a :href="`tel:${data.personalInfo.phone}`" class="contact-card interactive-hover" ref="phoneCard">
               <div class="contact-info">
                 <div class="contact-icon text-large mb-2">📱</div>
                 <h4 class="contact-title text-normal font-medium">Phone</h4>
-                <p class="contact-detail text-small opacity-70">{{ portfolioData.personalInfo.phone }}</p>
+                <p class="contact-detail text-small opacity-70">{{ data.personalInfo.phone }}</p>
               </div>
             </a>
           </div>
@@ -64,7 +64,7 @@
         <!-- Footer message -->
         <div class="footer-message mt-16 text-center" ref="footerMessage">
           <p class="text-small opacity-50">
-            © 2024 {{ portfolioData.personalInfo.name }}. Made with care in {{ portfolioData.personalInfo.location }}.
+            © 2024 {{ data.personalInfo.name }}. Made with care in {{ data.personalInfo.location }}.
           </p>
         </div>
       </div>
@@ -83,9 +83,7 @@ import ScrollMarquee from '@/components/ScrollMarquee.vue'
 
 const emit = defineEmits(['ready'])
 
-// Get all portfolio data as a reactive object
-const portfolioData = usePortfolioData()
-
+const data = usePortfolioData()
 const { waitForGSAP, createScrollTrigger, animateIn, refreshScrollTrigger } = useAnimations()
 
 const contactSection = ref(null)

@@ -5,18 +5,18 @@
     <div class="container text-center flex-col relative z-10">
       <!-- Main title -->
       <h1 class="intro text-hero mb-8" ref="mainTitle">
-        {{ personalInfo.name.split(' ').slice(0, 2).join(' ') }}<br>
-        {{ personalInfo.name.split(' ').slice(2).join(' ') }}
+        {{ data.personalInfo.name.split(' ').slice(0, 2).join(' ') }}<br>
+        {{ data.personalInfo.name.split(' ').slice(2).join(' ') }}
       </h1>
       
       <!-- Primary role -->
       <h2 class="intro1 text-large mb-6 font-light tracking-wide" ref="subtitle">
-        {{ personalInfo.role }}
+        {{ data.personalInfo.role }}
       </h2>
       
       <!-- Location -->
       <p class="intro2 text-normal mb-12 opacity-60" ref="location">
-        {{ personalInfo.location }}
+        {{ data.personalInfo.location }}
       </p>
 
       <!-- CTA button -->
@@ -29,7 +29,7 @@
       <!-- Stats -->
       <div class="hero-stats mb-16" ref="heroStats">
         <div 
-          v-for="(stat, index) in stats" 
+          v-for="(stat, index) in data.stats" 
           :key="stat.label"
           class="stat-item" 
           :ref="el => setStatRef(el, index)"
@@ -61,7 +61,7 @@ const props = defineProps({
 
 const emit = defineEmits(['ready'])
 
-const { personalInfo, stats } = usePortfolioData()
+const data = usePortfolioData()
 const { createTimeline, setupParallax, waitForGSAP, refreshScrollTrigger } = useAnimations()
 
 const heroSection = ref(null)
