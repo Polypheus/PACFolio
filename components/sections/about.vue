@@ -19,12 +19,37 @@
             <h3 class="text-large font-semibold mt-6" ref="profileName">Paul Andrew Consunji</h3>
             <p class="text-normal mt-2 opacity-70" ref="profileRole">Frontend Developer</p>
             <p class="text-small mt-2 opacity-50" ref="profileExp">3+ Years Experience</p>
+            <p class="text-small mt-2 opacity-50" ref="profileEducation">BS Information Technology</p>
+          </div>
+        </div>
+
+        <!-- Education & Achievements -->
+        <div class="education-achievements" ref="educationSection">
+          <h3 class="text-large font-semibold mb-8" ref="educationTitle">Education & Achievements</h3>
+          <div class="education-grid" ref="educationGrid">
+            <div class="education-item interactive-hover" ref="education1">
+              <h4 class="text-normal font-medium">Bachelor of Science in Information Technology</h4>
+              <p class="text-small opacity-70 mt-1">Rizal Technological University</p>
+              <p class="text-tiny opacity-50 mt-1">2020-2024 • Cum Laude</p>
+            </div>
+            <div class="achievement-item interactive-hover" ref="achievement1">
+              <h4 class="text-normal font-medium">Academic Achiever</h4>
+              <p class="text-small opacity-70 mt-1">Since Freshmen Year</p>
+            </div>
+            <div class="achievement-item interactive-hover" ref="achievement2">
+              <h4 class="text-normal font-medium">Dean's Lister</h4>
+              <p class="text-small opacity-70 mt-1">Since Freshmen Year</p>
+            </div>
+            <div class="achievement-item interactive-hover" ref="achievement3">
+              <h4 class="text-normal font-medium">Pasig City Scholar</h4>
+              <p class="text-small opacity-70 mt-1">Since First Year College</p>
+            </div>
           </div>
         </div>
 
         <!-- Skills showcase -->
         <div class="skills-showcase" ref="skillsShowcase">
-          <h3 class="text-large font-semibold mb-8" ref="skillsTitle">Skills</h3>
+          <h3 class="text-large font-semibold mb-8" ref="skillsTitle">Technical Skills</h3>
           <div class="skills-grid" ref="skillsGrid">
             <div class="skill-item interactive-hover" v-for="(skill, index) in skills" :key="skill.name" :ref="el => setSkillItem(el, index)">
               <span class="skill-name text-normal">{{ skill.name }}</span>
@@ -38,15 +63,28 @@
 
         <!-- Experience timeline -->
         <div class="experience-timeline" ref="timeline">
-          <h3 class="text-large font-semibold mb-8" ref="timelineTitle">Experience</h3>
+          <h3 class="text-large font-semibold mb-8" ref="timelineTitle">Work Experience</h3>
           <div class="timeline" ref="timelineContainer">
             <div class="timeline-item interactive-hover" v-for="(item, index) in timelineData" :key="index" :ref="el => setTimelineItem(el, index)">
               <div class="timeline-dot" :ref="el => setTimelineDot(el, index)"></div>
               <div class="timeline-content">
                 <h4 class="text-normal font-medium">{{ item.title }}</h4>
+                <p class="text-small opacity-70 mt-1">{{ item.company }}</p>
                 <p class="text-small opacity-70 mt-1">{{ item.description }}</p>
                 <span class="text-tiny opacity-50 mt-2 block">{{ item.date }}</span>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="certifications-section" ref="certificationsSection">
+          <h3 class="text-large font-semibold mb-8" ref="certificationsTitle">Certifications</h3>
+          <div class="certifications-grid" ref="certificationsGrid">
+            <div class="certification-item interactive-hover" v-for="(cert, index) in certifications" :key="index" :ref="el => setCertificationItem(el, index)">
+              <h4 class="text-normal font-medium">{{ cert.name }}</h4>
+              <p class="text-small opacity-70 mt-1">{{ cert.issuer }}</p>
+              <span class="text-tiny opacity-50 mt-1">{{ cert.year }}</span>
             </div>
           </div>
         </div>
@@ -72,17 +110,29 @@ const profileImage = ref(null)
 const profileName = ref(null)
 const profileRole = ref(null)
 const profileExp = ref(null)
+const profileEducation = ref(null)
+const educationSection = ref(null)
+const educationTitle = ref(null)
+const educationGrid = ref(null)
+const education1 = ref(null)
+const achievement1 = ref(null)
+const achievement2 = ref(null)
+const achievement3 = ref(null)
 const skillsShowcase = ref(null)
 const skillsTitle = ref(null)
 const skillsGrid = ref(null)
 const timeline = ref(null)
 const timelineTitle = ref(null)
 const timelineContainer = ref(null)
+const certificationsSection = ref(null)
+const certificationsTitle = ref(null)
+const certificationsGrid = ref(null)
 
 const skillItems = ref([])
 const skillBars = ref([])
 const timelineItems = ref([])
 const timelineDots = ref([])
+const certificationItems = ref([])
 
 const { $gsap, $ScrollTrigger } = useNuxtApp()
 
@@ -104,20 +154,49 @@ const setTimelineDot = (el, index) => {
   if (el) timelineDots.value[index] = el
 }
 
+const setCertificationItem = (el, index) => {
+  if (el) certificationItems.value[index] = el
+}
+
 const skills = [
-  { name: 'Vue.js', level: 95 },
+  { name: 'HTML/CSS', level: 95 },
   { name: 'JavaScript', level: 90 },
-  { name: 'CSS/SCSS', level: 88 },
-  { name: 'Nuxt.js', level: 85 },
-  { name: 'GSAP', level: 80 },
-  { name: 'Node.js', level: 75 }
+  { name: 'Vue.js/Nuxt.js', level: 88 },
+  { name: 'Node.js/Express', level: 85 },
+  { name: 'PHP/MySQL', level: 80 },
+  { name: 'MongoDB', level: 75 },
+  { name: 'Figma', level: 85 },
+  { name: 'Adobe Creative Cloud', level: 80 },
+  { name: 'Blender (3D)', level: 70 },
+  { name: 'Video Editing', level: 75 }
 ]
 
 const timelineData = [
-  { title: 'Started Coding Journey', description: 'Began learning web development', date: '2020' },
-  { title: 'First Freelance Project', description: 'Built my first client website', date: '2021' },
-  { title: 'College Thesis Project', description: 'Developed RTU-PDSMS system', date: '2023' },
-  { title: 'Professional Developer', description: 'Working on modern applications', date: '2024' }
+  { 
+    title: 'ATM Technician (Probationary)', 
+    company: 'One Point Contact Inc',
+    description: 'Servicing and repairing ATM machines both offsite and at bank branches',
+    date: '2024-2025' 
+  },
+  { 
+    title: 'Assistant Computer Technician (OJT)', 
+    company: 'Rizal Technological University',
+    description: 'Managed and maintained computers in Computer Laboratory',
+    date: '2023' 
+  },
+  { 
+    title: 'Graphic Designer (OJT)', 
+    company: 'Teravision',
+    description: 'Managed social media and created graphics design including posters',
+    date: '2023' 
+  }
+]
+
+const certifications = [
+  { name: 'CSS NC II', issuer: 'Capellan Institute of Technology, Inc.', year: '2019' },
+  { name: 'CompTIA Network+', issuer: 'Capellan Institute of Technology, Inc.', year: '2019' },
+  { name: 'Google\'s Foundation of Cyber Security', issuer: 'Coursera', year: '2023' },
+  { name: 'TOPCIT Examination', issuer: 'Rizal Technological University', year: '2024' }
 ]
 
 onMounted(async () => {
@@ -198,7 +277,7 @@ function setupAnimations() {
   $ScrollTrigger.create({
     trigger: profileName.value,
     start: 'top 85%',
-    animation: $gsap.fromTo([profileName.value, profileRole.value, profileExp.value],
+    animation: $gsap.fromTo([profileName.value, profileRole.value, profileExp.value, profileEducation.value],
       { opacity: 0, y: 20 },
       {
         opacity: 1,
@@ -210,6 +289,30 @@ function setupAnimations() {
     ),
     toggleActions: "play none none reverse",
     refreshPriority: -1
+  })
+
+  // Education and achievements animations
+  const educationElements = [education1.value, achievement1.value, achievement2.value, achievement3.value]
+  educationElements.forEach((item, index) => {
+    if (item) {
+      $ScrollTrigger.create({
+        trigger: item,
+        start: 'top 85%',
+        animation: $gsap.fromTo(item,
+          { opacity: 0, y: 50, scale: 0.8 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            delay: index * 0.1,
+            ease: "back.out(1.7)"
+          }
+        ),
+        toggleActions: "play none none reverse",
+        refreshPriority: -1
+      })
+    }
   })
 
   // Skills animations
@@ -299,6 +402,29 @@ function setupAnimations() {
     }
   })
 
+  // Certifications animations
+  certificationItems.value.forEach((item, index) => {
+    if (item) {
+      $ScrollTrigger.create({
+        trigger: item,
+        start: 'top 85%',
+        animation: $gsap.fromTo(item,
+          { opacity: 0, y: 30, scale: 0.9 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            delay: index * 0.1,
+            ease: "power2.out"
+          }
+        ),
+        toggleActions: "play none none reverse",
+        refreshPriority: -1
+      })
+    }
+  })
+
   // Force refresh after all animations are set up
   setTimeout(() => {
     $ScrollTrigger.refresh()
@@ -349,6 +475,26 @@ function setupAnimations() {
   justify-content: center;
   margin: 0 auto;
   border: 1px solid var(--gray-200);
+}
+
+.education-achievements {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 3rem;
+}
+
+.education-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.education-item,
+.achievement-item {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
 }
 
 .skills-showcase {
@@ -426,6 +572,23 @@ function setupAnimations() {
   border: 2px solid var(--white);
 }
 
+.certifications-section {
+  grid-column: span 2;
+}
+
+.certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.certification-item {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
 @media (max-width: 768px) {
   .content-grid {
     grid-template-columns: 1fr;
@@ -433,11 +596,16 @@ function setupAnimations() {
   }
   
   .skills-showcase,
-  .experience-timeline {
+  .experience-timeline,
+  .certifications-section {
     grid-column: span 1;
   }
   
   .skills-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .certifications-grid {
     grid-template-columns: 1fr;
   }
 }

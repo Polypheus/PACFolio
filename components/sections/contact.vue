@@ -32,10 +32,10 @@
             </a>
 
             <!-- LinkedIn -->
-            <a href="https://linkedin.com/in/paulandrewconsunji" target="_blank" class="contact-card interactive-hover" ref="linkedinCard">
+            <a href="https://linkedin.com/in/paulandrewconsunji/" target="_blank" class="contact-card interactive-hover" ref="linkedinCard">
               <div class="contact-info">
                 <h4 class="contact-title text-normal font-medium">LinkedIn</h4>
-                <p class="contact-detail text-small opacity-70">Connect professionally</p>
+                <p class="contact-detail text-small opacity-70">linkedin.com/in/paulandrewconsunji/</p>
               </div>
             </a>
 
