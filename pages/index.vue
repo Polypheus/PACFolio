@@ -5,14 +5,16 @@
       v-if="loading && !tickerDone"
       class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-black transition-opacity duration-500"
     >
-      <NumberTicker
-        :value="100"
-        :startValue="0"
-        :direction="'up'"
-        :delay="0.5"
-        :decimalPlaces="0"
-        @done="onTickerDone"
-      />
+      <ClientOnly>
+        <NumberTicker
+          :value="100"
+          :startValue="0"
+          :direction="'up'"
+          :delay="0.5"
+          :decimalPlaces="0"
+          @done="onTickerDone"
+        />
+      </ClientOnly>
     </div>
     
     <!-- Interchange Loader Animation (Shows after NumberTicker finishes) -->
