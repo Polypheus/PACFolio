@@ -1,10 +1,13 @@
 <template>
   <div>
+    <!-- Particle background for entire site -->
+    <ParticleBackground />
+    
     <!-- Single ClientOnly wrapper for all loader components -->
     <ClientOnly>
       <div
         v-if="showNumberTicker"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-black transition-opacity duration-500"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-500"
       >
         <NumberTicker
           :value="100"
@@ -31,42 +34,43 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue';
-import NumberTicker from '@/components/NumberTicker.vue';
-import Interchange from '@/components/Interchange.vue';
-import Hero from '@/components/sections/hero.vue';
-import About from '@/components/sections/about.vue';
-import Project from '@/components/sections/project.vue';
-import Contact from '@/components/sections/contact.vue';
+import { ref, reactive, computed } from 'vue'
+import NumberTicker from '@/components/NumberTicker.vue'
+import Interchange from '@/components/Interchange.vue'
+import ParticleBackground from '@/components/ParticleBackground.vue'
+import Hero from '@/components/sections/hero.vue'
+import About from '@/components/sections/about.vue'
+import Project from '@/components/sections/project.vue'
+import Contact from '@/components/sections/contact.vue'
 
 // Loading states
-const tickerDone = ref(false);
-const loaderDone = ref(false);
+const tickerDone = ref(false)
+const loaderDone = ref(false)
 
 const sections = reactive({
   hero: false,
   about: false,
   project: false,
   contact: false
-});
+})
 
 // Computed properties for cleaner template logic
-const showNumberTicker = computed(() => !tickerDone.value);
-const showInterchange = computed(() => tickerDone.value && !loaderDone.value);
-const showMainContent = computed(() => loaderDone.value);
+const showNumberTicker = computed(() => !tickerDone.value)
+const showInterchange = computed(() => tickerDone.value && !loaderDone.value)
+const showMainContent = computed(() => loaderDone.value)
 
 const markSectionReady = (sectionName) => {
-  console.log(`✅ Section ready: ${sectionName}`);
-  sections[sectionName] = true;
-};
+  console.log(`✅ Section ready: ${sectionName}`)
+  sections[sectionName] = true
+}
 
 const onTickerDone = () => {
-  console.log("✅ NumberTicker animation complete");
-  tickerDone.value = true;
-};
+  console.log("✅ NumberTicker animation complete")
+  tickerDone.value = true
+}
 
 const onLoaderDone = () => {
-  console.log("✅ Interchange animation complete");
-  loaderDone.value = true;
-};
+  console.log("✅ Interchange animation complete")
+  loaderDone.value = true
+}
 </script>
