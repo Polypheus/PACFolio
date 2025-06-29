@@ -154,22 +154,22 @@ onMounted(async () => {
 
 function setupAnimations() {
   // Section title animation
-  ScrollTrigger.create({
-    trigger: title.value,
-    start: 'top 80%',
-    toggleActions: "play none none reverse",
-    animation: gsap.fromTo(title.value,
-      { opacity: 0, y: 100, scale: 0.5, rotation: -5 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        rotation: 0,
-        duration: 1.5,
-        ease: "power3.out"
+  gsap.fromTo(title.value,
+    { opacity: 0, y: 100, scale: 0.5, rotation: -5 },
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotation: 0,
+      duration: 1.5,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: title.value,
+        start: 'top 80%',
+        toggleActions: "play none none reverse"
       }
-    )
-  })
+    }
+  )
 
   // Project cards entrance animations
   const projects = [
@@ -183,85 +183,85 @@ function setupAnimations() {
       // Card slide in from different directions
       const direction = index % 2 === 0 ? -100 : 100
       
-      ScrollTrigger.create({
-        trigger: project.card,
-        start: 'top 85%',
-        toggleActions: "play none none reverse",
-        animation: gsap.fromTo(project.card,
-          { 
-            opacity: 0, 
-            x: direction, 
-            y: 50,
-            scale: 0.8,
-            rotationY: direction > 0 ? 15 : -15
-          },
-          {
-            opacity: 1,
-            x: 0,
-            y: 0,
-            scale: 1,
-            rotationY: 0,
-            duration: 1.2,
-            delay: index * 0.2,
-            ease: "power3.out"
+      gsap.fromTo(project.card,
+        { 
+          opacity: 0, 
+          x: direction, 
+          y: 50,
+          scale: 0.8,
+          rotationY: direction > 0 ? 15 : -15
+        },
+        {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          scale: 1,
+          rotationY: 0,
+          duration: 1.2,
+          delay: index * 0.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: project.card,
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
-        )
-      })
+        }
+      )
 
       // Number animation
-      ScrollTrigger.create({
-        trigger: project.number,
-        start: 'top 85%',
-        toggleActions: "play none none reverse",
-        animation: gsap.fromTo(project.number,
-          { scale: 0, rotation: 180 },
-          {
-            scale: 1,
-            rotation: 0,
-            duration: 1,
-            delay: index * 0.2 + 0.3,
-            ease: "back.out(1.7)"
+      gsap.fromTo(project.number,
+        { scale: 0, rotation: 180 },
+        {
+          scale: 1,
+          rotation: 0,
+          duration: 1,
+          delay: index * 0.2 + 0.3,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: project.number,
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
-        )
-      })
+        }
+      )
 
       // Content stagger animation
       if (project.content && project.content.children) {
-        ScrollTrigger.create({
-          trigger: project.content,
-          start: 'top 85%',
-          toggleActions: "play none none reverse",
-          animation: gsap.fromTo(project.content.children,
-            { opacity: 0, y: 20 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              stagger: 0.1,
-              delay: index * 0.2 + 0.5,
-              ease: "power2.out"
+        gsap.fromTo(project.content.children,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            delay: index * 0.2 + 0.5,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: project.content,
+              start: 'top 85%',
+              toggleActions: "play none none reverse"
             }
-          )
-        })
+          }
+        )
       }
 
       // Arrow bounce animation
-      ScrollTrigger.create({
-        trigger: project.arrow,
-        start: 'top 85%',
-        toggleActions: "play none none reverse",
-        animation: gsap.fromTo(project.arrow,
-          { opacity: 0, x: -20, scale: 0.5 },
-          {
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            duration: 0.8,
-            delay: index * 0.2 + 0.7,
-            ease: "back.out(1.7)"
+      gsap.fromTo(project.arrow,
+        { opacity: 0, x: -20, scale: 0.5 },
+        {
+          opacity: 1,
+          x: 0,
+          scale: 1,
+          duration: 0.8,
+          delay: index * 0.2 + 0.7,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: project.arrow,
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
-        )
-      })
+        }
+      )
 
       // Hover animations
       project.card.addEventListener('mouseenter', () => {

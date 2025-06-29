@@ -127,152 +127,152 @@ onMounted(async () => {
 
 function setupAnimations() {
   // Section title animation
-  ScrollTrigger.create({
-    trigger: title.value,
-    start: 'top 80%',
-    toggleActions: "play none none reverse",
-    animation: gsap.fromTo(title.value, 
-      { opacity: 0, y: 100, scale: 0.8 },
-      { 
-        opacity: 1, 
-        y: 0,
-        scale: 1,
-        duration: 1.2,
-        ease: "power3.out"
+  gsap.fromTo(title.value, 
+    { opacity: 0, y: 100, scale: 0.8 },
+    { 
+      opacity: 1, 
+      y: 0,
+      scale: 1,
+      duration: 1.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: title.value,
+        start: 'top 80%',
+        toggleActions: "play none none reverse"
       }
-    )
-  })
+    }
+  )
 
   // Profile card animations
-  ScrollTrigger.create({
-    trigger: profileCard.value,
-    start: 'top 80%',
-    toggleActions: "play none none reverse",
-    animation: gsap.fromTo(profileCard.value,
-      { opacity: 0, x: -100, rotationY: -15 },
-      {
-        opacity: 1,
-        x: 0,
-        rotationY: 0,
-        duration: 1.2,
-        ease: "power2.out"
+  gsap.fromTo(profileCard.value,
+    { opacity: 0, x: -100, rotationY: -15 },
+    {
+      opacity: 1,
+      x: 0,
+      rotationY: 0,
+      duration: 1.2,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: profileCard.value,
+        start: 'top 80%',
+        toggleActions: "play none none reverse"
       }
-    )
-  })
+    }
+  )
 
   // Profile image bounce effect
-  ScrollTrigger.create({
-    trigger: profileImage.value,
-    start: 'top 80%',
-    toggleActions: "play none none reverse",
-    animation: gsap.fromTo(profileImage.value,
-      { scale: 0, rotation: -180 },
-      {
-        scale: 1,
-        rotation: 0,
-        duration: 1,
-        ease: "back.out(1.7)"
+  gsap.fromTo(profileImage.value,
+    { scale: 0, rotation: -180 },
+    {
+      scale: 1,
+      rotation: 0,
+      duration: 1,
+      ease: "back.out(1.7)",
+      scrollTrigger: {
+        trigger: profileImage.value,
+        start: 'top 80%',
+        toggleActions: "play none none reverse"
       }
-    )
-  })
+    }
+  )
 
   // Profile text stagger
-  ScrollTrigger.create({
-    trigger: profileName.value,
-    start: 'top 85%',
-    toggleActions: "play none none reverse",
-    animation: gsap.fromTo([profileName.value, profileRole.value, profileExp.value],
-      { opacity: 0, y: 20 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power2.out"
+  gsap.fromTo([profileName.value, profileRole.value, profileExp.value],
+    { opacity: 0, y: 20 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: profileName.value,
+        start: 'top 85%',
+        toggleActions: "play none none reverse"
       }
-    )
-  })
+    }
+  )
 
   // Skills animations
   skillItems.value.forEach((item, index) => {
     if (item) {
-      ScrollTrigger.create({
-        trigger: item,
-        start: 'top 85%',
-        toggleActions: "play none none reverse",
-        animation: gsap.fromTo(item,
-          { opacity: 0, y: 50, scale: 0.8 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            delay: index * 0.1,
-            ease: "back.out(1.7)"
+      gsap.fromTo(item,
+        { opacity: 0, y: 50, scale: 0.8 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          delay: index * 0.1,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
-        )
-      })
+        }
+      )
     }
   })
 
   // Skill bars animation
   skillBars.value.forEach((bar, index) => {
     if (bar) {
-      ScrollTrigger.create({
-        trigger: bar,
-        start: 'top 80%',
-        toggleActions: "play none none reverse",
-        animation: gsap.fromTo(bar, 
-          { width: '0%' },
-          {
-            width: skills[index].level + '%',
-            duration: 1.5,
-            ease: "power2.out"
+      gsap.fromTo(bar, 
+        { width: '0%' },
+        {
+          width: skills[index].level + '%',
+          duration: 1.5,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: bar,
+            start: 'top 80%',
+            toggleActions: "play none none reverse"
           }
-        )
-      })
+        }
+      )
     }
   })
 
   // Timeline items
   timelineItems.value.forEach((item, index) => {
     if (item) {
-      ScrollTrigger.create({
-        trigger: item,
-        start: 'top 85%',
-        toggleActions: "play none none reverse",
-        animation: gsap.fromTo(item,
-          { opacity: 0, x: 100, scale: 0.9 },
-          {
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            duration: 1,
-            delay: index * 0.2,
-            ease: "power2.out"
+      gsap.fromTo(item,
+        { opacity: 0, x: 100, scale: 0.9 },
+        {
+          opacity: 1,
+          x: 0,
+          scale: 1,
+          duration: 1,
+          delay: index * 0.2,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
-        )
-      })
+        }
+      )
     }
   })
 
   // Timeline dots pulse
   timelineDots.value.forEach((dot, index) => {
     if (dot) {
-      ScrollTrigger.create({
-        trigger: dot,
-        start: 'top 85%',
-        toggleActions: "play none none reverse",
-        animation: gsap.fromTo(dot,
-          { scale: 0 },
-          {
-            scale: 1,
-            duration: 0.6,
-            delay: index * 0.2,
-            ease: "back.out(1.7)"
+      gsap.fromTo(dot,
+        { scale: 0 },
+        {
+          scale: 1,
+          duration: 0.6,
+          delay: index * 0.2,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: dot,
+            start: 'top 85%',
+            toggleActions: "play none none reverse"
           }
-        )
-      })
+        }
+      )
     }
   })
 
