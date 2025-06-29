@@ -18,7 +18,9 @@
     </div>
     
     <!-- Interchange Loader Animation (Shows after NumberTicker finishes) -->
-    <Interchange v-if="tickerDone && loading" @done="onLoaderDone" />
+    <ClientOnly>
+      <Interchange v-if="tickerDone && loading" @done="onLoaderDone" />
+    </ClientOnly>
 
     <!-- Main content (Shows after Loader finishes) -->
     <div>
