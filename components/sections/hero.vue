@@ -82,22 +82,33 @@ const stat3 = ref(null)
 
 const { $gsap, $ScrollTrigger } = useNuxtApp()
 
+let animationsSetup = false
+
 onMounted(async () => {
   await nextTick()
   
-  if (props.loaderDone) {
-    setupAnimations()
+  // Wait for GSAP to be available
+  if (process.client) {
+    const waitForGSAP = () => {
+      if ($gsap && $ScrollTrigger && props.loaderDone && !animationsSetup) {
+        setupAnimations()
+      } else if (!animationsSetup) {
+        setTimeout(waitForGSAP, 50)
+      }
+    }
+    waitForGSAP()
   }
 })
 
 watch(() => props.loaderDone, (newVal) => {
-  if (newVal) {
+  if (newVal && $gsap && $ScrollTrigger && !animationsSetup) {
     setupAnimations()
   }
 })
 
 function setupAnimations() {
-  if (!process.client || !$gsap || !$ScrollTrigger) return
+  if (animationsSetup || !process.client || !$gsap || !$ScrollTrigger) return
+  animationsSetup = true
 
   // Initial entrance animations
   const tl = $gsap.timeline()
@@ -146,6 +157,22 @@ function setupAnimations() {
     ease: "power2.out"
   }, "-=0.2")
   
+  // Wait for animations to complete before setting up scroll triggers
+  tl.call(() => {
+    // Small delay to ensure DOM is stable
+    setTimeout(() => {
+      setupScrollTriggers()
+    }, 100)
+  })
+  
+  setTimeout(() => {
+    emit('ready')
+  }, 3000)
+}
+
+function setupScrollTriggers() {
+  if (!$gsap || !$ScrollTrigger) return
+
   // Parallax effects on scroll
   $ScrollTrigger.create({
     trigger: heroSection.value,
@@ -155,7 +182,8 @@ function setupAnimations() {
     animation: $gsap.to(mainTitle.value, {
       yPercent: -30,
       ease: "none"
-    })
+    }),
+    refreshPriority: -1
   })
   
   $ScrollTrigger.create({
@@ -167,7 +195,8 @@ function setupAnimations() {
       yPercent: -20,
       opacity: 0,
       ease: "none"
-    })
+    }),
+    refreshPriority: -1
   })
   
   // Stats animation on scroll
@@ -184,12 +213,12 @@ function setupAnimations() {
         ease: "back.out(1.7)"
       }
     ),
-    toggleActions: "play none none reverse"
+    toggleActions: "play none none reverse",
+    refreshPriority: -1
   })
-  
-  setTimeout(() => {
-    emit('ready')
-  }, 3000)
+
+  // Force refresh after setup
+  $ScrollTrigger.refresh()
 }
 
 function scrollToWork() {

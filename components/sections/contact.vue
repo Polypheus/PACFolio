@@ -95,14 +95,29 @@ const phoneCard = ref(null)
 
 const { $gsap, $ScrollTrigger } = useNuxtApp()
 
+let animationsSetup = false
+
 onMounted(async () => {
   await nextTick()
-  if (process.client && $gsap && $ScrollTrigger) {
-    setupAnimations()
+  
+  if (process.client) {
+    const waitForGSAP = () => {
+      if ($gsap && $ScrollTrigger && !animationsSetup) {
+        setupAnimations()
+      } else if (!animationsSetup) {
+        setTimeout(waitForGSAP, 50)
+      }
+    }
+    
+    // Wait a bit for the page to settle
+    setTimeout(waitForGSAP, 400)
   }
 })
 
 function setupAnimations() {
+  if (animationsSetup || !process.client || !$gsap || !$ScrollTrigger) return
+  animationsSetup = true
+
   // Section title with dramatic entrance
   $ScrollTrigger.create({
     trigger: title.value,
@@ -123,7 +138,8 @@ function setupAnimations() {
         ease: "power3.out"
       }
     ),
-    toggleActions: "play none none reverse"
+    toggleActions: "play none none reverse",
+    refreshPriority: -1
   })
 
   // CTA section animations
@@ -140,7 +156,8 @@ function setupAnimations() {
         ease: "power2.out"
       }
     ),
-    toggleActions: "play none none reverse"
+    toggleActions: "play none none reverse",
+    refreshPriority: -1
   })
 
   $ScrollTrigger.create({
@@ -156,7 +173,8 @@ function setupAnimations() {
         ease: "power2.out"
       }
     ),
-    toggleActions: "play none none reverse"
+    toggleActions: "play none none reverse",
+    refreshPriority: -1
   })
 
   $ScrollTrigger.create({
@@ -173,7 +191,8 @@ function setupAnimations() {
         ease: "back.out(1.7)"
       }
     ),
-    toggleActions: "play none none reverse"
+    toggleActions: "play none none reverse",
+    refreshPriority: -1
   })
 
   // Contact cards with staggered entrance
@@ -201,7 +220,8 @@ function setupAnimations() {
             ease: "power3.out"
           }
         ),
-        toggleActions: "play none none reverse"
+        toggleActions: "play none none reverse",
+        refreshPriority: -1
       })
 
       // Individual card hover animations
@@ -238,8 +258,14 @@ function setupAnimations() {
         ease: "power2.out"
       }
     ),
-    toggleActions: "play none none reverse"
+    toggleActions: "play none none reverse",
+    refreshPriority: -1
   })
+
+  // Force refresh after all animations are set up
+  setTimeout(() => {
+    $ScrollTrigger.refresh()
+  }, 100)
 
   emit('ready')
 }

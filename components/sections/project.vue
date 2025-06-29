@@ -140,6 +140,8 @@ const arrow3 = ref(null)
 
 const { $gsap, $ScrollTrigger } = useNuxtApp()
 
+let animationsSetup = false
+
 const onMouseMove = (event) => {
   mouseX.value = event.clientX
   mouseY.value = event.clientY
@@ -147,12 +149,25 @@ const onMouseMove = (event) => {
 
 onMounted(async () => {
   await nextTick()
-  if (process.client && $gsap && $ScrollTrigger) {
-    setupAnimations()
+  
+  if (process.client) {
+    const waitForGSAP = () => {
+      if ($gsap && $ScrollTrigger && !animationsSetup) {
+        setupAnimations()
+      } else if (!animationsSetup) {
+        setTimeout(waitForGSAP, 50)
+      }
+    }
+    
+    // Wait a bit for the page to settle
+    setTimeout(waitForGSAP, 300)
   }
 })
 
 function setupAnimations() {
+  if (animationsSetup || !process.client || !$gsap || !$ScrollTrigger) return
+  animationsSetup = true
+
   // Section title animation
   $ScrollTrigger.create({
     trigger: title.value,
@@ -168,7 +183,8 @@ function setupAnimations() {
         ease: "power3.out"
       }
     ),
-    toggleActions: "play none none reverse"
+    toggleActions: "play none none reverse",
+    refreshPriority: -1
   })
 
   // Project cards entrance animations
@@ -205,7 +221,8 @@ function setupAnimations() {
             ease: "power3.out"
           }
         ),
-        toggleActions: "play none none reverse"
+        toggleActions: "play none none reverse",
+        refreshPriority: -1
       })
 
       // Number animation
@@ -222,7 +239,8 @@ function setupAnimations() {
             ease: "back.out(1.7)"
           }
         ),
-        toggleActions: "play none none reverse"
+        toggleActions: "play none none reverse",
+        refreshPriority: -1
       })
 
       // Content stagger animation
@@ -241,7 +259,8 @@ function setupAnimations() {
               ease: "power2.out"
             }
           ),
-          toggleActions: "play none none reverse"
+          toggleActions: "play none none reverse",
+          refreshPriority: -1
         })
       }
 
@@ -260,7 +279,8 @@ function setupAnimations() {
             ease: "back.out(1.7)"
           }
         ),
-        toggleActions: "play none none reverse"
+        toggleActions: "play none none reverse",
+        refreshPriority: -1
       })
 
       // Hover animations
@@ -277,6 +297,11 @@ function setupAnimations() {
       })
     }
   })
+
+  // Force refresh after all animations are set up
+  setTimeout(() => {
+    $ScrollTrigger.refresh()
+  }, 100)
 
   emit('ready')
 }

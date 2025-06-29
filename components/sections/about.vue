@@ -86,6 +86,8 @@ const timelineDots = ref([])
 
 const { $gsap, $ScrollTrigger } = useNuxtApp()
 
+let animationsSetup = false
+
 const setSkillItem = (el, index) => {
   if (el) skillItems.value[index] = el
 }
@@ -120,12 +122,25 @@ const timelineData = [
 
 onMounted(async () => {
   await nextTick()
-  if (process.client && $gsap && $ScrollTrigger) {
-    setupAnimations()
+  
+  if (process.client) {
+    const waitForGSAP = () => {
+      if ($gsap && $ScrollTrigger && !animationsSetup) {
+        setupAnimations()
+      } else if (!animationsSetup) {
+        setTimeout(waitForGSAP, 50)
+      }
+    }
+    
+    // Wait a bit for the page to settle
+    setTimeout(waitForGSAP, 200)
   }
 })
 
 function setupAnimations() {
+  if (animationsSetup || !process.client || !$gsap || !$ScrollTrigger) return
+  animationsSetup = true
+
   // Section title animation
   $ScrollTrigger.create({
     trigger: title.value,
@@ -140,7 +155,8 @@ function setupAnimations() {
         ease: "power3.out"
       }
     ),
-    toggleActions: "play none none reverse"
+    toggleActions: "play none none reverse",
+    refreshPriority: -1
   })
 
   // Profile card animations
@@ -157,7 +173,8 @@ function setupAnimations() {
         ease: "power2.out"
       }
     ),
-    toggleActions: "play none none reverse"
+    toggleActions: "play none none reverse",
+    refreshPriority: -1
   })
 
   // Profile image bounce effect
@@ -173,7 +190,8 @@ function setupAnimations() {
         ease: "back.out(1.7)"
       }
     ),
-    toggleActions: "play none none reverse"
+    toggleActions: "play none none reverse",
+    refreshPriority: -1
   })
 
   // Profile text stagger
@@ -190,7 +208,8 @@ function setupAnimations() {
         ease: "power2.out"
       }
     ),
-    toggleActions: "play none none reverse"
+    toggleActions: "play none none reverse",
+    refreshPriority: -1
   })
 
   // Skills animations
@@ -210,7 +229,8 @@ function setupAnimations() {
             ease: "back.out(1.7)"
           }
         ),
-        toggleActions: "play none none reverse"
+        toggleActions: "play none none reverse",
+        refreshPriority: -1
       })
     }
   })
@@ -229,7 +249,8 @@ function setupAnimations() {
             ease: "power2.out"
           }
         ),
-        toggleActions: "play none none reverse"
+        toggleActions: "play none none reverse",
+        refreshPriority: -1
       })
     }
   })
@@ -251,7 +272,8 @@ function setupAnimations() {
             ease: "power2.out"
           }
         ),
-        toggleActions: "play none none reverse"
+        toggleActions: "play none none reverse",
+        refreshPriority: -1
       })
     }
   })
@@ -271,10 +293,16 @@ function setupAnimations() {
             ease: "back.out(1.7)"
           }
         ),
-        toggleActions: "play none none reverse"
+        toggleActions: "play none none reverse",
+        refreshPriority: -1
       })
     }
   })
+
+  // Force refresh after all animations are set up
+  setTimeout(() => {
+    $ScrollTrigger.refresh()
+  }, 100)
 
   emit('ready')
 }
