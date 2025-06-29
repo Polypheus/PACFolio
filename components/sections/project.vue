@@ -37,7 +37,7 @@ import { usePortfolioData } from '@/composables/usePortfolioData'
 import { useAnimations } from '@/composables/useAnimations'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
 import ProjectCard from '@/components/ui/ProjectCard.vue'
-import ProjectPreview from '@/components/ui/ProjectPreview.vue'
+import ProjectPreview from '../ui/ProjectPreview.vue'
 
 const emit = defineEmits(['ready'])
 

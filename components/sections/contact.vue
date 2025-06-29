@@ -52,7 +52,7 @@ import { usePortfolioData } from '@/composables/usePortfolioData'
 import { useAnimations } from '@/composables/useAnimations'
 import ScrollMarquee from '@/components/ScrollMarquee.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
-import ContactCard from '@/components/ui/ContactCard.vue'
+import ContactCard from '../ui/ContactCard.vue'
 
 const emit = defineEmits(['ready'])
 
@@ -153,9 +153,9 @@ function setupAnimations() {
   })
 
   createScrollTrigger({
-    trigger: ctaButton.value,
+    trigger: ctaButton.value.$el,
     start: 'top 80%',
-    animation: useNuxtApp().$gsap.fromTo(ctaButton.value,
+    animation: useNuxtApp().$gsap.fromTo(ctaButton.value.$el,
       { opacity: 0, scale: 0.5, y: 20 },
       {
         opacity: 1,

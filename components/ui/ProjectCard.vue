@@ -67,9 +67,9 @@ function setupAnimations() {
   
   // Card slide in animation
   createScrollTrigger({
-    trigger: projectCard.value,
+    trigger: projectCard.value.$el,
     start: 'top 85%',
-    animation: useNuxtApp().$gsap.fromTo(projectCard.value,
+    animation: useNuxtApp().$gsap.fromTo(projectCard.value.$el,
       { 
         opacity: 0, 
         x: direction, 
@@ -150,16 +150,16 @@ function setupAnimations() {
 function setupHoverEffects() {
   const { $gsap } = useNuxtApp()
   
-  projectCard.value.addEventListener('mouseenter', () => {
+  projectCard.value.$el.addEventListener('mouseenter', () => {
     $gsap.to(projectNumber.value, { scale: 1.1, opacity: 0.6, duration: 0.3 })
     $gsap.to(projectArrow.value, { x: 10, scale: 1.2, duration: 0.3 })
-    $gsap.to(projectCard.value, { y: -5, duration: 0.3 })
+    $gsap.to(projectCard.value.$el, { y: -5, duration: 0.3 })
   })
 
-  projectCard.value.addEventListener('mouseleave', () => {
+  projectCard.value.$el.addEventListener('mouseleave', () => {
     $gsap.to(projectNumber.value, { scale: 1, opacity: 0.2, duration: 0.3 })
     $gsap.to(projectArrow.value, { x: 0, scale: 1, duration: 0.3 })
-    $gsap.to(projectCard.value, { y: 0, duration: 0.3 })
+    $gsap.to(projectCard.value.$el, { y: 0, duration: 0.3 })
   })
 }
 </script>

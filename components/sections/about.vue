@@ -165,9 +165,9 @@ function setupAnimations() {
 
   // Profile card animations
   createScrollTrigger({
-    trigger: profileCard.value,
+    trigger: profileCard.value.$el,
     start: 'top 80%',
-    animation: animateIn(profileCard.value, {
+    animation: animateIn(profileCard.value.$el, {
       from: { x: -100, rotationY: -15 },
       to: { x: 0, rotationY: 0, duration: 1.2, ease: "power2.out" }
     }),
@@ -194,7 +194,7 @@ function setupAnimations() {
   })
 
   // Education and achievements
-  const educationElements = [education1.value, ...achievementRefs.value].filter(Boolean)
+  const educationElements = [education1.value?.$el, ...achievementRefs.value.map(ref => ref?.$el)].filter(Boolean)
   educationElements.forEach((item, index) => {
     createScrollTrigger({
       trigger: item,
@@ -214,11 +214,11 @@ function setupAnimations() {
 
   // Certifications animations
   certificationRefs.value.forEach((item, index) => {
-    if (item) {
+    if (item?.$el) {
       createScrollTrigger({
-        trigger: item,
+        trigger: item.$el,
         start: 'top 85%',
-        animation: animateIn(item, {
+        animation: animateIn(item.$el, {
           from: { y: 30, scale: 0.9 },
           to: { 
             scale: 1, 
