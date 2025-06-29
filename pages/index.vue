@@ -1,11 +1,11 @@
 <template>
   <div>
-    <!-- Number Ticker Loader -->
-    <div
-      v-if="loading && !tickerDone"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-black transition-opacity duration-500"
-    >
-      <ClientOnly>
+    <!-- Single ClientOnly wrapper for all loader components -->
+    <ClientOnly>
+      <div
+        v-if="loading && !tickerDone"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-black transition-opacity duration-500"
+      >
         <NumberTicker
           :value="100"
           :startValue="0"
@@ -14,16 +14,14 @@
           :decimalPlaces="0"
           @done="onTickerDone"
         />
-      </ClientOnly>
-    </div>
-    
-    <!-- Interchange Loader Animation (Shows after NumberTicker finishes) -->
-    <ClientOnly>
+      </div>
+      
+      <!-- Interchange Loader Animation (Shows after NumberTicker finishes) -->
       <Interchange v-if="tickerDone && loading" @done="onLoaderDone" />
     </ClientOnly>
 
-    <!-- Main content (Shows after Loader finishes) -->
-    <div>
+    <!-- Main content (Shows after Loader finishes) - use v-show instead of v-if -->
+    <div v-show="!loading">
       <Hero :loaderDone="loaderDone" @ready="markSectionReady('hero')" />
       <About @ready="markSectionReady('about')" />
       <Project @ready="markSectionReady('project')" />
