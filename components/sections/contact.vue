@@ -24,10 +24,10 @@
         <div class="contact-methods" ref="contactMethods">
           <div class="contact-grid" ref="contactGrid">
             <!-- Email -->
-            <a href="mailto:paulandrew.consunji@example.com" class="contact-card interactive-hover" ref="emailCard">
+            <a href="mailto:consunjipaulandrew@gmail.com" class="contact-card interactive-hover" ref="emailCard">
               <div class="contact-info">
                 <h4 class="contact-title text-normal font-medium">Email</h4>
-                <p class="contact-detail text-small opacity-70">paulandrew.consunji@example.com</p>
+                <p class="contact-detail text-small opacity-70">consunjipaulandrew@gmail.com</p>
               </div>
             </a>
 
@@ -40,18 +40,18 @@
             </a>
 
             <!-- GitHub -->
-            <a href="https://github.com/paulandrewconsunji" target="_blank" class="contact-card interactive-hover" ref="githubCard">
+            <a href="https://github.com/Polypheus" target="_blank" class="contact-card interactive-hover" ref="githubCard">
               <div class="contact-info">
                 <h4 class="contact-title text-normal font-medium">GitHub</h4>
-                <p class="contact-detail text-small opacity-70">View my repositories</p>
+                <p class="contact-detail text-small opacity-70">github.com/Polypheus</p>
               </div>
             </a>
 
             <!-- Phone -->
-            <a href="tel:+639123456789" class="contact-card interactive-hover" ref="phoneCard">
+            <a href="tel:+639561783590" class="contact-card interactive-hover" ref="phoneCard">
               <div class="contact-info">
                 <h4 class="contact-title text-normal font-medium">Phone</h4>
-                <p class="contact-detail text-small opacity-70">+63 912 345 6789</p>
+                <p class="contact-detail text-small opacity-70">+63 956 178 3590</p>
               </div>
             </a>
           </div>
