@@ -37,16 +37,16 @@
       <!-- Stats -->
       <div class="hero-stats mb-16" ref="heroStats">
         <div class="stat-item" ref="stat1">
-          <div class="stat-number text-huge font-light">50+</div>
+          <div class="stat-number text-huge font-light">10+</div>
           <div class="stat-label text-small">Projects</div>
         </div>
         <div class="stat-item" ref="stat2">
-          <div class="stat-number text-huge font-light">3+</div>
-          <div class="stat-label text-small">Years</div>
+          <div class="stat-number text-huge font-light">2024</div>
+          <div class="stat-label text-small">Graduate</div>
         </div>
         <div class="stat-item" ref="stat3">
           <div class="stat-number text-huge font-light">100%</div>
-          <div class="stat-label text-small">Satisfaction</div>
+          <div class="stat-label text-small">Passion</div>
         </div>
       </div>
 

@@ -18,7 +18,7 @@
             </div>
             <h3 class="text-large font-semibold mt-6" ref="profileName">Paul Andrew Consunji</h3>
             <p class="text-normal mt-2 opacity-70" ref="profileRole">Frontend Developer</p>
-            <p class="text-small mt-2 opacity-50" ref="profileExp">3+ Years Experience</p>
+            <p class="text-small mt-2 opacity-50" ref="profileExp">Fresh Graduate</p>
             <p class="text-small mt-2 opacity-50" ref="profileEducation">BS Information Technology</p>
           </div>
         </div>
@@ -63,7 +63,7 @@
 
         <!-- Experience timeline -->
         <div class="experience-timeline" ref="timeline">
-          <h3 class="text-large font-semibold mb-8" ref="timelineTitle">Work Experience</h3>
+          <h3 class="text-large font-semibold mb-8" ref="timelineTitle">Experience & Training</h3>
           <div class="timeline" ref="timelineContainer">
             <div class="timeline-item interactive-hover" v-for="(item, index) in timelineData" :key="index" :ref="el => setTimelineItem(el, index)">
               <div class="timeline-dot" :ref="el => setTimelineDot(el, index)"></div>
@@ -92,7 +92,7 @@
     </div>
     
     <!-- Marquee -->
-    <ScrollMarquee :items="['CREATIVE', 'MINIMAL', 'INTERACTIVE', 'MODERN', 'CLEAN']" />
+    <ScrollMarquee :items="['FRESH GRADUATE', 'EAGER TO LEARN', 'PASSIONATE', 'DEDICATED', 'INNOVATIVE']" />
   </div>
 </template>
 
@@ -159,12 +159,12 @@ const setCertificationItem = (el, index) => {
 }
 
 const skills = [
-  { name: 'HTML/CSS', level: 95 },
-  { name: 'JavaScript', level: 90 },
-  { name: 'Vue.js/Nuxt.js', level: 88 },
-  { name: 'Node.js/Express', level: 85 },
+  { name: 'HTML/CSS', level: 90 },
+  { name: 'JavaScript', level: 85 },
+  { name: 'Vue.js/Nuxt.js', level: 80 },
+  { name: 'Node.js/Express', level: 75 },
   { name: 'PHP/MySQL', level: 80 },
-  { name: 'MongoDB', level: 75 },
+  { name: 'MongoDB', level: 70 },
   { name: 'Figma', level: 85 },
   { name: 'Adobe Creative Cloud', level: 80 },
   { name: 'Blender (3D)', level: 70 },
@@ -176,7 +176,7 @@ const timelineData = [
     title: 'ATM Technician (Probationary)', 
     company: 'One Point Contact Inc',
     description: 'Servicing and repairing ATM machines both offsite and at bank branches',
-    date: '2024-2025' 
+    date: '2024-Present' 
   },
   { 
     title: 'Assistant Computer Technician (OJT)', 
